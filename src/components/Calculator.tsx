@@ -54,12 +54,12 @@ export function Calculator() {
 
   const cls = { digit: "btn-digit", blue: "btn-blue", red: "btn-red", equals: "btn-equals" };
   const len = state.display.length;
-  const size = len > 13 ? "text-3xl sm:text-4xl" : len > 9 ? "text-4xl sm:text-5xl" : "text-5xl sm:text-6xl";
+  const size = len > 13 ? "text-2xl min-[420px]:text-3xl sm:text-4xl" : len > 9 ? "text-3xl min-[420px]:text-4xl sm:text-5xl" : "text-4xl min-[420px]:text-5xl sm:text-6xl";
 
   return (
     <div className="grid w-full max-w-5xl gap-8 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-start lg:justify-center">
       <section aria-label="Calculator" className="panel relative mx-auto w-full max-w-md rounded-xl p-4 sm:p-6">
-        <span aria-hidden className="font-comic halftone-red absolute -top-6 -right-5 z-10 grid h-16 w-16 rotate-12 place-items-center text-lg text-primary-foreground [clip-path:polygon(50%_0,61%_30%,95%_20%,72%_48%,100%_75%,65%_70%,50%_100%,38%_70%,4%_78%,28%_50%,6%_18%,40%_30%)] animate-wobble">
+        <span aria-hidden className="font-comic halftone-red absolute -top-4 -right-3 z-10 grid h-12 w-12 rotate-12 place-items-center text-base text-primary-foreground sm:-top-6 sm:-right-5 sm:h-16 sm:w-16 sm:text-lg [clip-path:polygon(50%_0,61%_30%,95%_20%,72%_48%,100%_75%,65%_70%,50%_100%,38%_70%,4%_78%,28%_50%,6%_18%,40%_30%)] animate-wobble">
           POW
         </span>
         <div className="mb-5 rounded-lg border-4 border-ink bg-ink p-4 text-right shadow-[inset_0_0_0_3px_var(--hero-blue)]">
