@@ -30,14 +30,14 @@ function Web({ className }: { className: string }) {
 
 function Index() {
   return (
-    <main className="relative min-h-screen overflow-hidden px-4 py-10 sm:py-14">
+    <main className="relative min-h-screen overflow-hidden px-3 py-8 sm:px-4 sm:py-14" style={{ paddingBottom: "max(2rem, env(safe-area-inset-bottom))" }}>
       <Web className="pointer-events-none absolute top-0 left-0 h-48 w-48 text-paper/25 sm:h-72 sm:w-72" />
       <Web className="pointer-events-none absolute right-0 bottom-0 h-48 w-48 rotate-180 text-paper/20 sm:h-72 sm:w-72" />
       <header className="relative mx-auto mb-10 max-w-3xl text-center">
         <p className="font-comic mx-auto mb-3 inline-block -rotate-2 border-4 border-ink bg-mustard px-4 py-1 text-lg text-ink shadow-[4px_4px_0_var(--ink)]">
           Issue #1 · Web-Slinger Calculator
         </p>
-        <h1 className="font-comic print-shadow-text text-5xl leading-none text-paper sm:text-7xl">
+        <h1 className="font-comic print-shadow-text text-4xl leading-none text-paper min-[420px]:text-5xl sm:text-7xl">
           THWIP! <span className="text-mustard">LET'S DO</span> THE MATH.
         </h1>
         <p className="mt-4 inline-block bg-hero-blue px-3 py-1 font-mono text-xs tracking-widest text-paper sm:text-sm">
