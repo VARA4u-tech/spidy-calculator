@@ -11,12 +11,10 @@ export function Calculator() {
 
   const apply = (fn: (s: C.CalcState) => C.CalcState) => setState((s) => fn(s));
   const doEquals = useCallback(() => {
-    setState((s) => {
-      const { state: next, entry } = C.equals(s);
-      if (entry) setHistory((h) => [entry, ...h].slice(0, 20));
-      return next;
-    });
-  }, []);
+    const { state: next, entry } = C.equals(state);
+    setState(next);
+    if (entry) setHistory((h) => [entry, ...h].slice(0, 20));
+  }, [state]);
 
   const op = (o: C.Operator) => () => apply((s) => C.chooseOperator(s, o));
   const dig = (d: string) => () => apply((s) => C.inputDigit(s, d));
