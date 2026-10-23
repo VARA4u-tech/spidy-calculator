@@ -147,3 +147,5 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+@utility btn-symbol { font-family: var(--font-body) !important; font-weight: 700; }
