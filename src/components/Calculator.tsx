@@ -73,7 +73,7 @@ export function Calculator() {
             </p>
           )}
         </div>
-        <div className="grid grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-4 gap-2.5 sm:gap-4">
           {keys.map((k) => (
             <button
               key={k.id}
@@ -81,7 +81,7 @@ export function Calculator() {
               aria-label={k.aria}
               data-pressed={pressed === k.id}
               onClick={k.action}
-              className={`comic-btn ${cls[k.kind]} ${/^[0-9.]$|AC/.test(k.id) ? "" : "btn-symbol"} h-14 text-3xl sm:h-16 sm:text-4xl`}
+              className={`comic-btn ${cls[k.kind]} ${/^[0-9.]$|AC/.test(k.id) ? "" : "btn-symbol"} h-14 text-2xl min-[420px]:text-3xl sm:h-16 sm:text-4xl`}
             >
               {k.label}
             </button>
