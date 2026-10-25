@@ -5,10 +5,10 @@ import { Starburst, Web } from "@/components/comic";
 export const Route = createFileRoute("/calculator")({
   head: () => ({
     meta: [
-      { title: "Web-Slinger Calculator — Thwip! Let's do the math" },
-      { name: "description", content: "A retro comic-book calculator with history, keyboard support and punchy 3D buttons." },
-      { property: "og:title", content: "Web-Slinger Calculator" },
-      { property: "og:description", content: "Your friendly neighborhood calculator in vintage comic style." },
+      { title: "Spidy Calculator — Thwip! Let's do the math" },
+      { name: "description", content: "Spidy Calculator: retro comic-book calculator with history, keyboard support and punchy 3D buttons." },
+      { property: "og:title", content: "Spidy Calculator" },
+      { property: "og:description", content: "Spidy Calculator: your friendly neighborhood calculator in vintage comic style." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -36,7 +36,7 @@ function CalculatorPage() {
 
           <div className="text-center">
             <h1 className="font-comic print-shadow-text text-lg sm:text-2xl md:text-3xl leading-tight text-paper">
-              THWIP! <span className="text-mustard">LET'S DO THE MATH.</span>
+              SPIDY CALCULATOR · <span className="text-mustard">THWIP!</span>
             </h1>
           </div>
 

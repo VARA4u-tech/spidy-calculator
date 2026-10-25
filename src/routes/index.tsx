@@ -12,10 +12,10 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Web-Slinger Calculator — Home | Math with super strength" },
-      { name: "description", content: "Meet your friendly neighborhood calculator: retro comic style, rapid-fire results, keyboard combat and a case-file history log." },
-      { property: "og:title", content: "Web-Slinger Calculator" },
-      { property: "og:description", content: "Math with super strength — a retro comic-book calculator with keyboard support and history." },
+      { title: "Spidy Calculator — Math with super strength" },
+      { name: "description", content: "Meet your friendly neighborhood calculator: Spidy Calculator brings retro comic style, rapid-fire results, keyboard combat and a case-file history log." },
+      { property: "og:title", content: "Spidy Calculator" },
+      { property: "og:description", content: "Math with super strength — Spidy Calculator with keyboard support and case history." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -109,7 +109,7 @@ function Home() {
             transition={{ duration: 0.5 }}
             className="font-comic mb-6 inline-block border-4 border-ink bg-mustard px-4 py-1 text-lg text-ink shadow-[4px_4px_0_var(--ink)]"
           >
-            Issue #1 · Web-Slinger Calculator
+            Issue #1 · Spidy Calculator
           </motion.p>
           <h1 className="font-comic print-shadow-text max-w-4xl text-5xl leading-[0.95] text-paper min-[420px]:text-6xl sm:text-8xl">
             {"MATH WITH".split(" ").map((w, i) => (
