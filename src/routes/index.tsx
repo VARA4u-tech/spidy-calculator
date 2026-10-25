@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Web, Starburst } from "@/components/comic";
+import { Footer } from "@/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -220,8 +221,10 @@ function Home() {
               THWIP! DO THE MATH
             </Link>
           </motion.div>
-          <p className="mt-10 font-mono text-xs text-paper/50">© 2026 Web-Slinger Calculator · A friendly neighborhood app</p>
         </section>
+
+        {/* Comic Footer with Progressive Blur Poster */}
+        <Footer />
       </main>
     </MotionConfig>
   );
