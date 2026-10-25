@@ -131,7 +131,7 @@ export function Calculator() {
       <aside id="history" hidden={!showHistory} className="panel mx-auto w-full max-w-md -rotate-1 rounded-xl p-5 lg:mt-8">
         <div className="mb-3 flex items-center justify-between border-b-4 border-ink pb-2">
           <h2 className="font-comic text-3xl text-hero-blue">Case Files</h2>
-          <button type="button" disabled={!history.length} onClick={() => setHistory([])}
+          <button type="button" disabled={!history.length} onClick={() => { sfxToggle(); setHistory([]); }}
             className="comic-btn btn-red px-3 py-1 text-base disabled:opacity-50">Clear</button>
         </div>
         {history.length === 0 ? (
@@ -140,7 +140,7 @@ export function Calculator() {
           <ul className="max-h-96 space-y-2 overflow-auto">
             {history.map((h, i) => (
               <li key={i}>
-                <button type="button" onClick={() => setState({ ...C.initialState, display: h.result, waiting: true })}
+                <button type="button" onClick={() => { sfxKey(); setState({ ...C.initialState, display: h.result, waiting: true }); }}
                   className="w-full rounded border-2 border-ink bg-paper px-3 py-2 text-right font-mono hover:bg-paper-dark focus-visible:outline-4 focus-visible:outline-hero-blue">
                   <span className="block text-xs text-muted-foreground">{h.expression} =</span>
                   <span className="text-lg font-bold">{h.result}</span>
