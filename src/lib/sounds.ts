@@ -79,6 +79,8 @@ function blip(
 
 /** Light tap for digits and decimal point. */
 export const sfxKey = (): void => blip(440, 0.05, "square", 0.06);
+/** Generic UI click. */
+export const sfxClick = (): void => blip(440, 0.05, "square", 0.06);
 /** Low "thup" for backspace. */
 export const sfxBackspace = (): void => blip(220, 0.08, "triangle", 0.08, 160);
 /** Rising zap for operators. */
