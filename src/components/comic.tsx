@@ -13,13 +13,13 @@ export function Web({ className }: { className: string }) {
   );
 }
 
-export function Starburst({ label, className }: { label: string; className: string }) {
+export function Starburst({ label, className }: { label?: string; className: string }) {
   return (
     <span
       aria-hidden
       className={`font-comic halftone-red grid place-items-center text-primary-foreground [clip-path:polygon(50%_0,61%_30%,95%_20%,72%_48%,100%_75%,65%_70%,50%_100%,38%_70%,4%_78%,28%_50%,6%_18%,40%_30%)] ${className}`}
     >
-      {label}
+      {label ?? ""}
     </span>
   );
 }

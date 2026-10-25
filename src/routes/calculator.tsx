@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calculator } from "@/components/Calculator";
-import { Web } from "@/components/comic";
+import { Starburst, Web } from "@/components/comic";
 
 export const Route = createFileRoute("/calculator")({
   head: () => ({
@@ -40,8 +40,11 @@ function CalculatorPage() {
             </h1>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 font-mono text-[10px] sm:text-xs tracking-widest text-paper/70">
-            <img src="/logo.png" alt="Spider logo" className="h-5 w-5 object-contain drop-shadow-[1px_1px_0_rgba(15,23,42,0.8)]" />
+          <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-widest text-paper/70">
+            <div className="relative flex h-6 w-6 items-center justify-center">
+              <Starburst className="animate-wobble absolute -inset-1 opacity-90" />
+              <img src="/logo.png" alt="Spider logo" className="relative z-10 h-4.5 w-4.5 object-contain" />
+            </div>
             <span>ISSUE #1</span>
           </div>
         </header>

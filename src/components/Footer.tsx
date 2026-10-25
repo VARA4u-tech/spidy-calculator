@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useReducedMotion } from "framer-motion";
-import { Web } from "@/components/comic";
+import { Starburst, Web } from "@/components/comic";
 import { sfxClick, sfxToggle } from "@/lib/sounds";
 
 export function Footer() {
@@ -85,12 +85,17 @@ export function Footer() {
       <div className="relative z-10 w-full">
         {/* Comic Masthead Strip */}
         <div className="border-b-4 border-ink bg-hero-red/90 backdrop-blur-sm py-2 px-4 flex flex-wrap items-center justify-between gap-2 shadow-md">
-          <div className="flex items-center gap-2">
-            <img
-              src="/logo.png"
-              alt="Spider mask"
-              className="h-5 w-5 sm:h-6 sm:w-6 object-contain drop-shadow-[1px_1px_0_rgba(15,23,42,0.8)]"
-            />
+          <div className="flex items-center gap-2.5">
+            <div className="relative flex h-6 w-6 items-center justify-center">
+              <Starburst
+                className="animate-wobble absolute -inset-1 opacity-90"
+              />
+              <img
+                src="/logo.png"
+                alt="Spider mask"
+                className="relative z-10 h-4.5 w-4.5 object-contain"
+              />
+            </div>
             <p className="font-mono text-[11px] sm:text-xs font-bold tracking-[0.22em] text-paper uppercase">
               SPIDER-MAN: BRAND NEW DAY · ISSUE #1 ARCHIVE FOOTER
             </p>
@@ -136,14 +141,19 @@ export function Footer() {
       {/* ============================================================== */}
       <div className="relative z-10 w-full border-t-4 border-ink bg-ink/90 backdrop-blur-md px-4 py-6 sm:py-8">
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6">
-          {/* Brand Logo & Narrative stamp */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4 text-center sm:text-left">
+          {/* Brand Logo with moving Starburst background & Narrative stamp */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
             <Link to="/" className="group block shrink-0" aria-label="Web-Slinger Calculator home">
-              <img
-                src="/logo.png"
-                alt="Web-Slinger Calculator Logo"
-                className="h-12 w-12 sm:h-14 sm:w-14 object-contain transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6 drop-shadow-[2px_2px_0_rgba(15,23,42,0.9)]"
-              />
+              <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center">
+                <Starburst
+                  className="animate-wobble absolute -inset-2.5 h-auto w-auto opacity-95 transition-transform duration-200 group-hover:scale-115"
+                />
+                <img
+                  src="/logo.png"
+                  alt="Web-Slinger Calculator Logo"
+                  className="relative z-10 h-10 w-10 sm:h-12 sm:w-12 object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
+                />
+              </div>
             </Link>
             <div>
               <h3 className="font-comic text-2xl sm:text-3xl text-paper tracking-wide">

@@ -62,13 +62,18 @@ export function Navbar() {
       {/* Main ink bar */}
       <nav aria-label="Main" className="relative border-b-4 border-ink bg-ink shadow-[0_6px_0_var(--navy)]">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-          {/* Logo */}
-          <Link to="/" className="group flex items-center gap-2.5" aria-label="Web-Slinger Calculator home">
-            <img
-              src="/logo.png"
-              alt="Web-Slinger Calculator logo"
-              className="h-9 w-9 sm:h-10 sm:w-10 object-contain transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6 drop-shadow-[2px_2px_0_rgba(15,23,42,0.9)]"
-            />
+          {/* Logo with continuously moving Starburst background */}
+          <Link to="/" className="group flex items-center gap-3" aria-label="Web-Slinger Calculator home">
+            <div className="relative flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center">
+              <Starburst
+                className="animate-wobble absolute -inset-1.5 h-auto w-auto opacity-95 transition-transform duration-200 group-hover:scale-115"
+              />
+              <img
+                src="/logo.png"
+                alt="Web-Slinger Calculator logo"
+                className="relative z-10 h-8 w-8 sm:h-9 sm:w-9 object-contain drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)] transition-transform duration-200 group-hover:scale-105"
+              />
+            </div>
             <span className="font-comic text-2xl tracking-wide text-paper sm:text-3xl">
               WEB-SLINGER <span className="text-mustard">CALC.</span>
             </span>
