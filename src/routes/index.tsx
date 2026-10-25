@@ -136,10 +136,10 @@ function Home() {
             </a>
           </motion.div>
           <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 12 }} transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="POW" className="animate-wobble absolute top-24 right-[12%] h-16 w-16 text-lg sm:top-32 sm:h-24 sm:w-24 sm:text-2xl" />
+            <Starburst label="POW" className="animate-wobble absolute top-24 right-[12%] h-16 w-16 text-lg sm:top-32 sm:h-24 sm:w-24 sm:text-2xl hidden min-[480px]:grid" />
           </motion.div>
           <motion.div initial={{ scale: 0, rotate: 30 }} animate={{ scale: 1, rotate: -10 }} transition={{ delay: 1.35, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="ZAP" className="animate-wobble absolute bottom-24 left-[10%] h-14 w-14 text-base sm:h-20 sm:w-20 sm:text-xl" />
+            <Starburst label="ZAP" className="animate-wobble absolute bottom-24 left-[10%] h-14 w-14 text-base sm:h-20 sm:w-20 sm:text-xl hidden min-[480px]:grid" />
           </motion.div>
           <motion.a href="#powers" aria-label="Scroll to features" animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="font-comic absolute bottom-6 text-mustard text-xl">
             ▼ SCROLL

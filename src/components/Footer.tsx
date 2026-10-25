@@ -142,53 +142,55 @@ export function Footer() {
       </div>
 
       {/* =================================================================== */}
-      {/* BOTTOM FOOTER BAR: Clean navigation & credits below the artwork     */}
+      {/* BOTTOM FOOTER BAR: Clean navigation & credits below the artwork */}
       {/* =================================================================== */}
-      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-4 py-6 sm:py-8">
-        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-3 sm:px-4 py-4 sm:py-6">
+        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-6">
           {/* Brand Logo with moving Starburst background */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+          <div className="flex items-center gap-3 sm:gap-4 text-left">
             <Link to="/" className="group block shrink-0" aria-label="Web-Slinger Calculator home">
-              <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center">
+              <div className="relative flex h-11 w-11 sm:h-14 sm:w-14 items-center justify-center">
                 <Starburst
-                  className="animate-wobble absolute -inset-2.5 h-auto w-auto opacity-95 transition-transform duration-200 group-hover:scale-115"
+                  className="animate-wobble absolute -inset-2 opacity-95 transition-transform duration-200 group-hover:scale-115"
                 />
                 <img
                   src="/logo.png"
                   alt="Web-Slinger Calculator Logo"
-                  className="relative z-10 h-10 w-10 sm:h-12 sm:w-12 object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
+                  className="relative z-10 h-8 w-8 sm:h-10 sm:w-10 object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
                 />
               </div>
             </Link>
-            <div>
-              <h3 className="font-comic text-2xl sm:text-3xl text-paper tracking-wide">
+            <div className="min-w-0">
+              <h3 className="font-comic text-xl sm:text-2xl md:text-3xl text-paper tracking-wide leading-tight">
                 MEANWHILE... <span className="text-mustard">SPIDER-SENSE TINGLING!</span>
               </h3>
-              <p className="mt-1 font-mono text-xs text-paper/70">
-                Web-Slinger Calculator · Math with friendly neighborhood superpower.
+              <p className="mt-0.5 font-mono text-[11px] sm:text-xs text-paper/70 truncate">
+                Web-Slinger Calculator · Friendly neighborhood superpower.
               </p>
             </div>
           </div>
 
           {/* Quick links & Back to Top */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/"
-              className="font-comic text-lg text-paper hover:text-mustard transition-colors tracking-wider px-2 py-1"
-            >
-              HOME
-            </Link>
-            <span className="text-paper/40">·</span>
-            <Link
-              to="/calculator"
-              className="font-comic text-lg text-mustard hover:text-mustard/80 transition-colors tracking-wider px-2 py-1"
-            >
-              CALCULATOR ⚡
-            </Link>
+          <div className="flex items-center justify-between sm:justify-end gap-3 pt-3 sm:pt-0 border-t border-paper/10 sm:border-t-0">
+            <div className="flex items-center gap-3 font-comic text-base sm:text-lg">
+              <Link
+                to="/"
+                className="text-paper hover:text-mustard transition-colors tracking-wider"
+              >
+                HOME
+              </Link>
+              <span className="text-paper/40">·</span>
+              <Link
+                to="/calculator"
+                className="text-mustard hover:text-mustard/80 transition-colors tracking-wider"
+              >
+                CALCULATOR ⚡
+              </Link>
+            </div>
             <button
               type="button"
               onClick={scrollToTop}
-              className="comic-btn btn-blue px-4 py-2 text-sm sm:text-base flex items-center gap-1.5"
+              className="comic-btn btn-blue px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base flex items-center gap-1.5"
               aria-label="Back to top"
             >
               <span>▲</span>
@@ -198,9 +200,9 @@ export function Footer() {
         </div>
 
         {/* Legal & Credits */}
-        <div className="mx-auto max-w-6xl mt-6 pt-4 border-t border-paper/15 text-center sm:flex sm:items-center sm:justify-between font-mono text-[11px] text-paper/50">
+        <div className="mx-auto max-w-6xl mt-4 pt-3 border-t border-paper/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-center font-mono text-[10px] sm:text-[11px] text-paper/50">
           <p>© 2026 Web-Slinger Calculator · Zero ads · Zero tracking</p>
-          <p className="mt-2 sm:mt-0 text-[10px] text-paper/40">
+          <p className="text-[9px] sm:text-[10px] text-paper/40">
             Spider-Man homage · Classic vintage comic aesthetic
           </p>
         </div>
