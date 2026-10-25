@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, MotionConfig } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, MotionConfig } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -45,6 +45,7 @@ const STATS = [
 ] as const;
 
 function Home() {
+  const reduce = useReducedMotion();
   const marqueeRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -168,19 +169,41 @@ function Home() {
           </h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {POWERS.map((p, i) => (
-              <motion.article
+              <motion.div
                 key={p.title}
-                initial={{ opacity: 0, y: 48, rotate: i % 2 ? 2 : -2 }}
-                whileInView={{ opacity: 1, y: 0, rotate: i % 2 ? 1 : -1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                whileHover={{ y: -6, rotate: 0 }}
-                className="panel relative rounded-xl p-6 sm:p-8"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="h-full"
               >
-                <Starburst label={p.badge} className="absolute -top-4 -right-3 h-12 w-12 -rotate-12 text-sm" />
-                <h3 className="font-comic mb-2 text-2xl text-hero-blue sm:text-3xl">{p.title}</h3>
-                <p className="font-mono text-sm text-ink/80">{p.text}</p>
-              </motion.article>
+                <motion.article
+                  {...(reduce
+                    ? {}
+                    : {
+                        animate: {
+                          y: [0, -10, 0],
+                          rotate: i % 2 ? [0.8, 2.2, 0.8] : [-0.8, -2.2, -0.8],
+                        },
+                      })}
+                  transition={{
+                    duration: 3.8 + (i % 2) * 0.8,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.45,
+                  }}
+                  whileHover={{
+                    y: -14,
+                    scale: 1.02,
+                    transition: { duration: 0.2 },
+                  }}
+                  className="panel relative h-full rounded-xl p-6 sm:p-8 cursor-default will-change-transform transform-gpu shadow-[8px_8px_0_0_#0f172a]"
+                >
+                  <Starburst label={p.badge} className="absolute -top-4 -right-3 h-12 w-12 -rotate-12 text-sm shadow-md" />
+                  <h3 className="font-comic mb-2 text-2xl text-hero-blue sm:text-3xl">{p.title}</h3>
+                  <p className="font-mono text-sm text-ink/80">{p.text}</p>
+                </motion.article>
+              </motion.div>
             ))}
           </div>
         </section>
