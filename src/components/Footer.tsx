@@ -23,9 +23,9 @@ export function Footer() {
         }}
       />
 
-      {/* Decorative corner spider webs (optimized for tablets and desktop) */}
-      <Web className="pointer-events-none absolute -top-10 -left-10 h-48 w-48 text-ink/25 sm:h-64 sm:w-64 hidden sm:block will-change-transform" />
-      <Web className="pointer-events-none absolute -bottom-10 -right-10 h-52 w-52 rotate-180 text-ink/25 sm:h-72 sm:w-72 hidden sm:block will-change-transform" />
+      {/* Decorative corner spider webs (visible across mobile, tablets, and desktop) */}
+      <Web className="pointer-events-none absolute -top-4 -left-4 h-24 w-24 text-ink/25 min-[400px]:h-32 min-[400px]:w-32 sm:-top-10 sm:-left-10 sm:h-64 sm:w-64 will-change-transform transform-gpu" />
+      <Web className="pointer-events-none absolute -bottom-4 -right-4 h-28 w-28 rotate-180 text-ink/25 min-[400px]:h-36 min-[400px]:w-36 sm:-bottom-10 sm:-right-10 sm:h-72 sm:w-72 will-change-transform transform-gpu" />
 
       {/* Top comic issue strip — responsive on all mobile screens */}
       <div className="relative z-10 border-b-4 border-ink bg-hero-red py-1.5 sm:py-2 px-3 sm:px-4 shadow-md">
@@ -77,7 +77,7 @@ export function Footer() {
               </div>
             </div>
             <p className="font-comic text-center text-sm tracking-wide text-ink">
-              WEB-SLINGER <span className="text-hero-red">CALCULATOR</span>
+              SPIDY-CAL <span className="text-hero-red">CALCULATOR</span>
             </p>
             <div className="mt-2 pt-2 border-t border-ink/20 text-center font-mono text-[10px] text-ink/70">
               ISSUE #1 · COLLECTOR EDITION
@@ -148,7 +148,7 @@ export function Footer() {
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-6">
           {/* Brand Logo with moving Starburst background */}
           <div className="flex items-center gap-3 sm:gap-4 text-left">
-            <Link to="/" className="group block shrink-0" aria-label="Web-Slinger Calculator home">
+            <Link to="/" className="group block shrink-0" aria-label="SPIDY Calculator home">
               <div className="relative flex h-11 w-11 sm:h-14 sm:w-14 items-center justify-center">
                 <Starburst
                   className="animate-wobble absolute -inset-2 opacity-95 transition-transform duration-200 group-hover:scale-115"

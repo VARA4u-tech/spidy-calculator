@@ -94,11 +94,11 @@ function Home() {
         {/* Comic progress bar (Framer Motion scroll effect) */}
         <motion.div aria-hidden className="fixed inset-x-0 top-0 z-50 h-1.5 origin-left bg-mustard will-change-transform transform-gpu" style={{ scaleX: scrollYProgress }} />
 
-        <motion.span aria-hidden style={{ y: webY1 }} className="pointer-events-none fixed top-10 left-0 z-0 hidden sm:block will-change-transform transform-gpu">
-          <Web className="h-56 w-56 text-paper/20 sm:h-80 sm:w-80" />
+        <motion.span aria-hidden style={{ y: webY1 }} className="pointer-events-none fixed -top-4 -left-4 z-0 will-change-transform transform-gpu">
+          <Web className="h-32 w-32 text-paper/20 min-[400px]:h-44 min-[400px]:w-44 sm:h-80 sm:w-80" />
         </motion.span>
-        <motion.span aria-hidden style={{ y: webY2 }} className="pointer-events-none fixed right-0 bottom-0 z-0 hidden sm:block will-change-transform transform-gpu">
-          <Web className="h-56 w-56 rotate-180 text-paper/15 sm:h-80 sm:w-80" />
+        <motion.span aria-hidden style={{ y: webY2 }} className="pointer-events-none fixed -right-4 -bottom-4 z-0 will-change-transform transform-gpu">
+          <Web className="h-32 w-32 rotate-180 text-paper/15 min-[400px]:h-44 min-[400px]:w-44 sm:h-80 sm:w-80" />
         </motion.span>
 
         {/* Hero */}
@@ -148,12 +148,12 @@ function Home() {
         </section>
 
         {/* GSAP infinite ticker */}
-        <div className="relative border-y-4 border-ink bg-hero-red py-3 text-paper shadow-[inset_0_0_0_3px_var(--ink)]">
-          <div ref={marqueeRef} className="flex w-max items-center gap-8 whitespace-nowrap">
+        <div className="relative overflow-hidden select-none border-y-4 border-ink bg-hero-red py-2.5 sm:py-3 text-paper shadow-[inset_0_0_0_3px_var(--ink)]">
+          <div ref={marqueeRef} className="flex w-max items-center gap-6 sm:gap-8 whitespace-nowrap will-change-transform transform-gpu">
             {[0, 1].map((copy) => (
-              <div key={copy} className="flex items-center gap-8" aria-hidden={copy === 1}>
+              <div key={copy} className="flex items-center gap-6 sm:gap-8" aria-hidden={copy === 1}>
                 {MARQUEE.map((t) => (
-                  <span key={t} className="font-comic text-xl sm:text-2xl">
+                  <span key={t} className="font-comic text-lg sm:text-2xl">
                     {t} <span className="text-mustard">✦</span>
                   </span>
                 ))}

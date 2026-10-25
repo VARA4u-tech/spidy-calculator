@@ -19,8 +19,8 @@ export const Route = createFileRoute("/calculator")({
 function CalculatorPage() {
   return (
     <main className="relative flex min-h-screen min-h-[100dvh] flex-col justify-start overflow-x-hidden p-2 pt-[max(env(safe-area-inset-top),0.5rem)] pb-[max(env(safe-area-inset-bottom),0.5rem)] sm:p-3 md:p-4 lg:h-screen lg:justify-center lg:overflow-hidden">
-      <Web className="pointer-events-none absolute top-0 left-0 h-32 w-32 text-paper/20 sm:h-48 sm:w-48 hidden sm:block will-change-transform" />
-      <Web className="pointer-events-none absolute right-0 bottom-0 h-32 w-32 rotate-180 text-paper/15 sm:h-48 sm:w-48 hidden sm:block will-change-transform" />
+      <Web className="pointer-events-none absolute -top-1 -left-1 h-20 w-20 text-paper/20 min-[400px]:h-28 min-[400px]:w-28 sm:top-0 sm:left-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
+      <Web className="pointer-events-none absolute -right-1 -bottom-1 h-20 w-20 rotate-180 text-paper/15 min-[400px]:h-28 min-[400px]:w-28 sm:right-0 sm:bottom-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
 
       <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
         {/* Compact comic top header: back link + punchy headline */}

@@ -54,7 +54,7 @@ export function Navbar() {
         transition={{ duration: reduce ? 0 : 0.25 }}
         className="overflow-hidden border-b-4 border-ink bg-hero-red py-1"
       >
-        <div className="flex w-max animate-marquee hover:[animation-play-state:paused] select-none">
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused] select-none will-change-transform transform-gpu">
           {[0, 1].map((copy) => (
             <div
               key={copy}
