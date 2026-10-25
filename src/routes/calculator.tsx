@@ -40,9 +40,10 @@ function CalculatorPage() {
             </h1>
           </div>
 
-          <span className="font-mono text-[10px] sm:text-xs tracking-widest text-paper/60 hidden sm:inline-block">
-            ISSUE #1
-          </span>
+          <div className="hidden sm:flex items-center gap-1.5 font-mono text-[10px] sm:text-xs tracking-widest text-paper/70">
+            <img src="/logo.png" alt="Spider logo" className="h-5 w-5 object-contain drop-shadow-[1px_1px_0_rgba(15,23,42,0.8)]" />
+            <span>ISSUE #1</span>
+          </div>
         </header>
 
         {/* Calculator & Case Files */}

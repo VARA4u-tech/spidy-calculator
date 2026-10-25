@@ -85,10 +85,16 @@ export function Footer() {
       <div className="relative z-10 w-full">
         {/* Comic Masthead Strip */}
         <div className="border-b-4 border-ink bg-hero-red/90 backdrop-blur-sm py-2 px-4 flex flex-wrap items-center justify-between gap-2 shadow-md">
-          <p className="font-mono text-[11px] sm:text-xs font-bold tracking-[0.22em] text-paper uppercase flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-mustard inline-block animate-pulse" />
-            <span>SPIDER-MAN: BRAND NEW DAY · ISSUE #1 ARCHIVE FOOTER</span>
-          </p>
+          <div className="flex items-center gap-2">
+            <img
+              src="/logo.png"
+              alt="Spider mask"
+              className="h-5 w-5 sm:h-6 sm:w-6 object-contain drop-shadow-[1px_1px_0_rgba(15,23,42,0.8)]"
+            />
+            <p className="font-mono text-[11px] sm:text-xs font-bold tracking-[0.22em] text-paper uppercase">
+              SPIDER-MAN: BRAND NEW DAY · ISSUE #1 ARCHIVE FOOTER
+            </p>
+          </div>
 
           <button
             type="button"
@@ -130,14 +136,23 @@ export function Footer() {
       {/* ============================================================== */}
       <div className="relative z-10 w-full border-t-4 border-ink bg-ink/90 backdrop-blur-md px-4 py-6 sm:py-8">
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6">
-          {/* Narrative stamp */}
-          <div className="text-center sm:text-left">
-            <h3 className="font-comic text-2xl sm:text-3xl text-paper tracking-wide">
-              MEANWHILE... <span className="text-mustard">SPIDER-SENSE TINGLING!</span>
-            </h3>
-            <p className="mt-1 font-mono text-xs text-paper/70">
-              Web-Slinger Calculator · Math with friendly neighborhood superpower.
-            </p>
+          {/* Brand Logo & Narrative stamp */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4 text-center sm:text-left">
+            <Link to="/" className="group block shrink-0" aria-label="Web-Slinger Calculator home">
+              <img
+                src="/logo.png"
+                alt="Web-Slinger Calculator Logo"
+                className="h-12 w-12 sm:h-14 sm:w-14 object-contain transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6 drop-shadow-[2px_2px_0_rgba(15,23,42,0.9)]"
+              />
+            </Link>
+            <div>
+              <h3 className="font-comic text-2xl sm:text-3xl text-paper tracking-wide">
+                MEANWHILE... <span className="text-mustard">SPIDER-SENSE TINGLING!</span>
+              </h3>
+              <p className="mt-1 font-mono text-xs text-paper/70">
+                Web-Slinger Calculator · Math with friendly neighborhood superpower.
+              </p>
+            </div>
           </div>
 
           {/* Quick links & Back to Top */}

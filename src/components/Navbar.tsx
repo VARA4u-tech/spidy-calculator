@@ -64,7 +64,11 @@ export function Navbar() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           {/* Logo */}
           <Link to="/" className="group flex items-center gap-2.5" aria-label="Web-Slinger Calculator home">
-            <Starburst label="WS" className="h-10 w-10 rotate-[-8deg] text-sm transition-transform duration-200 group-hover:rotate-[10deg]" />
+            <img
+              src="/logo.png"
+              alt="Web-Slinger Calculator logo"
+              className="h-9 w-9 sm:h-10 sm:w-10 object-contain transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6 drop-shadow-[2px_2px_0_rgba(15,23,42,0.9)]"
+            />
             <span className="font-comic text-2xl tracking-wide text-paper sm:text-3xl">
               WEB-SLINGER <span className="text-mustard">CALC.</span>
             </span>
