@@ -155,7 +155,7 @@ export function Footer() {
                 />
                 <img
                   src="/logo.png"
-                  alt="Web-Slinger Calculator Logo"
+                  alt="Spidy Calculator Logo"
                   className="relative z-10 h-8 w-8 sm:h-10 sm:w-10 object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
                 />
               </div>
@@ -165,7 +165,7 @@ export function Footer() {
                 MEANWHILE... <span className="text-mustard">SPIDER-SENSE TINGLING!</span>
               </h3>
               <p className="mt-0.5 font-mono text-[11px] sm:text-xs text-paper/70 truncate">
-                Web-Slinger Calculator · Friendly neighborhood superpower.
+                Spidy Calculator · Friendly neighborhood superpower.
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export function Footer() {
 
         {/* Legal & Credits */}
         <div className="mx-auto max-w-6xl mt-4 pt-3 border-t border-paper/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-center font-mono text-[10px] sm:text-[11px] text-paper/50">
-          <p>© 2026 Web-Slinger Calculator · Zero ads · Zero tracking</p>
+          <p>© 2026 Spidy Calculator · Zero ads · Zero tracking</p>
           <p className="text-[9px] sm:text-[10px] text-paper/40">
             Spider-Man homage · Classic vintage comic aesthetic
           </p>
