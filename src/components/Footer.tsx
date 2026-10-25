@@ -41,7 +41,9 @@ export function Footer() {
             </div>
             <p className="truncate font-mono text-[10px] min-[390px]:text-[11px] sm:text-xs font-bold tracking-wider sm:tracking-[0.22em] text-paper uppercase">
               <span className="sm:hidden">SPIDER-MAN · BRAND NEW DAY</span>
-              <span className="hidden sm:inline">SPIDER-MAN: BRAND NEW DAY · COMPLETE ARCHIVE POSTER</span>
+              <span className="hidden sm:inline">
+                SPIDER-MAN: BRAND NEW DAY · COMPLETE ARCHIVE POSTER
+              </span>
             </p>
           </div>
 
@@ -150,9 +152,7 @@ export function Footer() {
           <div className="flex items-center gap-3 sm:gap-4 text-left">
             <Link to="/" className="group block shrink-0" aria-label="SPIDY Calculator home">
               <div className="relative flex h-11 w-11 sm:h-14 sm:w-14 items-center justify-center">
-                <Starburst
-                  className="animate-wobble absolute -inset-2 opacity-95 transition-transform duration-200 group-hover:scale-115"
-                />
+                <Starburst className="animate-wobble absolute -inset-2 opacity-95 transition-transform duration-200 group-hover:scale-115" />
                 <img
                   src="/logo.png"
                   alt="Spidy Calculator Logo"

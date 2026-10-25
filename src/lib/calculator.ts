@@ -46,9 +46,12 @@ export class DivideByZeroError extends Error {
 
 export function compute(a: number, op: Operator, b: number): number {
   switch (op) {
-    case "+": return a + b;
-    case "-": return a - b;
-    case "×": return a * b;
+    case "+":
+      return a + b;
+    case "-":
+      return a - b;
+    case "×":
+      return a * b;
     case "÷":
       if (b === 0) throw new DivideByZeroError();
       return a / b;
@@ -60,7 +63,8 @@ export function compute(a: number, op: Operator, b: number): number {
   }
 }
 
-const clearIfError = (s: CalcState): CalcState => (s.error ? { ...initialState, angleMode: s.angleMode } : s);
+const clearIfError = (s: CalcState): CalcState =>
+  s.error ? { ...initialState, angleMode: s.angleMode } : s;
 
 export function inputDigit(state: CalcState, d: string): CalcState {
   const s = clearIfError(state);
@@ -85,7 +89,10 @@ export function toggleSign(state: CalcState): CalcState {
 export function percent(state: CalcState): CalcState {
   const s = clearIfError(state);
   const cur = parseFloat(s.display);
-  const v = s.stored !== null && (s.operator === "+" || s.operator === "-") ? (s.stored * cur) / 100 : cur / 100;
+  const v =
+    s.stored !== null && (s.operator === "+" || s.operator === "-")
+      ? (s.stored * cur) / 100
+      : cur / 100;
   return { ...s, display: format(v), waiting: false };
 }
 
@@ -97,7 +104,13 @@ export function backspace(state: CalcState): CalcState {
 }
 
 function fail(s: CalcState, msg: string): CalcState {
-  return { ...initialState, angleMode: s.angleMode, display: "Error", error: msg, expression: s.expression };
+  return {
+    ...initialState,
+    angleMode: s.angleMode,
+    display: "Error",
+    error: msg,
+    expression: s.expression,
+  };
 }
 
 export function chooseOperator(state: CalcState, op: Operator): CalcState {
@@ -107,12 +120,20 @@ export function chooseOperator(state: CalcState, op: Operator): CalcState {
     try {
       const r = compute(s.stored, s.operator, cur);
       const f = format(r);
-      return { ...s, display: f, stored: parseFloat(f), operator: op, waiting: true, expression: `${f} ${op}` };
+      return {
+        ...s,
+        display: f,
+        stored: parseFloat(f),
+        operator: op,
+        waiting: true,
+        expression: `${f} ${op}`,
+      };
     } catch (e) {
       return fail(s, (e as Error).message);
     }
   }
-  if (s.operator && s.waiting) return { ...s, operator: op, expression: `${format(s.stored ?? cur)} ${op}` };
+  if (s.operator && s.waiting)
+    return { ...s, operator: op, expression: `${format(s.stored ?? cur)} ${op}` };
   return { ...s, stored: cur, operator: op, waiting: true, expression: `${format(cur)} ${op}` };
 }
 
@@ -124,7 +145,13 @@ export function equals(state: CalcState): { state: CalcState; entry?: HistoryEnt
   try {
     const f = format(compute(s.stored, s.operator, cur));
     return {
-      state: { ...initialState, angleMode: s.angleMode, display: f, waiting: true, expression: `${expr} =` },
+      state: {
+        ...initialState,
+        angleMode: s.angleMode,
+        display: f,
+        waiting: true,
+        expression: `${expr} =`,
+      },
       entry: { expression: expr, result: f },
     };
   } catch (e) {
@@ -222,17 +249,29 @@ export function applyScientific(state: CalcState, fn: ScientificFunc): CalcState
         result = isDeg ? toDeg(rad) : rad;
         break;
       }
-      case "sinh": result = Math.sinh(cur); break;
-      case "cosh": result = Math.cosh(cur); break;
-      case "tanh": result = Math.tanh(cur); break;
+      case "sinh":
+        result = Math.sinh(cur);
+        break;
+      case "cosh":
+        result = Math.cosh(cur);
+        break;
+      case "tanh":
+        result = Math.tanh(cur);
+        break;
       case "sqrt": {
         if (cur < 0) throw new Error("Cannot √ negative number");
         result = Math.sqrt(cur);
         break;
       }
-      case "cbrt": result = Math.cbrt(cur); break;
-      case "sqr": result = cur * cur; break;
-      case "cube": result = cur * cur * cur; break;
+      case "cbrt":
+        result = Math.cbrt(cur);
+        break;
+      case "sqr":
+        result = cur * cur;
+        break;
+      case "cube":
+        result = cur * cur * cur;
+        break;
       case "recip": {
         if (cur === 0) throw new DivideByZeroError();
         result = 1 / cur;
@@ -248,10 +287,18 @@ export function applyScientific(state: CalcState, fn: ScientificFunc): CalcState
         result = Math.log(cur);
         break;
       }
-      case "exp": result = Math.exp(cur); break;
-      case "pow10": result = Math.pow(10, cur); break;
-      case "fact": result = factorial(cur); break;
-      case "abs": result = Math.abs(cur); break;
+      case "exp":
+        result = Math.exp(cur);
+        break;
+      case "pow10":
+        result = Math.pow(10, cur);
+        break;
+      case "fact":
+        result = factorial(cur);
+        break;
+      case "abs":
+        result = Math.abs(cur);
+        break;
       default:
         return s;
     }

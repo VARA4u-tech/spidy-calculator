@@ -2,12 +2,28 @@
 
 export function Web({ className }: { className: string }) {
   return (
-    <svg aria-hidden viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="1.5">
+    <svg
+      aria-hidden
+      viewBox="0 0 100 100"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
       {[0, 30, 60, 90, 120, 150].map((a) => (
-        <line key={a} x1="0" y1="0" x2={100 * Math.cos((a * Math.PI) / 360)} y2={100 * Math.sin((a * Math.PI) / 360)} />
+        <line
+          key={a}
+          x1="0"
+          y1="0"
+          x2={100 * Math.cos((a * Math.PI) / 360)}
+          y2={100 * Math.sin((a * Math.PI) / 360)}
+        />
       ))}
       {[25, 50, 75, 100].map((r) => (
-        <path key={r} d={`M ${r} 0 Q ${r * 0.8} ${r * 0.35} ${r * 0.7} ${r * 0.7} Q ${r * 0.35} ${r * 0.8} 0 ${r}`} />
+        <path
+          key={r}
+          d={`M ${r} 0 Q ${r * 0.8} ${r * 0.35} ${r * 0.7} ${r * 0.7} Q ${r * 0.35} ${r * 0.8} 0 ${r}`}
+        />
       ))}
     </svg>
   );

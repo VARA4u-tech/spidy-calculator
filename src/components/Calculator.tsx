@@ -19,7 +19,9 @@ const LEGACY_STORAGE_KEY = "webslinger-calc-history";
 function loadInitialHistory(): C.HistoryEntry[] {
   if (typeof window === "undefined") return [];
   try {
-    const saved = window.localStorage.getItem(HISTORY_STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
+    const saved =
+      window.localStorage.getItem(HISTORY_STORAGE_KEY) ??
+      window.localStorage.getItem(LEGACY_STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) return parsed.slice(0, 20);
@@ -125,19 +127,57 @@ export function Calculator() {
         setState(C.clearAll(state));
       },
     },
-    { id: "BS", label: "⌫", aria: "Backspace", kind: "blue", action: () => { sfxBackspace(); apply(C.backspace); } },
-    { id: "%", label: "%", aria: "Percent", kind: "blue", action: () => { sfxToggle(); apply(C.percent); } },
+    {
+      id: "BS",
+      label: "⌫",
+      aria: "Backspace",
+      kind: "blue",
+      action: () => {
+        sfxBackspace();
+        apply(C.backspace);
+      },
+    },
+    {
+      id: "%",
+      label: "%",
+      aria: "Percent",
+      kind: "blue",
+      action: () => {
+        sfxToggle();
+        apply(C.percent);
+      },
+    },
     { id: "÷", label: "÷", aria: "Divide", kind: "red", action: op("÷") },
-    ...["7", "8", "9"].map((d) => ({ id: d, label: d, aria: d, kind: "digit" as const, action: dig(d) })),
+    ...["7", "8", "9"].map((d) => ({
+      id: d,
+      label: d,
+      aria: d,
+      kind: "digit" as const,
+      action: dig(d),
+    })),
     { id: "×", label: "×", aria: "Multiply", kind: "red", action: op("×") },
-    ...["4", "5", "6"].map((d) => ({ id: d, label: d, aria: d, kind: "digit" as const, action: dig(d) })),
+    ...["4", "5", "6"].map((d) => ({
+      id: d,
+      label: d,
+      aria: d,
+      kind: "digit" as const,
+      action: dig(d),
+    })),
     { id: "-", label: "−", aria: "Subtract", kind: "red", action: op("-") },
-    ...["1", "2", "3"].map((d) => ({ id: d, label: d, aria: d, kind: "digit" as const, action: dig(d) })),
+    ...["1", "2", "3"].map((d) => ({
+      id: d,
+      label: d,
+      aria: d,
+      kind: "digit" as const,
+      action: dig(d),
+    })),
     { id: "+", label: "+", aria: "Add", kind: "red", action: op("+") },
     {
       id: "sci_mode",
       label: isScientific ? "123" : "⚡ SCI-MODE",
-      aria: isScientific ? "Switch to standard number keypad" : "Switch to scientific calculator mode",
+      aria: isScientific
+        ? "Switch to standard number keypad"
+        : "Switch to scientific calculator mode",
       kind: "sci",
       action: () => {
         sfxToggle();
@@ -145,7 +185,16 @@ export function Calculator() {
       },
     },
     { id: "0", label: "0", aria: "0", kind: "digit", action: dig("0") },
-    { id: ".", label: ".", aria: "Decimal point", kind: "digit", action: () => { sfxKey(); apply(C.inputDecimal); } },
+    {
+      id: ".",
+      label: ".",
+      aria: "Decimal point",
+      kind: "digit",
+      action: () => {
+        sfxKey();
+        apply(C.inputDecimal);
+      },
+    },
     { id: "=", label: "=", aria: "Equals", kind: "equals", action: doEquals },
   ];
 
@@ -155,13 +204,43 @@ export function Calculator() {
     { id: "sin", label: "sin", aria: "Sine function", kind: "blue", action: sci("sin") },
     { id: "cos", label: "cos", aria: "Cosine function", kind: "blue", action: sci("cos") },
     { id: "tan", label: "tan", aria: "Tangent function", kind: "blue", action: sci("tan") },
-    { id: "pi", label: "π", aria: "Pi constant (3.14159...)", kind: "digit", action: constant("pi") },
-    { id: "e", label: "e", aria: "Euler's constant (2.71828...)", kind: "digit", action: constant("e") },
+    {
+      id: "pi",
+      label: "π",
+      aria: "Pi constant (3.14159...)",
+      kind: "digit",
+      action: constant("pi"),
+    },
+    {
+      id: "e",
+      label: "e",
+      aria: "Euler's constant (2.71828...)",
+      kind: "digit",
+      action: constant("e"),
+    },
 
     // Row 2: Inverse Trig & Powers/Roots
-    { id: "asin", label: "sin⁻¹", aria: "Inverse sine (arcsin)", kind: "blue", action: sci("asin") },
-    { id: "acos", label: "cos⁻¹", aria: "Inverse cosine (arccos)", kind: "blue", action: sci("acos") },
-    { id: "atan", label: "tan⁻¹", aria: "Inverse tangent (arctan)", kind: "blue", action: sci("atan") },
+    {
+      id: "asin",
+      label: "sin⁻¹",
+      aria: "Inverse sine (arcsin)",
+      kind: "blue",
+      action: sci("asin"),
+    },
+    {
+      id: "acos",
+      label: "cos⁻¹",
+      aria: "Inverse cosine (arccos)",
+      kind: "blue",
+      action: sci("acos"),
+    },
+    {
+      id: "atan",
+      label: "tan⁻¹",
+      aria: "Inverse tangent (arctan)",
+      kind: "blue",
+      action: sci("atan"),
+    },
     { id: "pow", label: "xʸ", aria: "Power (x raised to y)", kind: "red", action: op("^") },
     { id: "sqrt", label: "√x", aria: "Square root", kind: "blue", action: sci("sqrt") },
 
@@ -173,7 +252,13 @@ export function Calculator() {
     { id: "cube", label: "x³", aria: "Cube (x cubed)", kind: "blue", action: sci("cube") },
 
     // Row 4: Logarithms & Exponential
-    { id: "log", label: "log", aria: "Common logarithm (base 10)", kind: "blue", action: sci("log") },
+    {
+      id: "log",
+      label: "log",
+      aria: "Common logarithm (base 10)",
+      kind: "blue",
+      action: sci("log"),
+    },
     { id: "ln", label: "ln", aria: "Natural logarithm (base e)", kind: "blue", action: sci("ln") },
     { id: "pow10", label: "10ˣ", aria: "10 to power of x", kind: "blue", action: sci("pow10") },
     { id: "exp", label: "eˣ", aria: "e to power of x", kind: "blue", action: sci("exp") },
@@ -181,10 +266,31 @@ export function Calculator() {
 
     // Row 5: Factorial, Reciprocal, Absolute Value, Mode
     { id: "fact", label: "n!", aria: "Factorial (n!)", kind: "blue", action: sci("fact") },
-    { id: "recip", label: "1/x", aria: "Reciprocal (1 divided by x)", kind: "blue", action: sci("recip") },
+    {
+      id: "recip",
+      label: "1/x",
+      aria: "Reciprocal (1 divided by x)",
+      kind: "blue",
+      action: sci("recip"),
+    },
     { id: "abs", label: "|x|", aria: "Absolute value", kind: "blue", action: sci("abs") },
-    { id: "deg_rad", label: state.angleMode.toUpperCase(), aria: `Angle mode: currently ${state.angleMode}`, kind: "digit", action: toggleAngle },
-    { id: "pm", label: "±", aria: "Toggle positive/negative sign", kind: "blue", action: () => { sfxToggle(); apply(C.toggleSign); } },
+    {
+      id: "deg_rad",
+      label: state.angleMode.toUpperCase(),
+      aria: `Angle mode: currently ${state.angleMode}`,
+      kind: "digit",
+      action: toggleAngle,
+    },
+    {
+      id: "pm",
+      label: "±",
+      aria: "Toggle positive/negative sign",
+      kind: "blue",
+      action: () => {
+        sfxToggle();
+        apply(C.toggleSign);
+      },
+    },
   ];
 
   const allKeys = [...basicKeys, ...sciKeys];
@@ -214,7 +320,11 @@ export function Calculator() {
       l: "log",
     };
     const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c" && !window.getSelection()?.toString()) {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        e.key.toLowerCase() === "c" &&
+        !window.getSelection()?.toString()
+      ) {
         e.preventDefault();
         copyRef.current();
         return;
@@ -245,10 +355,10 @@ export function Calculator() {
     len > 14
       ? "text-xl sm:text-2xl"
       : len > 11
-      ? "text-2xl sm:text-3xl"
-      : len > 8
-      ? "text-3xl sm:text-4xl"
-      : "text-4xl sm:text-5xl";
+        ? "text-2xl sm:text-3xl"
+        : len > 8
+          ? "text-3xl sm:text-4xl"
+          : "text-4xl sm:text-5xl";
 
   return (
     <div
@@ -305,7 +415,10 @@ export function Calculator() {
                 {isScientific ? "MODE: SCI-TECH" : "MODE: BASIC"}
               </span>
 
-              <p className="min-h-5 max-w-[14rem] truncate text-right font-mono text-xs text-mustard sm:text-sm" aria-label="Expression">
+              <p
+                className="min-h-5 max-w-[14rem] truncate text-right font-mono text-xs text-mustard sm:text-sm"
+                aria-label="Expression"
+              >
                 {state.expression || "\u00a0"}
               </p>
             </div>
@@ -323,7 +436,10 @@ export function Calculator() {
 
           {state.error && (
             <div className="text-right">
-              <p role="alert" className="font-comic mt-1 inline-block animate-shake rounded border-2 border-paper bg-hero-red px-2 py-0.5 text-xs text-paper">
+              <p
+                role="alert"
+                className="font-comic mt-1 inline-block animate-shake rounded border-2 border-paper bg-hero-red px-2 py-0.5 text-xs text-paper"
+              >
                 ZAP! {state.error}
               </p>
             </div>
@@ -337,7 +453,9 @@ export function Calculator() {
               type="button"
               onClick={() => setMobileTab("basic")}
               className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm transition-colors ${
-                mobileTab === "basic" ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]" : "bg-paper text-ink"
+                mobileTab === "basic"
+                  ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]"
+                  : "bg-paper text-ink"
               }`}
             >
               123 NUMBERS
@@ -346,7 +464,9 @@ export function Calculator() {
               type="button"
               onClick={() => setMobileTab("sci")}
               className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm transition-colors ${
-                mobileTab === "sci" ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]" : "bg-paper text-ink"
+                mobileTab === "sci"
+                  ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]"
+                  : "bg-paper text-ink"
               }`}
             >
               ƒ(x) SCI-MATH
@@ -358,9 +478,13 @@ export function Calculator() {
         {isScientific ? (
           <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-3 sm:gap-3.5">
             {/* Scientific Deck (5 columns x 5 rows) */}
-            <div className={`grid grid-cols-5 gap-1.5 sm:gap-2 ${mobileTab === "sci" ? "block" : "hidden md:grid"}`}>
+            <div
+              className={`grid grid-cols-5 gap-1.5 sm:gap-2 ${mobileTab === "sci" ? "block" : "hidden md:grid"}`}
+            >
               {sciKeys.map((k) => {
-                const isStaged = state.waiting && ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
+                const isStaged =
+                  state.waiting &&
+                  ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
                 return (
                   <button
                     key={k.id}
@@ -382,9 +506,13 @@ export function Calculator() {
             </div>
 
             {/* Standard Number Deck (4 columns x 5 rows) */}
-            <div className={`grid grid-cols-4 gap-1.5 sm:gap-2 ${mobileTab === "basic" ? "block" : "hidden md:grid"}`}>
+            <div
+              className={`grid grid-cols-4 gap-1.5 sm:gap-2 ${mobileTab === "basic" ? "block" : "hidden md:grid"}`}
+            >
               {basicKeys.map((k) => {
-                const isStaged = state.waiting && (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+                const isStaged =
+                  state.waiting &&
+                  (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
                 return (
                   <button
                     key={k.id}
@@ -401,8 +529,8 @@ export function Calculator() {
                       k.id === "sci_mode"
                         ? "whitespace-nowrap px-1 text-sm min-[400px]:text-base sm:text-lg font-comic tracking-wide leading-none"
                         : /^[0-9.]$|AC|C/.test(k.label)
-                        ? "text-lg min-[400px]:text-xl sm:text-2xl"
-                        : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
+                          ? "text-lg min-[400px]:text-xl sm:text-2xl"
+                          : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
                     } h-11 min-[400px]:h-12 sm:h-12 flex items-center justify-center`}
                   >
                     {k.id === "sci_mode" ? (
@@ -422,7 +550,9 @@ export function Calculator() {
           /* Standard 4-Column Keypad */
           <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
             {basicKeys.map((k) => {
-              const isStaged = state.waiting && (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+              const isStaged =
+                state.waiting &&
+                (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
               return (
                 <button
                   key={k.id}
@@ -439,8 +569,8 @@ export function Calculator() {
                     k.id === "sci_mode"
                       ? "whitespace-nowrap px-1 text-base min-[400px]:text-lg sm:text-xl font-comic tracking-wide leading-none"
                       : /^[0-9.]$|AC|C/.test(k.label)
-                      ? "text-xl min-[400px]:text-2xl sm:text-3xl"
-                      : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"
+                        ? "text-xl min-[400px]:text-2xl sm:text-3xl"
+                        : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"
                   } h-12 min-[400px]:h-13 sm:h-13.5 flex items-center justify-center`}
                 >
                   {k.id === "sci_mode" ? (
@@ -463,7 +593,10 @@ export function Calculator() {
             type="button"
             aria-expanded={showHistory}
             aria-controls="history"
-            onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
+            onClick={() => {
+              sfxToggle();
+              setShowHistory((v) => !v);
+            }}
             className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
           >
             <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
@@ -476,7 +609,11 @@ export function Calculator() {
             type="button"
             aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
             aria-pressed={!muted}
-            onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
+            onClick={() => {
+              const next = toggleMuted();
+              setMuted(next);
+              if (!next) sfxToggle();
+            }}
             className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
             title={muted ? "Sound off" : "Sound on"}
           >
@@ -504,7 +641,10 @@ export function Calculator() {
           <button
             type="button"
             disabled={!history.length}
-            onClick={() => { sfxToggle(); setHistory([]); }}
+            onClick={() => {
+              sfxToggle();
+              setHistory([]);
+            }}
             className="comic-btn btn-red px-2.5 py-0.5 text-xs sm:text-sm disabled:opacity-50"
           >
             Clear
@@ -522,10 +662,20 @@ export function Calculator() {
                 <button
                   type="button"
                   title="Click to recall result"
-                  onClick={() => { sfxKey(); setState({ ...C.initialState, angleMode: state.angleMode, display: h.result, waiting: true }); }}
+                  onClick={() => {
+                    sfxKey();
+                    setState({
+                      ...C.initialState,
+                      angleMode: state.angleMode,
+                      display: h.result,
+                      waiting: true,
+                    });
+                  }}
                   className="w-full rounded border-2 border-ink bg-paper px-2.5 py-1.5 text-right font-mono hover:bg-paper-dark focus-visible:outline-2 focus-visible:outline-hero-blue transition-colors"
                 >
-                  <span className="block text-[10px] sm:text-xs text-muted-foreground">{h.expression} =</span>
+                  <span className="block text-[10px] sm:text-xs text-muted-foreground">
+                    {h.expression} =
+                  </span>
                   <span className="text-base sm:text-lg font-bold">{h.result}</span>
                 </button>
               </li>

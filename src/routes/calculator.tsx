@@ -6,9 +6,16 @@ export const Route = createFileRoute("/calculator")({
   head: () => ({
     meta: [
       { title: "Spidy Calculator — Thwip! Let's do the math" },
-      { name: "description", content: "Spidy Calculator: retro comic-book calculator with history, keyboard support and punchy 3D buttons." },
+      {
+        name: "description",
+        content:
+          "Spidy Calculator: retro comic-book calculator with history, keyboard support and punchy 3D buttons.",
+      },
       { property: "og:title", content: "Spidy Calculator" },
-      { property: "og:description", content: "Spidy Calculator: your friendly neighborhood calculator in vintage comic style." },
+      {
+        property: "og:description",
+        content: "Spidy Calculator: your friendly neighborhood calculator in vintage comic style.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -43,7 +50,11 @@ function CalculatorPage() {
           <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-widest text-paper/70">
             <div className="relative flex h-6 w-6 items-center justify-center">
               <Starburst className="animate-wobble absolute -inset-1 opacity-90" />
-              <img src="/logo.png" alt="Spider logo" className="relative z-10 h-4.5 w-4.5 object-contain" />
+              <img
+                src="/logo.png"
+                alt="Spider logo"
+                className="relative z-10 h-4.5 w-4.5 object-contain"
+              />
             </div>
             <span>ISSUE #1</span>
           </div>

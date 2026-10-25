@@ -13,9 +13,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Spidy Calculator — Math with super strength" },
-      { name: "description", content: "Meet your friendly neighborhood calculator: Spidy Calculator brings retro comic style, rapid-fire results, keyboard combat and a case-file history log." },
+      {
+        name: "description",
+        content:
+          "Meet your friendly neighborhood calculator: Spidy Calculator brings retro comic style, rapid-fire results, keyboard combat and a case-file history log.",
+      },
       { property: "og:title", content: "Spidy Calculator" },
-      { property: "og:description", content: "Math with super strength — Spidy Calculator with keyboard support and case history." },
+      {
+        property: "og:description",
+        content:
+          "Math with super strength — Spidy Calculator with keyboard support and case history.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -24,19 +32,56 @@ export const Route = createFileRoute("/")({
 });
 
 const POWERS = [
-  { badge: "POW", title: "Rapid-Fire Results", text: "Tap a key or type — the answer snaps back before the web dissolves." },
-  { badge: "ZAP", title: "Case File History", text: "Every solved mystery is logged. Tap a case to reuse its result instantly." },
-  { badge: "BAM", title: "Keyboard Combat", text: "Full keyboard control: digits, operators, Enter for equals, Esc to clear." },
-  { badge: "WHAM", title: "Foolproof Logic", text: "No eval tricks, no divide-by-zero zaps — math that never lies to a hero." },
+  {
+    badge: "POW",
+    title: "Rapid-Fire Results",
+    text: "Tap a key or type — the answer snaps back before the web dissolves.",
+  },
+  {
+    badge: "ZAP",
+    title: "Case File History",
+    text: "Every solved mystery is logged. Tap a case to reuse its result instantly.",
+  },
+  {
+    badge: "BAM",
+    title: "Keyboard Combat",
+    text: "Full keyboard control: digits, operators, Enter for equals, Esc to clear.",
+  },
+  {
+    badge: "WHAM",
+    title: "Foolproof Logic",
+    text: "No eval tricks, no divide-by-zero zaps — math that never lies to a hero.",
+  },
 ] as const;
 
 const STEPS = [
-  { n: "01", title: "INPUT THE MISSION", text: "Type or tap the digits of your next big problem. Long numbers? Bring them on — 16 digits of precision." },
-  { n: "02", title: "PICK YOUR POWER", text: "Add, subtract, multiply or divide. Percent and sign-flip are in the utility belt too." },
-  { n: "03", title: "THWIP! THE ANSWER", text: "Hit equals and the result lands in the panel — and in your case-file history for later." },
+  {
+    n: "01",
+    title: "INPUT THE MISSION",
+    text: "Type or tap the digits of your next big problem. Long numbers? Bring them on — 16 digits of precision.",
+  },
+  {
+    n: "02",
+    title: "PICK YOUR POWER",
+    text: "Add, subtract, multiply or divide. Percent and sign-flip are in the utility belt too.",
+  },
+  {
+    n: "03",
+    title: "THWIP! THE ANSWER",
+    text: "Hit equals and the result lands in the panel — and in your case-file history for later.",
+  },
 ] as const;
 
-const MARQUEE = ["SPIDY CALCULATOR", "THWIP!", "NO ADS", "KEYBOARD READY", "CASE FILE HISTORY", "DIVIDE-BY-ZERO PROOF", "PAPER-CUT PRECISION", "100% HAND-DRAWN VIBES"] as const;
+const MARQUEE = [
+  "SPIDY CALCULATOR",
+  "THWIP!",
+  "NO ADS",
+  "KEYBOARD READY",
+  "CASE FILE HISTORY",
+  "DIVIDE-BY-ZERO PROOF",
+  "PAPER-CUT PRECISION",
+  "100% HAND-DRAWN VIBES",
+] as const;
 
 const STATS = [
   { k: "PRECISION", v: "16 DIGITS" },
@@ -76,11 +121,25 @@ function Home() {
       });
       panels.forEach((p, i) => {
         if (i === 0) return;
-        tl.fromTo(p, { autoAlpha: 0, y: 60, rotate: i % 2 ? 3 : -3 }, { autoAlpha: 1, y: 0, rotate: 0, duration: 1 }, i);
+        tl.fromTo(
+          p,
+          { autoAlpha: 0, y: 60, rotate: i % 2 ? 3 : -3 },
+          { autoAlpha: 1, y: 0, rotate: 0, duration: 1 },
+          i,
+        );
       });
       // Parallax halftone blobs behind the stats band
       gsap.utils.toArray<HTMLElement>(".parallax-blob").forEach((b, i) => {
-        gsap.to(b, { yPercent: i % 2 ? 24 : -24, ease: "none", scrollTrigger: { trigger: statsRef.current, start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.to(b, {
+          yPercent: i % 2 ? 24 : -24,
+          ease: "none",
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
       });
     });
     mm.add("(prefers-reduced-motion: reduce)", () => {
@@ -92,12 +151,24 @@ function Home() {
     <MotionConfig reducedMotion="user">
       <main className="relative overflow-x-clip">
         {/* Comic progress bar (Framer Motion scroll effect) */}
-        <motion.div aria-hidden className="fixed inset-x-0 top-0 z-50 h-1.5 origin-left bg-mustard will-change-transform transform-gpu" style={{ scaleX: scrollYProgress }} />
+        <motion.div
+          aria-hidden
+          className="fixed inset-x-0 top-0 z-50 h-1.5 origin-left bg-mustard will-change-transform transform-gpu"
+          style={{ scaleX: scrollYProgress }}
+        />
 
-        <motion.span aria-hidden style={{ y: webY1 }} className="pointer-events-none fixed -top-4 -left-4 z-0 will-change-transform transform-gpu">
+        <motion.span
+          aria-hidden
+          style={{ y: webY1 }}
+          className="pointer-events-none fixed -top-4 -left-4 z-0 will-change-transform transform-gpu"
+        >
           <Web className="h-32 w-32 text-paper/20 min-[400px]:h-44 min-[400px]:w-44 sm:h-80 sm:w-80" />
         </motion.span>
-        <motion.span aria-hidden style={{ y: webY2 }} className="pointer-events-none fixed -right-4 -bottom-4 z-0 will-change-transform transform-gpu">
+        <motion.span
+          aria-hidden
+          style={{ y: webY2 }}
+          className="pointer-events-none fixed -right-4 -bottom-4 z-0 will-change-transform transform-gpu"
+        >
           <Web className="h-32 w-32 rotate-180 text-paper/15 min-[400px]:h-44 min-[400px]:w-44 sm:h-80 sm:w-80" />
         </motion.span>
 
@@ -114,24 +185,52 @@ function Home() {
 
           <h1 className="font-comic print-shadow-text max-w-4xl text-5xl leading-[0.95] text-paper min-[420px]:text-6xl sm:text-8xl">
             {"SPIDY".split(" ").map((w, i) => (
-              <motion.span key={w} initial={{ opacity: 0, y: 40, rotate: 4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.15 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }} className="mr-[0.35em] inline-block">
+              <motion.span
+                key={w}
+                initial={{ opacity: 0, y: 40, rotate: 4 }}
+                animate={{ opacity: 1, y: 0, rotate: 0 }}
+                transition={{ delay: 0.15 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }}
+                className="mr-[0.35em] inline-block"
+              >
                 {w}
               </motion.span>
             ))}
             <span className="block text-mustard">
               {"CALCULATOR.".split(" ").map((w, i) => (
-                <motion.span key={w} initial={{ opacity: 0, y: 40, rotate: -4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.35 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }} className="mr-[0.35em] inline-block">
+                <motion.span
+                  key={w}
+                  initial={{ opacity: 0, y: 40, rotate: -4 }}
+                  animate={{ opacity: 1, y: 0, rotate: 0 }}
+                  transition={{
+                    delay: 0.35 + i * 0.12,
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 16,
+                  }}
+                  className="mr-[0.35em] inline-block"
+                >
                   {w}
                 </motion.span>
               ))}
             </span>
           </h1>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }} className="mt-5 max-w-xl font-mono text-sm sm:text-base text-paper/80">
-            A retro comic-book calculator with punchy 3D buttons, a history case-file and full keyboard control. Your friendly neighborhood math sidekick.
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="mt-5 max-w-xl font-mono text-sm sm:text-base text-paper/80"
+          >
+            A retro comic-book calculator with punchy 3D buttons, a history case-file and full
+            keyboard control. Your friendly neighborhood math sidekick.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.5 }} className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.5 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-4"
+          >
             <Link to="/calculator" className="comic-btn btn-equals px-6 py-3.5 text-xl sm:text-2xl">
               OPEN THE CALCULATOR
             </Link>
@@ -140,21 +239,44 @@ function Home() {
             </a>
           </motion.div>
 
-          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 12 }} transition={{ delay: 0.95, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="POW" className="animate-wobble absolute top-20 right-[10%] h-16 w-16 text-lg sm:top-28 sm:h-24 sm:w-24 sm:text-2xl hidden min-[480px]:grid" />
+          <motion.div
+            initial={{ scale: 0, rotate: -30 }}
+            animate={{ scale: 1, rotate: 12 }}
+            transition={{ delay: 0.95, type: "spring", stiffness: 200, damping: 10 }}
+          >
+            <Starburst
+              label="POW"
+              className="animate-wobble absolute top-20 right-[10%] h-16 w-16 text-lg sm:top-28 sm:h-24 sm:w-24 sm:text-2xl hidden min-[480px]:grid"
+            />
           </motion.div>
-          <motion.div initial={{ scale: 0, rotate: 30 }} animate={{ scale: 1, rotate: -10 }} transition={{ delay: 1.1, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="ZAP" className="animate-wobble absolute bottom-24 left-[8%] h-14 w-14 text-base sm:bottom-32 sm:h-20 sm:w-20 sm:text-xl hidden min-[480px]:grid" />
+          <motion.div
+            initial={{ scale: 0, rotate: 30 }}
+            animate={{ scale: 1, rotate: -10 }}
+            transition={{ delay: 1.1, type: "spring", stiffness: 200, damping: 10 }}
+          >
+            <Starburst
+              label="ZAP"
+              className="animate-wobble absolute bottom-24 left-[8%] h-14 w-14 text-base sm:bottom-32 sm:h-20 sm:w-20 sm:text-xl hidden min-[480px]:grid"
+            />
           </motion.div>
 
-          <motion.a href="#powers" aria-label="Scroll to features" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="font-comic absolute bottom-6 text-mustard text-xl">
+          <motion.a
+            href="#powers"
+            aria-label="Scroll to features"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8 }}
+            className="font-comic absolute bottom-6 text-mustard text-xl"
+          >
             ▼ SCROLL
           </motion.a>
         </section>
 
         {/* GSAP infinite ticker */}
         <div className="relative overflow-hidden select-none border-y-4 border-ink bg-hero-red py-2.5 sm:py-3 text-paper shadow-[inset_0_0_0_3px_var(--ink)]">
-          <div ref={marqueeRef} className="flex w-max items-center gap-6 sm:gap-8 whitespace-nowrap will-change-transform transform-gpu">
+          <div
+            ref={marqueeRef}
+            className="flex w-max items-center gap-6 sm:gap-8 whitespace-nowrap will-change-transform transform-gpu"
+          >
             {[0, 1].map((copy) => (
               <div key={copy} className="flex items-center gap-6 sm:gap-8" aria-hidden={copy === 1}>
                 {MARQUEE.map((t) => (
@@ -204,7 +326,10 @@ function Home() {
                   }}
                   className="panel relative h-full rounded-xl p-6 sm:p-8 cursor-default will-change-transform transform-gpu shadow-[8px_8px_0_0_#0f172a]"
                 >
-                  <Starburst label={p.badge} className="absolute -top-4 -right-3 h-12 w-12 -rotate-12 text-sm shadow-md" />
+                  <Starburst
+                    label={p.badge}
+                    className="absolute -top-4 -right-3 h-12 w-12 -rotate-12 text-sm shadow-md"
+                  />
                   <h3 className="font-comic mb-2 text-2xl text-hero-blue sm:text-3xl">{p.title}</h3>
                   <p className="font-mono text-sm text-ink/80">{p.text}</p>
                 </motion.article>
@@ -226,7 +351,9 @@ function Home() {
                   className={`step-panel panel absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-xl p-8 text-center ${i === 0 ? "" : "opacity-0"}`}
                   style={i === 0 ? undefined : { visibility: "hidden" }}
                 >
-                  <span className="font-comic halftone-red grid h-16 w-16 place-items-center rounded-full border-4 border-ink text-2xl text-paper">{s.n}</span>
+                  <span className="font-comic halftone-red grid h-16 w-16 place-items-center rounded-full border-4 border-ink text-2xl text-paper">
+                    {s.n}
+                  </span>
                   <h3 className="font-comic text-3xl text-hero-red sm:text-4xl">{s.title}</h3>
                   <p className="max-w-md font-mono text-sm text-ink/80 sm:text-base">{s.text}</p>
                 </article>
@@ -236,12 +363,27 @@ function Home() {
         </section>
 
         {/* Stats band with GSAP parallax blobs */}
-        <section ref={statsRef} className="relative overflow-hidden border-y-4 border-ink bg-hero-blue py-16 text-paper">
-          <span aria-hidden className="parallax-blob halftone-red absolute -top-8 left-8 h-24 w-24 rotate-12 opacity-60" />
-          <span aria-hidden className="parallax-blob halftone-red absolute -bottom-10 right-16 h-32 w-32 -rotate-6 opacity-50" />
+        <section
+          ref={statsRef}
+          className="relative overflow-hidden border-y-4 border-ink bg-hero-blue py-16 text-paper"
+        >
+          <span
+            aria-hidden
+            className="parallax-blob halftone-red absolute -top-8 left-8 h-24 w-24 rotate-12 opacity-60"
+          />
+          <span
+            aria-hidden
+            className="parallax-blob halftone-red absolute -bottom-10 right-16 h-32 w-32 -rotate-6 opacity-50"
+          />
           <div className="relative mx-auto grid max-w-4xl gap-8 px-4 text-center sm:grid-cols-3">
             {STATS.map((s, i) => (
-              <motion.div key={s.k} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.45 }}>
+              <motion.div
+                key={s.k}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.45 }}
+              >
                 <p className="font-comic text-3xl text-mustard sm:text-4xl">{s.v}</p>
                 <p className="mt-1 font-mono text-xs tracking-widest text-paper/80">{s.k}</p>
               </motion.div>
@@ -251,11 +393,19 @@ function Home() {
 
         {/* Final CTA */}
         <section className="relative mx-auto max-w-3xl px-4 py-20 text-center">
-          <motion.div initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.5 }} className="panel -rotate-1 rounded-xl p-8 sm:p-12">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.5 }}
+            className="panel -rotate-1 rounded-xl p-8 sm:p-12"
+          >
             <h2 className="font-comic print-shadow-text text-4xl text-ink sm:text-6xl">
               READY TO SWING <span className="text-hero-red">INTO ACTION?</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-md font-mono text-sm text-ink/80">Spidy Calculator is warmed up and waiting. Zero ads, zero sign-ups — pure math.</p>
+            <p className="mx-auto mt-4 max-w-md font-mono text-sm text-ink/80">
+              Spidy Calculator is warmed up and waiting. Zero ads, zero sign-ups — pure math.
+            </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/calculator" className="comic-btn btn-red px-6 py-3 text-xl sm:text-2xl">
                 THWIP! OPEN CALCULATOR

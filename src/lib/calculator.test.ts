@@ -296,7 +296,11 @@ describe("calculator pure engine", () => {
     });
 
     it("evaluates sin in RAD mode", () => {
-      const statePiOver2: C.CalcState = { ...C.initialState, display: String(Math.PI / 2), angleMode: "rad" };
+      const statePiOver2: C.CalcState = {
+        ...C.initialState,
+        display: String(Math.PI / 2),
+        angleMode: "rad",
+      };
       expect(C.applyScientific(statePiOver2, "sin").display).toBe("1");
     });
 
@@ -358,4 +362,3 @@ describe("calculator pure engine", () => {
     });
   });
 });
-

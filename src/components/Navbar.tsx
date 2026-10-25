@@ -12,7 +12,12 @@ import { sfxToggle } from "@/lib/sounds";
 
 const LINKS = [
   { to: "/", label: "HOME", badge: "POW", match: (p: string) => p === "/" },
-  { to: "/calculator", label: "CALCULATOR", badge: "ZAP", match: (p: string) => p.startsWith("/calculator") },
+  {
+    to: "/calculator",
+    label: "CALCULATOR",
+    badge: "ZAP",
+    match: (p: string) => p.startsWith("/calculator"),
+  },
 ] as const;
 
 /** Comic-masthead navbar: sticky ink bar, collapsing issue strip, comic-tab links. */
@@ -78,14 +83,15 @@ export function Navbar() {
       </motion.div>
 
       {/* Main ink bar */}
-      <nav aria-label="Main" className="relative border-b-4 border-ink bg-ink shadow-[0_6px_0_var(--navy)]">
+      <nav
+        aria-label="Main"
+        className="relative border-b-4 border-ink bg-ink shadow-[0_6px_0_var(--navy)]"
+      >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           {/* Logo with continuously moving Starburst background */}
           <Link to="/" className="group flex items-center gap-3" aria-label="Spidy Calculator home">
             <div className="relative flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center">
-              <Starburst
-                className="animate-wobble absolute -inset-1.5 h-auto w-auto opacity-95 transition-transform duration-200 group-hover:scale-115"
-              />
+              <Starburst className="animate-wobble absolute -inset-1.5 h-auto w-auto opacity-95 transition-transform duration-200 group-hover:scale-115" />
               <img
                 src="/logo.png"
                 alt="Spidy Calculator logo"
@@ -132,9 +138,15 @@ export function Navbar() {
             className="comic-btn btn-blue grid h-11 w-11 place-items-center md:hidden"
           >
             <span aria-hidden className="flex flex-col gap-1">
-              <span className={`block h-1 w-6 rounded bg-paper transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`} />
-              <span className={`block h-1 w-6 rounded bg-paper transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`block h-1 w-6 rounded bg-paper transition-transform ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
+              <span
+                className={`block h-1 w-6 rounded bg-paper transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
+              />
+              <span
+                className={`block h-1 w-6 rounded bg-paper transition-opacity ${menuOpen ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`block h-1 w-6 rounded bg-paper transition-transform ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+              />
             </span>
           </button>
         </div>
