@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useReducedMotion } from "framer-motion";
 import { Starburst, Web } from "@/components/comic";
-import { sfxClick, sfxToggle } from "@/lib/sounds";
+import { sfxClick } from "@/lib/sounds";
 
 export function Footer() {
   const reduce = useReducedMotion();
-  const [forceClear, setForceClear] = useState(false);
 
   const scrollToTop = () => {
     sfxClick();
@@ -46,23 +44,15 @@ export function Footer() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => {
-              sfxToggle();
-              setForceClear((v) => !v);
-            }}
-            className="inline-flex items-center gap-1.5 rounded bg-mustard px-2.5 py-1 text-[11px] font-bold text-ink uppercase tracking-wider border-2 border-ink shadow-[2px_2px_0_0_#0f172a] hover:bg-mustard/90 active:translate-y-0.5 transition-transform"
-            title="Toggle focus"
-          >
-            <span>{forceClear ? "↺ RESTORE BLUR" : "👁 FOCUS ALL"}</span>
-          </button>
+          <span className="font-mono text-[10px] sm:text-xs tracking-widest text-paper/80 bg-ink/30 px-2.5 py-0.5 rounded border border-ink/40">
+            ISSUE #1
+          </span>
         </div>
       </div>
 
       {/* =================================================================== */}
-      {/* MAIN SHOWCASE: Centered Uncropped 3:4 Poster + Comic Wings          */}
-      {/* 100% of the image is shown from top "Brand New Day" to bottom "THWIP" */}
+      {/* MAIN SHOWCASE: Complete Uncropped 3:4 Poster + Comic Wings          */}
+      {/* 100% of the image is shown crystal-clear without any blur           */}
       {/* =================================================================== */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:py-12 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
         {/* Left Comic Wing (Desktop Widescreen) */}
@@ -103,9 +93,8 @@ export function Footer() {
           </div>
         </aside>
 
-        {/* Center: The Complete Uncropped Poster (Natural 3:4 Aspect Ratio) */}
+        {/* Center: The Complete Uncropped Poster (100% Crisp & Clear) */}
         <div className="relative mx-auto w-full max-w-[460px] sm:max-w-[540px] md:max-w-[600px] aspect-[3/4] rounded-2xl overflow-hidden border-4 border-ink shadow-[10px_10px_0_0_#0f172a] sm:shadow-[14px_14px_0_0_#0f172a] bg-[#be2629]">
-          {/* 1. Base Image - 100% UNTOUCHED, UN-CROPPED, FULLY VISIBLE */}
           <img
             src="/footer-image.jpg"
             alt="Spider-Man: Brand New Day - Comic art featuring Spider-Man in action"
@@ -113,57 +102,6 @@ export function Footer() {
             loading="lazy"
             draggable={false}
           />
-
-          {/* 2. Top-Half Progressive Blur Overlay (first half blurred, second half clear) */}
-          <div
-            aria-hidden="true"
-            className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
-              forceClear ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            {/* Blurred image layer with gradient alpha mask */}
-            <img
-              src="/footer-image.jpg"
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover object-top select-none blur-[10px] sm:blur-[14px] scale-[1.03]"
-              style={{
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 20%, rgba(0,0,0,0.3) 42%, rgba(0,0,0,0) 54%)",
-                maskImage:
-                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 20%, rgba(0,0,0,0.3) 42%, rgba(0,0,0,0) 54%)",
-              }}
-              draggable={false}
-            />
-
-            {/* Secondary smooth optical blur */}
-            <div
-              className="absolute inset-0 backdrop-blur-[6px]"
-              style={{
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 24%, rgba(0,0,0,0) 48%)",
-                maskImage:
-                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 24%, rgba(0,0,0,0) 48%)",
-              }}
-            />
-
-            {/* Subtle top vignette */}
-            <div
-              className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-ink/30 to-transparent"
-              style={{
-                WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-                maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-              }}
-            />
-          </div>
-
-          {/* Visual Indicators for Progressive Depth */}
-          <div className="pointer-events-none absolute top-3 left-3 rounded border-2 border-ink bg-mustard/95 px-2.5 py-1 font-comic text-[11px] sm:text-xs tracking-wider text-ink shadow-[2px_2px_0_0_#0f172a]">
-            TOP: SOFT BLUR FOCUS
-          </div>
-
-          <div className="pointer-events-none absolute bottom-3 right-3 rounded border-2 border-ink bg-paper px-3 py-1 font-comic text-xs sm:text-sm tracking-wider text-hero-red shadow-[3px_3px_0_0_#0f172a]">
-            BOTTOM: 100% SHARP THWIP!
-          </div>
         </div>
 
         {/* Right Comic Wing (Desktop Widescreen) */}
