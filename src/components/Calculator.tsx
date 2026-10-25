@@ -13,12 +13,13 @@ import {
   sfxError,
 } from "@/lib/sounds";
 
-const HISTORY_STORAGE_KEY = "webslinger-calc-history";
+const HISTORY_STORAGE_KEY = "spidy-calc-history";
+const LEGACY_STORAGE_KEY = "webslinger-calc-history";
 
 function loadInitialHistory(): C.HistoryEntry[] {
   if (typeof window === "undefined") return [];
   try {
-    const saved = window.localStorage.getItem(HISTORY_STORAGE_KEY);
+    const saved = window.localStorage.getItem(HISTORY_STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) return parsed.slice(0, 20);
