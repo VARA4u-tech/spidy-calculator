@@ -27,24 +27,25 @@ export function Footer() {
       <Web className="pointer-events-none absolute -top-10 -left-10 h-48 w-48 text-ink/25 sm:h-64 sm:w-64 hidden sm:block will-change-transform" />
       <Web className="pointer-events-none absolute -bottom-10 -right-10 h-52 w-52 rotate-180 text-ink/25 sm:h-72 sm:w-72 hidden sm:block will-change-transform" />
 
-      {/* Top comic issue strip */}
-      <div className="relative z-10 border-b-4 border-ink bg-hero-red py-2 px-4 shadow-md">
-        <div className="mx-auto max-w-6xl flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <div className="relative flex h-6 w-6 items-center justify-center">
+      {/* Top comic issue strip — responsive on all mobile screens */}
+      <div className="relative z-10 border-b-4 border-ink bg-hero-red py-1.5 sm:py-2 px-3 sm:px-4 shadow-md">
+        <div className="mx-auto max-w-6xl flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="relative flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center">
               <Starburst className="animate-wobble absolute -inset-1 opacity-90" />
               <img
                 src="/logo.png"
                 alt="Spider mask"
-                className="relative z-10 h-4.5 w-4.5 object-contain"
+                className="relative z-10 h-4 w-4 sm:h-4.5 sm:w-4.5 object-contain"
               />
             </div>
-            <p className="font-mono text-[11px] sm:text-xs font-bold tracking-[0.22em] text-paper uppercase">
-              SPIDER-MAN: BRAND NEW DAY · COMPLETE ARCHIVE POSTER
+            <p className="truncate font-mono text-[10px] min-[390px]:text-[11px] sm:text-xs font-bold tracking-wider sm:tracking-[0.22em] text-paper uppercase">
+              <span className="sm:hidden">SPIDER-MAN · BRAND NEW DAY</span>
+              <span className="hidden sm:inline">SPIDER-MAN: BRAND NEW DAY · COMPLETE ARCHIVE POSTER</span>
             </p>
           </div>
 
-          <span className="font-mono text-[10px] sm:text-xs tracking-widest text-paper/80 bg-ink/30 px-2.5 py-0.5 rounded border border-ink/40">
+          <span className="shrink-0 font-mono text-[9px] sm:text-xs font-bold tracking-widest text-paper/90 bg-ink/35 px-2 py-0.5 rounded border border-ink/40">
             ISSUE #1
           </span>
         </div>
