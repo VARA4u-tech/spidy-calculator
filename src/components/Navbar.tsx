@@ -47,16 +47,32 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40">
-      {/* Masthead strip — collapses as you scroll */}
+      {/* Masthead strip — auto-scrolling ticker, collapses as you scroll */}
       <motion.div
         aria-hidden
         animate={scrolled ? { height: 0, opacity: 0 } : { height: "auto", opacity: 1 }}
         transition={{ duration: reduce ? 0 : 0.25 }}
-        className="overflow-hidden border-b-4 border-ink bg-hero-red"
+        className="overflow-hidden border-b-4 border-ink bg-hero-red py-1"
       >
-        <p className="py-1 text-center font-mono text-[10px] tracking-[0.25em] text-paper sm:text-xs">
-          ISSUE #1 · YOUR FRIENDLY NEIGHBORHOOD CALCULATOR · EST. 2026
-        </p>
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused] select-none">
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              className="flex shrink-0 items-center gap-6 pr-6 font-mono text-[10px] sm:text-xs font-bold tracking-[0.25em] text-paper uppercase"
+            >
+              <span>★ ISSUE #1</span>
+              <span>·</span>
+              <span>YOUR FRIENDLY NEIGHBORHOOD CALCULATOR</span>
+              <span>·</span>
+              <span>EST. 2026</span>
+              <span>·</span>
+              <span>ZERO ADS, ZERO TRACKING</span>
+              <span>·</span>
+              <span>THWIP! DO THE MATH</span>
+              <span>·</span>
+            </div>
+          ))}
+        </div>
       </motion.div>
 
       {/* Main ink bar */}
