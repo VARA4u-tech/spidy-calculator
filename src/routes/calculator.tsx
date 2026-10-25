@@ -22,9 +22,6 @@ function CalculatorPage() {
       <Web className="pointer-events-none absolute top-0 left-0 h-48 w-48 text-paper/25 sm:h-72 sm:w-72" />
       <Web className="pointer-events-none absolute right-0 bottom-0 h-48 w-48 rotate-180 text-paper/20 sm:h-72 sm:w-72" />
       <div className="relative mx-auto mb-8 max-w-3xl text-center">
-        <Link to="/" className="comic-btn btn-blue inline-block px-4 py-1.5 text-base sm:text-lg">
-          ← BACK TO HQ
-        </Link>
         <h1 className="font-comic print-shadow-text mt-4 text-3xl leading-none text-paper min-[420px]:text-4xl sm:text-5xl">
           THWIP! <span className="text-mustard">LET'S DO</span> THE MATH.
         </h1>
