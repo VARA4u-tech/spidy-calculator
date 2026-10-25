@@ -74,7 +74,7 @@ export const sfxBackspace = (): void => blip(220, 0.08, "triangle", 0.08, 160);
 export const sfxOperator = (): void => blip(330, 0.09, "sawtooth", 0.07, 495);
 /** Down-sweep whoosh for clear-all. */
 export const sfxClear = (): void => blip(600, 0.18, "sawtooth", 0.07, 120);
-**/ double-blip for percent / sign-flip / UI toggles. */
+/** Double-blip for percent / sign-flip / UI toggles. */
 export const sfxToggle = (): void => blip(500, 0.05, "triangle", 0.06);
 /** Tiny ascending fanfare for equals. */
 export function sfxEquals(): void {
