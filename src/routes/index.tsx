@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Web, Starburst } from "@/components/comic";
+import { Calculator } from "@/components/Calculator";
 import { Footer } from "@/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -12,10 +13,10 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Web-Slinger Calculator — Home | Math with super strength" },
-      { name: "description", content: "Meet your friendly neighborhood calculator: retro comic style, rapid-fire results, keyboard combat and a case-file history log." },
-      { property: "og:title", content: "Web-Slinger Calculator" },
-      { property: "og:description", content: "Math with super strength — a retro comic-book calculator with keyboard support and history." },
+      { title: "Spidy Calculator — Math with super strength" },
+      { name: "description", content: "Meet your friendly neighborhood calculator: Spidy Calculator brings retro comic style, rapid-fire results, keyboard combat and a case-file history log." },
+      { property: "og:title", content: "Spidy Calculator" },
+      { property: "og:description", content: "Math with super strength — Spidy Calculator with keyboard support and case history." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -36,7 +37,7 @@ const STEPS = [
   { n: "03", title: "THWIP! THE ANSWER", text: "Hit equals and the result lands in the panel — and in your case-file history for later." },
 ] as const;
 
-const MARQUEE = ["THWIP!", "NO ADS", "KEYBOARD READY", "CASE FILE HISTORY", "DIVIDE-BY-ZERO PROOF", "PAPER-CUT PRECISION", "100% HAND-DRAWN VIBES"] as const;
+const MARQUEE = ["SPIDY CALCULATOR", "THWIP!", "NO ADS", "KEYBOARD READY", "CASE FILE HISTORY", "DIVIDE-BY-ZERO PROOF", "PAPER-CUT PRECISION", "100% HAND-DRAWN VIBES"] as const;
 
 const STATS = [
   { k: "PRECISION", v: "16 DIGITS" },
@@ -101,49 +102,55 @@ function Home() {
           <Web className="h-32 w-32 rotate-180 text-paper/15 min-[400px]:h-44 min-[400px]:w-44 sm:h-80 sm:w-80" />
         </motion.span>
 
-        {/* Hero */}
-        <section className="relative flex min-h-screen flex-col items-center justify-center px-4 py-20 text-center">
-          <motion.p
+        {/* Hero & Interactive Spidy Calculator */}
+        <section className="relative flex flex-col items-center justify-center px-3 pt-8 pb-14 text-center sm:px-4 sm:pt-12 sm:pb-20">
+          <motion.div
             initial={{ opacity: 0, y: -16, rotate: -4 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
             transition={{ duration: 0.5 }}
-            className="font-comic mb-6 inline-block border-4 border-ink bg-mustard px-4 py-1 text-lg text-ink shadow-[4px_4px_0_var(--ink)]"
+            className="font-comic mb-4 inline-block border-4 border-ink bg-mustard px-4 py-1 text-sm sm:text-base text-ink shadow-[4px_4px_0_var(--ink)]"
           >
-            Issue #1 · Web-Slinger Calculator
-          </motion.p>
+            Issue #1 · Spidy Calculator
+          </motion.div>
+
           <h1 className="font-comic print-shadow-text max-w-4xl text-5xl leading-[0.95] text-paper min-[420px]:text-6xl sm:text-8xl">
-            {"MATH WITH".split(" ").map((w, i) => (
+            {"SPIDY".split(" ").map((w, i) => (
               <motion.span key={w} initial={{ opacity: 0, y: 40, rotate: 4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.15 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }} className="mr-[0.35em] inline-block">
                 {w}
               </motion.span>
             ))}
             <span className="block text-mustard">
-              {"SUPER STRENGTH.".split(" ").map((w, i) => (
-                <motion.span key={w} initial={{ opacity: 0, y: 40, rotate: -4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.45 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }} className="mr-[0.35em] inline-block">
+              {"CALCULATOR.".split(" ").map((w, i) => (
+                <motion.span key={w} initial={{ opacity: 0, y: 40, rotate: -4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.35 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }} className="mr-[0.35em] inline-block">
                   {w}
                 </motion.span>
               ))}
             </span>
           </h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 0.6 }} className="mt-5 max-w-xl font-mono text-sm text-paper/80 sm:text-base">
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }} className="mt-4 max-w-xl font-mono text-xs sm:text-sm text-paper/80">
             A retro comic-book calculator with punchy 3D buttons, a history case-file and full keyboard control. Your friendly neighborhood math sidekick.
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.05, duration: 0.5 }} className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/calculator" className="comic-btn btn-equals px-6 py-3 text-xl sm:text-2xl">
-              OPEN THE CALCULATOR
-            </Link>
-            <a href="#powers" className="comic-btn btn-blue px-6 py-3 text-xl sm:text-2xl">
-              SEE THE POWERS
-            </a>
+
+          {/* Interactive Calculator embedded directly into the home view */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.55 }}
+            className="relative mt-8 sm:mt-10 w-full max-w-5xl"
+          >
+            <Calculator />
           </motion.div>
-          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 12 }} transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="POW" className="animate-wobble absolute top-24 right-[12%] h-16 w-16 text-lg sm:top-32 sm:h-24 sm:w-24 sm:text-2xl hidden min-[480px]:grid" />
+
+          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 12 }} transition={{ delay: 1.0, type: "spring", stiffness: 200, damping: 10 }}>
+            <Starburst label="POW" className="animate-wobble absolute top-16 right-[8%] h-14 w-14 text-base sm:top-24 sm:h-20 sm:w-20 sm:text-xl hidden min-[600px]:grid" />
           </motion.div>
-          <motion.div initial={{ scale: 0, rotate: 30 }} animate={{ scale: 1, rotate: -10 }} transition={{ delay: 1.35, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="ZAP" className="animate-wobble absolute bottom-24 left-[10%] h-14 w-14 text-base sm:h-20 sm:w-20 sm:text-xl hidden min-[480px]:grid" />
+          <motion.div initial={{ scale: 0, rotate: 30 }} animate={{ scale: 1, rotate: -10 }} transition={{ delay: 1.15, type: "spring", stiffness: 200, damping: 10 }}>
+            <Starburst label="ZAP" className="animate-wobble absolute top-36 left-[6%] h-14 w-14 text-base sm:top-48 sm:h-18 sm:w-18 sm:text-lg hidden min-[600px]:grid" />
           </motion.div>
-          <motion.a href="#powers" aria-label="Scroll to features" animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="font-comic absolute bottom-6 text-mustard text-xl">
-            ▼ SCROLL
+
+          <motion.a href="#powers" aria-label="Scroll to features" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="font-comic mt-12 inline-flex items-center gap-2 text-mustard text-lg sm:text-xl">
+            <span>▼</span> <span>EXPLORE THE HERO'S POWERS</span>
           </motion.a>
         </section>
 
@@ -250,10 +257,19 @@ function Home() {
             <h2 className="font-comic print-shadow-text text-4xl text-ink sm:text-6xl">
               READY TO SWING <span className="text-hero-red">INTO ACTION?</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-md font-mono text-sm text-ink/80">The calculator is warmed up and waiting. Zero ads, zero sign-ups — just math.</p>
-            <Link to="/calculator" className="comic-btn btn-red mt-8 inline-block px-6 py-3 text-xl sm:text-2xl">
-              THWIP! DO THE MATH
-            </Link>
+            <p className="mx-auto mt-4 max-w-md font-mono text-sm text-ink/80">Spidy Calculator is warmed up and waiting. Zero ads, zero sign-ups — pure math.</p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" })}
+                className="comic-btn btn-equals px-6 py-3 text-xl sm:text-2xl"
+              >
+                SWING BACK TO CALCULATOR ▲
+              </button>
+              <Link to="/calculator" className="comic-btn btn-blue px-6 py-3 text-xl sm:text-2xl">
+                FULLSCREEN MODE ⚡
+              </Link>
+            </div>
           </motion.div>
         </section>
 
