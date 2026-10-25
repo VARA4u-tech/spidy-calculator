@@ -114,12 +114,18 @@ export function Calculator() {
           ))}
         </div>
         <div className="mt-6 flex items-center justify-between gap-2">
-          <button type="button" aria-expanded={showHistory} aria-controls="history" onClick={() => setShowHistory((v) => !v)}
+          <button type="button" aria-expanded={showHistory} aria-controls="history"
+            onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
             className="comic-btn btn-blue px-4 py-1.5 text-lg">
             {showHistory ? "Hide history" : "Show history"} ({history.length})
           </button>
-          <span className="font-mono text-xs text-muted-foreground hidden sm:block">Keyboard ready</span>
+          <button type="button" aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
+            aria-pressed={!muted} onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
+            className="comic-btn btn-blue px-3 py-1.5 text-lg" title={muted ? "Sound off" : "Sound on"}>
+            {muted ? "🔇 SFX OFF" : "🔊 SFX ON"}
+          </button>
         </div>
+        <p className="mt-2 text-center font-mono text-xs text-muted-foreground hidden sm:block">Keyboard ready</p>
       </section>
 
       <aside id="history" hidden={!showHistory} className="panel mx-auto w-full max-w-md -rotate-1 rounded-xl p-5 lg:mt-8">
