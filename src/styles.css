@@ -132,6 +132,12 @@
 @utility btn-blue { --face: var(--hero-blue); --wall: var(--hero-blue-dark); --label: var(--paper); }
 @utility btn-red { --face: var(--hero-red); --wall: var(--hero-red-dark); --label: var(--paper); }
 @utility btn-equals { --face: var(--mustard); --wall: var(--mustard-dark); --label: var(--ink); }
+@utility btn-sci {
+  --face: var(--mustard);
+  --wall: var(--mustard-dark);
+  --label: var(--ink);
+  box-shadow: 0 6px 0 0 var(--wall), 0 6px 0 3px var(--ink), 0 0 12px 2px color-mix(in oklab, var(--mustard) 75%, transparent) !important;
+}
 
 @utility print-shadow-text {
   text-shadow: 3px 3px 0 var(--hero-red), 6px 6px 0 var(--ink);

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calculator } from "@/components/Calculator";
 import { Web } from "@/components/comic";
 
@@ -18,19 +18,37 @@ export const Route = createFileRoute("/calculator")({
 
 function CalculatorPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden px-3 py-6 sm:px-4 sm:py-12" style={{ paddingBottom: "max(2rem, env(safe-area-inset-bottom))" }}>
-      <Web className="pointer-events-none absolute top-0 left-0 h-48 w-48 text-paper/25 sm:h-72 sm:w-72" />
-      <Web className="pointer-events-none absolute right-0 bottom-0 h-48 w-48 rotate-180 text-paper/20 sm:h-72 sm:w-72" />
-      <div className="relative mx-auto mb-8 max-w-3xl text-center">
-        <h1 className="font-comic print-shadow-text mt-4 text-3xl leading-none text-paper min-[420px]:text-4xl sm:text-5xl">
-          THWIP! <span className="text-mustard">LET'S DO</span> THE MATH.
-        </h1>
-        <p className="mt-3 inline-block bg-hero-blue px-3 py-1 font-mono text-xs tracking-widest text-paper sm:text-sm">
-          YOUR FRIENDLY NEIGHBORHOOD CALCULATOR
-        </p>
-      </div>
-      <div className="relative flex justify-center">
-        <Calculator />
+    <main className="relative flex min-h-screen flex-col justify-start overflow-x-hidden p-2 sm:p-3 md:p-4 lg:h-screen lg:justify-center lg:overflow-hidden">
+      <Web className="pointer-events-none absolute top-0 left-0 h-32 w-32 text-paper/20 sm:h-48 sm:w-48" />
+      <Web className="pointer-events-none absolute right-0 bottom-0 h-32 w-32 rotate-180 text-paper/15 sm:h-48 sm:w-48" />
+
+      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+        {/* Compact comic top header: back link + punchy headline */}
+        <header className="relative mb-2 sm:mb-3 flex items-center justify-between gap-3 px-1">
+          <Link
+            to="/"
+            className="comic-btn btn-blue inline-flex items-center gap-1.5 px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm md:text-base"
+            aria-label="Back to Home"
+          >
+            <span aria-hidden>◀</span>
+            <span>BACK TO HOME</span>
+          </Link>
+
+          <div className="text-center">
+            <h1 className="font-comic print-shadow-text text-lg sm:text-2xl md:text-3xl leading-tight text-paper">
+              THWIP! <span className="text-mustard">LET'S DO THE MATH.</span>
+            </h1>
+          </div>
+
+          <span className="font-mono text-[10px] sm:text-xs tracking-widest text-paper/60 hidden sm:inline-block">
+            ISSUE #1
+          </span>
+        </header>
+
+        {/* Calculator & Case Files */}
+        <div className="relative flex justify-center">
+          <Calculator />
+        </div>
       </div>
     </main>
   );
