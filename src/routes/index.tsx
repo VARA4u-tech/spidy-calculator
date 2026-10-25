@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Web, Starburst } from "@/components/comic";
-import { Calculator } from "@/components/Calculator";
 import { Footer } from "@/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -102,13 +101,13 @@ function Home() {
           <Web className="h-32 w-32 rotate-180 text-paper/15 min-[400px]:h-44 min-[400px]:w-44 sm:h-80 sm:w-80" />
         </motion.span>
 
-        {/* Hero & Interactive Spidy Calculator */}
-        <section className="relative flex flex-col items-center justify-center px-3 pt-8 pb-14 text-center sm:px-4 sm:pt-12 sm:pb-20">
+        {/* Hero */}
+        <section className="relative flex min-h-[85vh] sm:min-h-screen flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
           <motion.div
             initial={{ opacity: 0, y: -16, rotate: -4 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
             transition={{ duration: 0.5 }}
-            className="font-comic mb-4 inline-block border-4 border-ink bg-mustard px-4 py-1 text-sm sm:text-base text-ink shadow-[4px_4px_0_var(--ink)]"
+            className="font-comic mb-6 inline-block border-4 border-ink bg-mustard px-4 py-1 text-base sm:text-lg text-ink shadow-[4px_4px_0_var(--ink)]"
           >
             Issue #1 · Spidy Calculator
           </motion.div>
@@ -128,29 +127,28 @@ function Home() {
             </span>
           </h1>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }} className="mt-4 max-w-xl font-mono text-xs sm:text-sm text-paper/80">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }} className="mt-5 max-w-xl font-mono text-sm sm:text-base text-paper/80">
             A retro comic-book calculator with punchy 3D buttons, a history case-file and full keyboard control. Your friendly neighborhood math sidekick.
           </motion.p>
 
-          {/* Interactive Calculator embedded directly into the home view */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.55 }}
-            className="relative mt-8 sm:mt-10 w-full max-w-5xl"
-          >
-            <Calculator />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.5 }} className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Link to="/calculator" className="comic-btn btn-equals px-6 py-3.5 text-xl sm:text-2xl">
+              OPEN THE CALCULATOR
+            </Link>
+            <a href="#powers" className="comic-btn btn-blue px-6 py-3.5 text-xl sm:text-2xl">
+              SEE THE POWERS
+            </a>
           </motion.div>
 
-          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 12 }} transition={{ delay: 1.0, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="POW" className="animate-wobble absolute top-16 right-[8%] h-14 w-14 text-base sm:top-24 sm:h-20 sm:w-20 sm:text-xl hidden min-[600px]:grid" />
+          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 12 }} transition={{ delay: 0.95, type: "spring", stiffness: 200, damping: 10 }}>
+            <Starburst label="POW" className="animate-wobble absolute top-20 right-[10%] h-16 w-16 text-lg sm:top-28 sm:h-24 sm:w-24 sm:text-2xl hidden min-[480px]:grid" />
           </motion.div>
-          <motion.div initial={{ scale: 0, rotate: 30 }} animate={{ scale: 1, rotate: -10 }} transition={{ delay: 1.15, type: "spring", stiffness: 200, damping: 10 }}>
-            <Starburst label="ZAP" className="animate-wobble absolute top-36 left-[6%] h-14 w-14 text-base sm:top-48 sm:h-18 sm:w-18 sm:text-lg hidden min-[600px]:grid" />
+          <motion.div initial={{ scale: 0, rotate: 30 }} animate={{ scale: 1, rotate: -10 }} transition={{ delay: 1.1, type: "spring", stiffness: 200, damping: 10 }}>
+            <Starburst label="ZAP" className="animate-wobble absolute bottom-24 left-[8%] h-14 w-14 text-base sm:bottom-32 sm:h-20 sm:w-20 sm:text-xl hidden min-[480px]:grid" />
           </motion.div>
 
-          <motion.a href="#powers" aria-label="Scroll to features" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="font-comic mt-12 inline-flex items-center gap-2 text-mustard text-lg sm:text-xl">
-            <span>▼</span> <span>EXPLORE THE HERO'S POWERS</span>
+          <motion.a href="#powers" aria-label="Scroll to features" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="font-comic absolute bottom-6 text-mustard text-xl">
+            ▼ SCROLL
           </motion.a>
         </section>
 
@@ -259,15 +257,8 @@ function Home() {
             </h2>
             <p className="mx-auto mt-4 max-w-md font-mono text-sm text-ink/80">Spidy Calculator is warmed up and waiting. Zero ads, zero sign-ups — pure math.</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <button
-                type="button"
-                onClick={() => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" })}
-                className="comic-btn btn-equals px-6 py-3 text-xl sm:text-2xl"
-              >
-                SWING BACK TO CALCULATOR ▲
-              </button>
-              <Link to="/calculator" className="comic-btn btn-blue px-6 py-3 text-xl sm:text-2xl">
-                FULLSCREEN MODE ⚡
+              <Link to="/calculator" className="comic-btn btn-red px-6 py-3 text-xl sm:text-2xl">
+                THWIP! OPEN CALCULATOR
               </Link>
             </div>
           </motion.div>
