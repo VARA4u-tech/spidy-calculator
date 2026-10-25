@@ -44,6 +44,16 @@ function audio(): AudioContext | null {
   return ctx;
 }
 
+function haptic(ms = 10): void {
+  if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+    try {
+      navigator.vibrate(ms);
+    } catch {
+      // vibration unavailable
+    }
+  }
+}
+
 function blip(
   freq: number,
   duration = 0.07,
@@ -51,6 +61,7 @@ function blip(
   volume = 0.08,
   slideTo?: number,
 ): void {
+  haptic(8);
   const ac = audio();
   if (!ac) return;
   const osc = ac.createOscillator();

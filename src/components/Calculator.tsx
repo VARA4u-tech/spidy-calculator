@@ -110,9 +110,20 @@ export function Calculator() {
     apply((s) => C.toggleAngleMode(s));
   };
 
+  const clearLabel = state.display !== "0" && !state.waiting ? "C" : "AC";
+
   // Basic Keypad Keys
   const basicKeys: Key[] = [
-    { id: "AC", label: "AC", aria: "Clear all", kind: "red", action: () => { sfxClear(); setState(C.clearAll(state)); } },
+    {
+      id: "AC",
+      label: clearLabel,
+      aria: clearLabel === "C" ? "Clear current entry" : "Clear all",
+      kind: "red",
+      action: () => {
+        sfxClear();
+        setState(C.clearAll(state));
+      },
+    },
     { id: "BS", label: "⌫", aria: "Backspace", kind: "blue", action: () => { sfxBackspace(); apply(C.backspace); } },
     { id: "%", label: "%", aria: "Percent", kind: "blue", action: () => { sfxToggle(); apply(C.percent); } },
     { id: "÷", label: "÷", aria: "Divide", kind: "red", action: op("÷") },
@@ -124,7 +135,7 @@ export function Calculator() {
     { id: "+", label: "+", aria: "Add", kind: "red", action: op("+") },
     {
       id: "sci_mode",
-      label: isScientific ? "123" : "SCI-MODE",
+      label: isScientific ? "123" : "⚡ SCI-MODE",
       aria: isScientific ? "Switch to standard number keypad" : "Switch to scientific calculator mode",
       kind: "sci",
       action: () => {
@@ -140,17 +151,17 @@ export function Calculator() {
   // Scientific Keypad Keys (5 rows x 5 columns)
   const sciKeys: Key[] = [
     // Row 1: Primary Trig & Constants
-    { id: "sin", label: "sin", aria: "Sine", kind: "blue", action: sci("sin") },
-    { id: "cos", label: "cos", aria: "Cosine", kind: "blue", action: sci("cos") },
-    { id: "tan", label: "tan", aria: "Tangent", kind: "blue", action: sci("tan") },
-    { id: "pi", label: "π", aria: "Pi constant", kind: "digit", action: constant("pi") },
-    { id: "e", label: "e", aria: "Euler's constant", kind: "digit", action: constant("e") },
+    { id: "sin", label: "sin", aria: "Sine function", kind: "blue", action: sci("sin") },
+    { id: "cos", label: "cos", aria: "Cosine function", kind: "blue", action: sci("cos") },
+    { id: "tan", label: "tan", aria: "Tangent function", kind: "blue", action: sci("tan") },
+    { id: "pi", label: "π", aria: "Pi constant (3.14159...)", kind: "digit", action: constant("pi") },
+    { id: "e", label: "e", aria: "Euler's constant (2.71828...)", kind: "digit", action: constant("e") },
 
     // Row 2: Inverse Trig & Powers/Roots
-    { id: "asin", label: "sin⁻¹", aria: "Inverse sine", kind: "blue", action: sci("asin") },
-    { id: "acos", label: "cos⁻¹", aria: "Inverse cosine", kind: "blue", action: sci("acos") },
-    { id: "atan", label: "tan⁻¹", aria: "Inverse tangent", kind: "blue", action: sci("atan") },
-    { id: "pow", label: "xʸ", aria: "Power (x^y)", kind: "red", action: op("^") },
+    { id: "asin", label: "sin⁻¹", aria: "Inverse sine (arcsin)", kind: "blue", action: sci("asin") },
+    { id: "acos", label: "cos⁻¹", aria: "Inverse cosine (arccos)", kind: "blue", action: sci("acos") },
+    { id: "atan", label: "tan⁻¹", aria: "Inverse tangent (arctan)", kind: "blue", action: sci("atan") },
+    { id: "pow", label: "xʸ", aria: "Power (x raised to y)", kind: "red", action: op("^") },
     { id: "sqrt", label: "√x", aria: "Square root", kind: "blue", action: sci("sqrt") },
 
     // Row 3: Hyperbolic Trig & Powers
@@ -162,16 +173,17 @@ export function Calculator() {
 
     // Row 4: Logarithms & Exponential
     { id: "log", label: "log", aria: "Common logarithm (base 10)", kind: "blue", action: sci("log") },
-    { id: "ln", label: "ln", aria: "Natural logarithm", kind: "blue", action: sci("ln") },
-    { id: "pow10", label: "10ˣ", aria: "10 to power x", kind: "blue", action: sci("pow10") },
-    { id: "exp", label: "eˣ", aria: "e to power x", kind: "blue", action: sci("exp") },
+    { id: "ln", label: "ln", aria: "Natural logarithm (base e)", kind: "blue", action: sci("ln") },
+    { id: "pow10", label: "10ˣ", aria: "10 to power of x", kind: "blue", action: sci("pow10") },
+    { id: "exp", label: "eˣ", aria: "e to power of x", kind: "blue", action: sci("exp") },
     { id: "cbrt", label: "∛x", aria: "Cube root", kind: "blue", action: sci("cbrt") },
 
     // Row 5: Factorial, Reciprocal, Absolute Value, Mode
-    { id: "fact", label: "n!", aria: "Factorial", kind: "blue", action: sci("fact") },
-    { id: "recip", label: "1/x", aria: "Reciprocal", kind: "blue", action: sci("recip") },
+    { id: "fact", label: "n!", aria: "Factorial (n!)", kind: "blue", action: sci("fact") },
+    { id: "recip", label: "1/x", aria: "Reciprocal (1 divided by x)", kind: "blue", action: sci("recip") },
     { id: "abs", label: "|x|", aria: "Absolute value", kind: "blue", action: sci("abs") },
-    { id: "pm", label: "±", aria: "Toggle sign", kind: "blue", action: () => { sfxToggle(); apply(C.toggleSign); } },
+    { id: "deg_rad", label: state.angleMode.toUpperCase(), aria: `Angle mode: currently ${state.angleMode}`, kind: "digit", action: toggleAngle },
+    { id: "pm", label: "±", aria: "Toggle positive/negative sign", kind: "blue", action: () => { sfxToggle(); apply(C.toggleSign); } },
   ];
 
   const allKeys = [...basicKeys, ...sciKeys];
@@ -194,6 +206,11 @@ export function Calculator() {
       "^": "pow",
       "!": "fact",
       p: "pi",
+      s: "sin",
+      c: "cos",
+      t: "tan",
+      r: "sqrt",
+      l: "log",
     };
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c" && !window.getSelection()?.toString()) {
@@ -221,11 +238,25 @@ export function Calculator() {
     equals: "btn-equals",
     sci: "btn-sci",
   };
+
   const len = state.display.length;
-  const size = len > 13 ? "text-2xl sm:text-3xl" : len > 9 ? "text-3xl sm:text-4xl" : "text-4xl sm:text-5xl";
+  const size =
+    len > 14
+      ? "text-xl sm:text-2xl"
+      : len > 11
+      ? "text-2xl sm:text-3xl"
+      : len > 8
+      ? "text-3xl sm:text-4xl"
+      : "text-4xl sm:text-5xl";
 
   return (
-    <div className={`grid w-full gap-4 md:gap-6 ${isScientific ? "max-w-5xl lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]" : "max-w-4xl lg:grid-cols-[minmax(0,26.5rem)_1fr]"} lg:items-start lg:justify-center`}>
+    <div
+      className={`grid w-full gap-4 md:gap-6 ${
+        isScientific
+          ? "max-w-5xl lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]"
+          : "max-w-4xl lg:grid-cols-[minmax(0,26.5rem)_1fr]"
+      } lg:items-start lg:justify-center`}
+    >
       <section
         aria-label="Calculator"
         className={`panel relative mx-auto w-full rounded-xl p-3 sm:p-4.5 transition-all duration-200 ${
@@ -261,8 +292,8 @@ export function Calculator() {
               <button
                 type="button"
                 onClick={toggleAngle}
-                className="rounded border border-paper/30 bg-ink px-1.5 py-0.5 font-mono text-[10px] font-bold text-mustard hover:border-mustard"
-                title={`Switch to ${state.angleMode === "deg" ? "Radians (RAD)" : "Degrees (DEG)"}`}
+                className="rounded border border-paper/30 bg-ink px-1.5 py-0.5 font-mono text-[10px] font-bold text-mustard hover:border-mustard transition-colors"
+                title={`Switch angle mode (currently ${state.angleMode.toUpperCase()})`}
               >
                 {state.angleMode.toUpperCase()}
               </button>
@@ -304,7 +335,7 @@ export function Calculator() {
             <button
               type="button"
               onClick={() => setMobileTab("basic")}
-              className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm ${
+              className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm transition-colors ${
                 mobileTab === "basic" ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]" : "bg-paper text-ink"
               }`}
             >
@@ -313,7 +344,7 @@ export function Calculator() {
             <button
               type="button"
               onClick={() => setMobileTab("sci")}
-              className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm ${
+              className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm transition-colors ${
                 mobileTab === "sci" ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]" : "bg-paper text-ink"
               }`}
             >
@@ -327,63 +358,101 @@ export function Calculator() {
           <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-3 sm:gap-3.5">
             {/* Scientific Deck (5 columns x 5 rows) */}
             <div className={`grid grid-cols-5 gap-1.5 sm:gap-2 ${mobileTab === "sci" ? "block" : "hidden md:grid"}`}>
-              {sciKeys.map((k) => (
-                <button
-                  key={k.id}
-                  type="button"
-                  aria-label={k.aria}
-                  data-pressed={pressed === k.id}
-                  onClick={k.action}
-                  className={`comic-btn ${cls[k.kind]} btn-symbol h-11 text-sm min-[400px]:text-base sm:h-12 sm:text-base`}
-                >
-                  {k.label}
-                </button>
-              ))}
+              {sciKeys.map((k) => {
+                const isStaged = state.waiting && ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
+                return (
+                  <button
+                    key={k.id}
+                    type="button"
+                    aria-label={k.aria}
+                    title={k.aria}
+                    data-pressed={pressed === k.id || isStaged}
+                    onClick={k.action}
+                    className={`comic-btn ${cls[k.kind]} btn-symbol ${
+                      isStaged
+                        ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
+                        : ""
+                    } h-11 text-sm min-[400px]:text-base sm:h-12 sm:text-base flex items-center justify-center`}
+                  >
+                    <span className="select-none">{k.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Standard Number Deck (4 columns x 5 rows) */}
             <div className={`grid grid-cols-4 gap-1.5 sm:gap-2 ${mobileTab === "basic" ? "block" : "hidden md:grid"}`}>
-              {basicKeys.map((k) => (
-                <button
-                  key={k.id}
-                  type="button"
-                  aria-label={k.aria}
-                  data-pressed={pressed === k.id}
-                  onClick={k.action}
-                  className={`comic-btn ${cls[k.kind]} ${
-                    k.id === "sci_mode"
-                      ? "whitespace-nowrap px-1 text-sm min-[400px]:text-base sm:text-lg font-comic tracking-wide leading-none"
-                      : /^[0-9.]$|AC/.test(k.id)
-                      ? "text-lg min-[400px]:text-xl sm:text-2xl"
-                      : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
-                  } h-11 min-[400px]:h-12 sm:h-12 flex items-center justify-center`}
-                >
-                  {k.label}
-                </button>
-              ))}
+              {basicKeys.map((k) => {
+                const isStaged = state.waiting && (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+                return (
+                  <button
+                    key={k.id}
+                    type="button"
+                    aria-label={k.aria}
+                    title={k.aria}
+                    data-pressed={pressed === k.id || isStaged}
+                    onClick={k.action}
+                    className={`comic-btn ${cls[k.kind]} ${
+                      isStaged
+                        ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
+                        : ""
+                    } ${
+                      k.id === "sci_mode"
+                        ? "whitespace-nowrap px-1 text-sm min-[400px]:text-base sm:text-lg font-comic tracking-wide leading-none"
+                        : /^[0-9.]$|AC|C/.test(k.label)
+                        ? "text-lg min-[400px]:text-xl sm:text-2xl"
+                        : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
+                    } h-11 min-[400px]:h-12 sm:h-12 flex items-center justify-center`}
+                  >
+                    {k.id === "sci_mode" ? (
+                      <span className="flex items-center justify-center gap-1 font-comic tracking-wider select-none leading-none">
+                        {!isScientific && <span className="text-sm min-[400px]:text-base">⚡</span>}
+                        <span>{isScientific ? "123" : "SCI"}</span>
+                      </span>
+                    ) : (
+                      <span className="select-none">{k.label}</span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
         ) : (
           /* Standard 4-Column Keypad */
           <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
-            {basicKeys.map((k) => (
-              <button
-                key={k.id}
-                type="button"
-                aria-label={k.aria}
-                data-pressed={pressed === k.id}
-                onClick={k.action}
-                className={`comic-btn ${cls[k.kind]} ${
-                  k.id === "sci_mode"
-                    ? "whitespace-nowrap px-1 text-base min-[400px]:text-lg sm:text-xl font-comic tracking-wide leading-none"
-                    : /^[0-9.]$|AC/.test(k.id)
-                    ? "text-xl min-[400px]:text-2xl sm:text-3xl"
-                    : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"
-                } h-12 min-[400px]:h-13 sm:h-13.5 flex items-center justify-center`}
-              >
-                {k.label}
-              </button>
-            ))}
+            {basicKeys.map((k) => {
+              const isStaged = state.waiting && (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+              return (
+                <button
+                  key={k.id}
+                  type="button"
+                  aria-label={k.aria}
+                  title={k.aria}
+                  data-pressed={pressed === k.id || isStaged}
+                  onClick={k.action}
+                  className={`comic-btn ${cls[k.kind]} ${
+                    isStaged
+                      ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
+                      : ""
+                  } ${
+                    k.id === "sci_mode"
+                      ? "whitespace-nowrap px-1 text-base min-[400px]:text-lg sm:text-xl font-comic tracking-wide leading-none"
+                      : /^[0-9.]$|AC|C/.test(k.label)
+                      ? "text-xl min-[400px]:text-2xl sm:text-3xl"
+                      : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"
+                  } h-12 min-[400px]:h-13 sm:h-13.5 flex items-center justify-center`}
+                >
+                  {k.id === "sci_mode" ? (
+                    <span className="flex items-center justify-center gap-1.5 font-comic tracking-wider select-none leading-none">
+                      {!isScientific && <span className="text-sm min-[400px]:text-base">⚡</span>}
+                      <span>{isScientific ? "123" : "SCI"}</span>
+                    </span>
+                  ) : (
+                    <span className="select-none">{k.label}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
 
@@ -448,6 +517,7 @@ export function Calculator() {
               <li key={i}>
                 <button
                   type="button"
+                  title="Click to recall result"
                   onClick={() => { sfxKey(); setState({ ...C.initialState, angleMode: state.angleMode, display: h.result, waiting: true }); }}
                   className="w-full rounded border-2 border-ink bg-paper px-2.5 py-1.5 text-right font-mono hover:bg-paper-dark focus-visible:outline-2 focus-visible:outline-hero-blue transition-colors"
                 >
