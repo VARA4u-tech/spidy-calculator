@@ -1,5 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import * as C from "@/lib/calculator";
+import {
+  loadSoundPref,
+  isMuted,
+  toggleMuted,
+  sfxKey,
+  sfxBackspace,
+  sfxOperator,
+  sfxClear,
+  sfxToggle,
+  sfxEquals,
+  sfxError,
+} from "@/lib/sounds";
 
 type Key = { label: string; aria: string; kind: "digit" | "blue" | "red" | "equals"; action: () => void; wide?: boolean; id: string };
 
@@ -8,21 +20,35 @@ export function Calculator() {
   const [history, setHistory] = useState<C.HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [pressed, setPressed] = useState<string | null>(null);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    loadSoundPref();
+    setMuted(isMuted());
+  }, []);
 
   const apply = (fn: (s: C.CalcState) => C.CalcState) => setState((s) => fn(s));
   const doEquals = useCallback(() => {
     const { state: next, entry } = C.equals(state);
     setState(next);
     if (entry) setHistory((h) => [entry, ...h].slice(0, 20));
+    if (next.error && !state.error) sfxError();
+    else if (entry) sfxEquals();
   }, [state]);
 
-  const op = (o: C.Operator) => () => apply((s) => C.chooseOperator(s, o));
-  const dig = (d: string) => () => apply((s) => C.inputDigit(s, d));
+  const op = (o: C.Operator) => () => {
+    sfxOperator();
+    apply((s) => C.chooseOperator(s, o));
+  };
+  const dig = (d: string) => () => {
+    sfxKey();
+    apply((s) => C.inputDigit(s, d));
+  };
 
   const keys: Key[] = [
-    { id: "AC", label: "AC", aria: "Clear all", kind: "red", action: () => setState(C.clearAll()) },
-    { id: "BS", label: "⌫", aria: "Backspace", kind: "blue", action: () => apply(C.backspace) },
-    { id: "%", label: "%", aria: "Percent", kind: "blue", action: () => apply(C.percent) },
+    { id: "AC", label: "AC", aria: "Clear all", kind: "red", action: () => { sfxClear(); setState(C.clearAll()); } },
+    { id: "BS", label: "⌫", aria: "Backspace", kind: "blue", action: () => { sfxBackspace(); apply(C.backspace); } },
+    { id: "%", label: "%", aria: "Percent", kind: "blue", action: () => { sfxToggle(); apply(C.percent); } },
     { id: "÷", label: "÷", aria: "Divide", kind: "red", action: op("÷") },
     ...["7", "8", "9"].map((d) => ({ id: d, label: d, aria: d, kind: "digit" as const, action: dig(d) })),
     { id: "×", label: "×", aria: "Multiply", kind: "red", action: op("×") },
@@ -30,9 +56,9 @@ export function Calculator() {
     { id: "-", label: "−", aria: "Subtract", kind: "red", action: op("-") },
     ...["1", "2", "3"].map((d) => ({ id: d, label: d, aria: d, kind: "digit" as const, action: dig(d) })),
     { id: "+", label: "+", aria: "Add", kind: "red", action: op("+") },
-    { id: "±", label: "±", aria: "Toggle sign", kind: "blue", action: () => apply(C.toggleSign) },
+    { id: "±", label: "±", aria: "Toggle sign", kind: "blue", action: () => { sfxToggle(); apply(C.toggleSign); } },
     { id: "0", label: "0", aria: "0", kind: "digit", action: dig("0") },
-    { id: ".", label: ".", aria: "Decimal point", kind: "digit", action: () => apply(C.inputDecimal) },
+    { id: ".", label: ".", aria: "Decimal point", kind: "digit", action: () => { sfxKey(); apply(C.inputDecimal); } },
     { id: "=", label: "=", aria: "Equals", kind: "equals", action: doEquals },
   ];
 
@@ -88,18 +114,24 @@ export function Calculator() {
           ))}
         </div>
         <div className="mt-6 flex items-center justify-between gap-2">
-          <button type="button" aria-expanded={showHistory} aria-controls="history" onClick={() => setShowHistory((v) => !v)}
+          <button type="button" aria-expanded={showHistory} aria-controls="history"
+            onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
             className="comic-btn btn-blue px-4 py-1.5 text-lg">
             {showHistory ? "Hide history" : "Show history"} ({history.length})
           </button>
-          <span className="font-mono text-xs text-muted-foreground hidden sm:block">Keyboard ready</span>
+          <button type="button" aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
+            aria-pressed={!muted} onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
+            className="comic-btn btn-blue px-3 py-1.5 text-lg" title={muted ? "Sound off" : "Sound on"}>
+            {muted ? "🔇 SFX OFF" : "🔊 SFX ON"}
+          </button>
         </div>
+        <p className="mt-2 text-center font-mono text-xs text-muted-foreground hidden sm:block">Keyboard ready</p>
       </section>
 
       <aside id="history" hidden={!showHistory} className="panel mx-auto w-full max-w-md -rotate-1 rounded-xl p-5 lg:mt-8">
         <div className="mb-3 flex items-center justify-between border-b-4 border-ink pb-2">
           <h2 className="font-comic text-3xl text-hero-blue">Case Files</h2>
-          <button type="button" disabled={!history.length} onClick={() => setHistory([])}
+          <button type="button" disabled={!history.length} onClick={() => { sfxToggle(); setHistory([]); }}
             className="comic-btn btn-red px-3 py-1 text-base disabled:opacity-50">Clear</button>
         </div>
         {history.length === 0 ? (
@@ -108,7 +140,7 @@ export function Calculator() {
           <ul className="max-h-96 space-y-2 overflow-auto">
             {history.map((h, i) => (
               <li key={i}>
-                <button type="button" onClick={() => setState({ ...C.initialState, display: h.result, waiting: true })}
+                <button type="button" onClick={() => { sfxKey(); setState({ ...C.initialState, display: h.result, waiting: true }); }}
                   className="w-full rounded border-2 border-ink bg-paper px-3 py-2 text-right font-mono hover:bg-paper-dark focus-visible:outline-4 focus-visible:outline-hero-blue">
                   <span className="block text-xs text-muted-foreground">{h.expression} =</span>
                   <span className="text-lg font-bold">{h.result}</span>
