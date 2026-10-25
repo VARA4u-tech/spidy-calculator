@@ -124,8 +124,8 @@ export function Calculator() {
     { id: "+", label: "+", aria: "Add", kind: "red", action: op("+") },
     {
       id: "sci_mode",
-      label: isScientific ? "123 BASIC" : "⚡ SCI-MODE",
-      aria: isScientific ? "Switch to basic mode" : "Switch to scientific mode",
+      label: isScientific ? "123" : "SCI-MODE",
+      aria: isScientific ? "Switch to standard number keypad" : "Switch to scientific calculator mode",
       kind: "sci",
       action: () => {
         sfxToggle();
@@ -352,7 +352,7 @@ export function Calculator() {
                   onClick={k.action}
                   className={`comic-btn ${cls[k.kind]} ${
                     k.id === "sci_mode"
-                      ? "text-[11px] min-[400px]:text-xs sm:text-sm font-comic font-black tracking-wider text-ink"
+                      ? "whitespace-nowrap px-1 text-sm min-[400px]:text-base sm:text-lg font-comic tracking-wide leading-none"
                       : /^[0-9.]$|AC/.test(k.id)
                       ? "text-lg min-[400px]:text-xl sm:text-2xl"
                       : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
@@ -375,7 +375,7 @@ export function Calculator() {
                 onClick={k.action}
                 className={`comic-btn ${cls[k.kind]} ${
                   k.id === "sci_mode"
-                    ? "text-xs min-[400px]:text-sm sm:text-base font-comic font-black tracking-wider text-ink"
+                    ? "whitespace-nowrap px-1 text-base min-[400px]:text-lg sm:text-xl font-comic tracking-wide leading-none"
                     : /^[0-9.]$|AC/.test(k.id)
                     ? "text-xl min-[400px]:text-2xl sm:text-3xl"
                     : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"

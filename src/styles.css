@@ -136,7 +136,16 @@
   --face: var(--mustard);
   --wall: var(--mustard-dark);
   --label: var(--ink);
-  box-shadow: 0 6px 0 0 var(--wall), 0 6px 0 3px var(--ink), 0 0 12px 2px color-mix(in oklab, var(--mustard) 75%, transparent) !important;
+  color: var(--ink) !important;
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 0 0 var(--wall), 0 6px 0 3px var(--ink), 0 0 14px 2px color-mix(in oklab, var(--mustard) 85%, transparent) !important;
+  &:hover {
+    box-shadow: 0 8px 0 0 var(--wall), 0 8px 0 3px var(--ink), 0 0 18px 4px color-mix(in oklab, var(--mustard) 95%, transparent) !important;
+  }
+  &:active, &[data-pressed="true"] {
+    box-shadow: 0 1px 0 0 var(--wall), 0 1px 0 3px var(--ink), 0 0 8px 1px color-mix(in oklab, var(--mustard) 95%, transparent) !important;
+  }
 }
 
 @utility print-shadow-text {
