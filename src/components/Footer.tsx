@@ -14,82 +14,27 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative mt-20 w-full overflow-hidden border-t-4 border-ink bg-[#be2629] text-paper min-h-[580px] sm:min-h-[720px] md:min-h-[860px] flex flex-col justify-between select-none">
-      {/* ============================================================== */}
-      {/* FULL-SECTION EXPANDED IMAGE WITH PROGRESSIVE DEPTH BLUR        */}
-      {/* Top half is softly blurred; Bottom half is 100% razor sharp!  */}
-      {/* ============================================================== */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        {/* 1. Base Image - Expands edge-to-edge across the entire section, 100% sharp */}
-        <img
-          src="/footer-image.jpg"
-          alt="Spider-Man: Brand New Day - Comic art"
-          className="h-full w-full object-cover object-top sm:object-center select-none"
-          loading="lazy"
-          draggable={false}
-        />
+    <footer className="relative mt-20 w-full overflow-hidden border-t-4 border-ink bg-[#be2629] text-paper select-none">
+      {/* Decorative comic halftone pattern over red background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-25"
+        style={{
+          backgroundImage: "radial-gradient(#000000 1.5px, transparent 1.5px)",
+          backgroundSize: "12px 12px",
+        }}
+      />
 
-        {/* 2. Top-Half Progressive Blur Overlay (first half blurred, second half clear) */}
-        <div
-          aria-hidden="true"
-          className={`absolute inset-0 transition-opacity duration-500 ${
-            forceClear ? "opacity-0" : "opacity-100"
-          }`}
-        >
-          {/* Layer A: Hardware-accelerated blurred image with vertical alpha gradient mask */}
-          <img
-            src="/footer-image.jpg"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover object-top sm:object-center select-none blur-[12px] sm:blur-[18px] md:blur-[22px] scale-[1.03]"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.4) 42%, rgba(0,0,0,0) 54%)",
-              maskImage:
-                "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.4) 42%, rgba(0,0,0,0) 54%)",
-            }}
-            draggable={false}
-          />
+      {/* Decorative corner spider webs */}
+      <Web className="pointer-events-none absolute -top-10 -left-10 h-48 w-48 text-ink/25 sm:h-64 sm:w-64" />
+      <Web className="pointer-events-none absolute -bottom-10 -right-10 h-52 w-52 rotate-180 text-ink/25 sm:h-72 sm:w-72" />
 
-          {/* Layer B: Optical backdrop-filter for smooth diffusion */}
-          <div
-            className="absolute inset-0 backdrop-blur-[8px] sm:backdrop-blur-[12px]"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 24%, rgba(0,0,0,0) 48%)",
-              maskImage:
-                "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 24%, rgba(0,0,0,0) 48%)",
-            }}
-          />
-        </div>
-
-        {/* Top atmospheric fade from site background */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-32 sm:h-44 bg-gradient-to-b from-ink via-ink/65 to-transparent pointer-events-none"
-        />
-
-        {/* Bottom atmospheric shadow for footer readability */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-44 sm:h-56 bg-gradient-to-t from-ink via-ink/75 to-transparent pointer-events-none"
-        />
-
-        {/* Decorative corner webs */}
-        <Web className="absolute -top-8 -left-8 h-44 w-44 text-paper/20 sm:h-64 sm:w-64" />
-        <Web className="absolute -bottom-8 -right-8 h-48 w-48 rotate-180 text-paper/20 sm:h-72 sm:w-72" />
-      </div>
-
-      {/* ============================================================== */}
-      {/* SECTION TOP HEADER & CONTROLS (Over the blurred top region)   */}
-      {/* ============================================================== */}
-      <div className="relative z-10 w-full">
-        {/* Comic Masthead Strip */}
-        <div className="border-b-4 border-ink bg-hero-red/90 backdrop-blur-sm py-2 px-4 flex flex-wrap items-center justify-between gap-2 shadow-md">
+      {/* Top comic issue strip */}
+      <div className="relative z-10 border-b-4 border-ink bg-hero-red py-2 px-4 shadow-md">
+        <div className="mx-auto max-w-6xl flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="relative flex h-6 w-6 items-center justify-center">
-              <Starburst
-                className="animate-wobble absolute -inset-1 opacity-90"
-              />
+              <Starburst className="animate-wobble absolute -inset-1 opacity-90" />
               <img
                 src="/logo.png"
                 alt="Spider mask"
@@ -97,7 +42,7 @@ export function Footer() {
               />
             </div>
             <p className="font-mono text-[11px] sm:text-xs font-bold tracking-[0.22em] text-paper uppercase">
-              SPIDER-MAN: BRAND NEW DAY · ISSUE #1 ARCHIVE FOOTER
+              SPIDER-MAN: BRAND NEW DAY · COMPLETE ARCHIVE POSTER
             </p>
           </div>
 
@@ -113,35 +58,155 @@ export function Footer() {
             <span>{forceClear ? "↺ RESTORE BLUR" : "👁 FOCUS ALL"}</span>
           </button>
         </div>
+      </div>
 
-        {/* Visual blur indicators */}
-        <div className="mx-auto max-w-6xl px-4 pt-4 sm:pt-6 flex justify-between items-start pointer-events-none">
-          <span className="rounded border-2 border-ink bg-mustard/95 px-3 py-1 font-comic text-xs tracking-wider text-ink shadow-[3px_3px_0_0_#0f172a]">
+      {/* =================================================================== */}
+      {/* MAIN SHOWCASE: Centered Uncropped 3:4 Poster + Comic Wings          */}
+      {/* 100% of the image is shown from top "Brand New Day" to bottom "THWIP" */}
+      {/* =================================================================== */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:py-12 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
+        {/* Left Comic Wing (Desktop Widescreen) */}
+        <aside className="hidden lg:flex flex-col gap-6 shrink-0 w-60">
+          {/* Vintage Comic Corner Box */}
+          <div className="border-4 border-ink bg-paper text-ink p-4 rounded-xl shadow-[6px_6px_0_0_#0f172a] -rotate-2">
+            <div className="flex items-center justify-between border-b-2 border-ink pb-2">
+              <span className="font-comic text-xl text-hero-red">MARVEL</span>
+              <span className="font-mono text-xs font-bold bg-mustard px-2 py-0.5 rounded border border-ink">
+                75¢
+              </span>
+            </div>
+            <div className="my-3 flex items-center justify-center">
+              <div className="relative flex h-16 w-16 items-center justify-center">
+                <Starburst className="animate-wobble absolute -inset-2 opacity-95" />
+                <img
+                  src="/logo.png"
+                  alt="Spider logo"
+                  className="relative z-10 h-12 w-12 object-contain drop-shadow-[2px_2px_0_rgba(15,23,42,0.9)]"
+                />
+              </div>
+            </div>
+            <p className="font-comic text-center text-sm tracking-wide text-ink">
+              WEB-SLINGER <span className="text-hero-red">CALCULATOR</span>
+            </p>
+            <div className="mt-2 pt-2 border-t border-ink/20 text-center font-mono text-[10px] text-ink/70">
+              ISSUE #1 · COLLECTOR EDITION
+            </div>
+          </div>
+
+          {/* Comics Code Homage Stamp */}
+          <div className="border-3 border-ink bg-paper/95 p-3 rounded-lg shadow-[4px_4px_0_0_#0f172a] rotate-1 text-center font-mono text-[11px] text-ink">
+            <div className="border border-ink p-1.5 rounded">
+              <p className="font-bold text-hero-red tracking-wider">APPROVED BY THE</p>
+              <p className="font-comic text-base leading-tight">COMICS CODE</p>
+              <p className="font-bold text-[9px] tracking-widest text-ink/60">★ AUTHORITY ★</p>
+            </div>
+          </div>
+        </aside>
+
+        {/* Center: The Complete Uncropped Poster (Natural 3:4 Aspect Ratio) */}
+        <div className="relative mx-auto w-full max-w-[460px] sm:max-w-[540px] md:max-w-[600px] aspect-[3/4] rounded-2xl overflow-hidden border-4 border-ink shadow-[10px_10px_0_0_#0f172a] sm:shadow-[14px_14px_0_0_#0f172a] bg-[#be2629]">
+          {/* 1. Base Image - 100% UNTOUCHED, UN-CROPPED, FULLY VISIBLE */}
+          <img
+            src="/footer-image.jpg"
+            alt="Spider-Man: Brand New Day - Comic art featuring Spider-Man in action"
+            className="h-full w-full object-cover object-top select-none pointer-events-none"
+            loading="lazy"
+            draggable={false}
+          />
+
+          {/* 2. Top-Half Progressive Blur Overlay (first half blurred, second half clear) */}
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
+              forceClear ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            {/* Blurred image layer with gradient alpha mask */}
+            <img
+              src="/footer-image.jpg"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-top select-none blur-[10px] sm:blur-[14px] scale-[1.03]"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 20%, rgba(0,0,0,0.3) 42%, rgba(0,0,0,0) 54%)",
+                maskImage:
+                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 20%, rgba(0,0,0,0.3) 42%, rgba(0,0,0,0) 54%)",
+              }}
+              draggable={false}
+            />
+
+            {/* Secondary smooth optical blur */}
+            <div
+              className="absolute inset-0 backdrop-blur-[6px]"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 24%, rgba(0,0,0,0) 48%)",
+                maskImage:
+                  "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 24%, rgba(0,0,0,0) 48%)",
+              }}
+            />
+
+            {/* Subtle top vignette */}
+            <div
+              className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-ink/30 to-transparent"
+              style={{
+                WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
+                maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
+              }}
+            />
+          </div>
+
+          {/* Visual Indicators for Progressive Depth */}
+          <div className="pointer-events-none absolute top-3 left-3 rounded border-2 border-ink bg-mustard/95 px-2.5 py-1 font-comic text-[11px] sm:text-xs tracking-wider text-ink shadow-[2px_2px_0_0_#0f172a]">
             TOP: SOFT BLUR FOCUS
-          </span>
-          <span className="hidden sm:inline-block rounded border-2 border-ink bg-navy/90 backdrop-blur-sm px-3 py-1 font-mono text-[11px] text-paper/80 shadow-[3px_3px_0_0_#0f172a]">
-            SCROLL TO SHARPEN ↓
-          </span>
-        </div>
-      </div>
+          </div>
 
-      {/* ============================================================== */}
-      {/* SECTION CENTER: Unobstructed view of Spider-Man & Comic Art    */}
-      {/* ============================================================== */}
-      <div className="relative z-10 flex-1 flex flex-col justify-end px-4 pb-6 sm:pb-8 pointer-events-none">
-        <div className="mx-auto max-w-6xl w-full flex justify-end">
-          <span className="rounded border-2 border-ink bg-paper px-3 py-1.5 font-comic text-xs sm:text-sm tracking-wider text-hero-red shadow-[4px_4px_0_0_#0f172a]">
+          <div className="pointer-events-none absolute bottom-3 right-3 rounded border-2 border-ink bg-paper px-3 py-1 font-comic text-xs sm:text-sm tracking-wider text-hero-red shadow-[3px_3px_0_0_#0f172a]">
             BOTTOM: 100% SHARP THWIP!
-          </span>
+          </div>
         </div>
+
+        {/* Right Comic Wing (Desktop Widescreen) */}
+        <aside className="hidden lg:flex flex-col gap-6 shrink-0 w-60">
+          {/* Action Speech Box */}
+          <div className="border-4 border-ink bg-navy text-paper p-4 rounded-xl shadow-[6px_6px_0_0_#0f172a] rotate-2">
+            <div className="flex items-center gap-2">
+              <span className="font-comic text-lg text-mustard">MEANWHILE...</span>
+            </div>
+            <h4 className="mt-1 font-comic text-2xl text-paper leading-tight">
+              SPIDER-SENSE <span className="text-hero-red">TINGLING!</span>
+            </h4>
+            <p className="mt-2 font-mono text-xs text-paper/80 leading-relaxed">
+              Every math hero needs quick reflexes. Tap below to launch your calculator!
+            </p>
+            <Link
+              to="/calculator"
+              className="comic-btn btn-equals mt-4 block text-center py-2.5 text-base sm:text-lg"
+            >
+              OPEN CALC ⚡
+            </Link>
+          </div>
+
+          {/* Fast Scroll to Top Card */}
+          <div className="border-3 border-ink bg-paper text-ink p-3 rounded-lg shadow-[4px_4px_0_0_#0f172a] -rotate-1 text-center">
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="comic-btn btn-blue w-full py-2 text-sm flex items-center justify-center gap-1.5"
+            >
+              <span>▲</span>
+              <span>SWING TO TOP</span>
+            </button>
+          </div>
+        </aside>
       </div>
 
-      {/* ============================================================== */}
-      {/* SECTION BOTTOM: Navigation, Back-to-Top, and Comic Credits     */}
-      {/* ============================================================== */}
-      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/90 backdrop-blur-md px-4 py-6 sm:py-8">
+      {/* =================================================================== */}
+      {/* BOTTOM FOOTER BAR: Clean navigation & credits below the artwork     */}
+      {/* =================================================================== */}
+      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-4 py-6 sm:py-8">
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6">
-          {/* Brand Logo with moving Starburst background & Narrative stamp */}
+          {/* Brand Logo with moving Starburst background */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
             <Link to="/" className="group block shrink-0" aria-label="Web-Slinger Calculator home">
               <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center">
