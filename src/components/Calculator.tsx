@@ -1,5 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import * as C from "@/lib/calculator";
+import {
+  loadSoundPref,
+  isMuted,
+  toggleMuted,
+  sfxKey,
+  sfxBackspace,
+  sfxOperator,
+  sfxClear,
+  sfxToggle,
+  sfxEquals,
+  sfxError,
+} from "@/lib/sounds";
 
 type Key = { label: string; aria: string; kind: "digit" | "blue" | "red" | "equals"; action: () => void; wide?: boolean; id: string };
 
@@ -8,16 +20,30 @@ export function Calculator() {
   const [history, setHistory] = useState<C.HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [pressed, setPressed] = useState<string | null>(null);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    loadSoundPref();
+    setMuted(isMuted());
+  }, []);
 
   const apply = (fn: (s: C.CalcState) => C.CalcState) => setState((s) => fn(s));
   const doEquals = useCallback(() => {
     const { state: next, entry } = C.equals(state);
     setState(next);
     if (entry) setHistory((h) => [entry, ...h].slice(0, 20));
+    if (next.error && !state.error) sfxError();
+    else if (entry) sfxEquals();
   }, [state]);
 
-  const op = (o: C.Operator) => () => apply((s) => C.chooseOperator(s, o));
-  const dig = (d: string) => () => apply((s) => C.inputDigit(s, d));
+  const op = (o: C.Operator) => () => {
+    sfxOperator();
+    apply((s) => C.chooseOperator(s, o));
+  };
+  const dig = (d: string) => () => {
+    sfxKey();
+    apply((s) => C.inputDigit(s, d));
+  };
 
   const keys: Key[] = [
     { id: "AC", label: "AC", aria: "Clear all", kind: "red", action: () => setState(C.clearAll()) },
