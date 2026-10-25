@@ -23,9 +23,9 @@ export function Footer() {
         }}
       />
 
-      {/* Decorative corner spider webs */}
-      <Web className="pointer-events-none absolute -top-10 -left-10 h-48 w-48 text-ink/25 sm:h-64 sm:w-64" />
-      <Web className="pointer-events-none absolute -bottom-10 -right-10 h-52 w-52 rotate-180 text-ink/25 sm:h-72 sm:w-72" />
+      {/* Decorative corner spider webs (optimized for tablets and desktop) */}
+      <Web className="pointer-events-none absolute -top-10 -left-10 h-48 w-48 text-ink/25 sm:h-64 sm:w-64 hidden sm:block will-change-transform" />
+      <Web className="pointer-events-none absolute -bottom-10 -right-10 h-52 w-52 rotate-180 text-ink/25 sm:h-72 sm:w-72 hidden sm:block will-change-transform" />
 
       {/* Top comic issue strip */}
       <div className="relative z-10 border-b-4 border-ink bg-hero-red py-2 px-4 shadow-md">
@@ -100,6 +100,7 @@ export function Footer() {
             alt="Spider-Man: Brand New Day - Comic art featuring Spider-Man in action"
             className="h-full w-full object-cover object-top select-none pointer-events-none"
             loading="lazy"
+            decoding="async"
             draggable={false}
           />
         </div>

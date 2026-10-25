@@ -53,22 +53,33 @@ function Home() {
   const webY2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
 
   useGSAP(() => {
+    // Prevent address bar resize jitter on mobile devices (e.g. Android Chrome on Samsung M11)
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       // Infinite comic ticker
-      gsap.to(marqueeRef.current, { xPercent: -50, ease: "none", duration: 22, repeat: -1 });
-      // Pinned, scrubbed how-it-works sequence
+      gsap.to(marqueeRef.current, { xPercent: -50, ease: "none", duration: 24, repeat: -1 });
+
+      // Pinned, scrubbed how-it-works sequence with hardware acceleration
       const panels = gsap.utils.toArray<HTMLElement>(".step-panel");
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: stepsRef.current, start: "top top", end: "+=200%", scrub: 1, pin: true, anticipatePin: 1 },
+        scrollTrigger: {
+          trigger: stepsRef.current,
+          start: "top top",
+          end: "+=180%",
+          scrub: 0.8,
+          pin: true,
+          anticipatePin: 1,
+        },
       });
       panels.forEach((p, i) => {
         if (i === 0) return;
-        tl.fromTo(p, { autoAlpha: 0, y: 70, rotate: i % 2 ? 4 : -4 }, { autoAlpha: 1, y: 0, rotate: 0, duration: 1 }, i);
+        tl.fromTo(p, { autoAlpha: 0, y: 60, rotate: i % 2 ? 3 : -3 }, { autoAlpha: 1, y: 0, rotate: 0, duration: 1 }, i);
       });
       // Parallax halftone blobs behind the stats band
       gsap.utils.toArray<HTMLElement>(".parallax-blob").forEach((b, i) => {
-        gsap.to(b, { yPercent: i % 2 ? 28 : -28, ease: "none", scrollTrigger: { trigger: statsRef.current, start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.to(b, { yPercent: i % 2 ? 24 : -24, ease: "none", scrollTrigger: { trigger: statsRef.current, start: "top bottom", end: "bottom top", scrub: true } });
       });
     });
     mm.add("(prefers-reduced-motion: reduce)", () => {
@@ -80,12 +91,12 @@ function Home() {
     <MotionConfig reducedMotion="user">
       <main className="relative overflow-x-clip">
         {/* Comic progress bar (Framer Motion scroll effect) */}
-        <motion.div aria-hidden className="fixed inset-x-0 top-0 z-50 h-1.5 origin-left bg-mustard" style={{ scaleX: scrollYProgress }} />
+        <motion.div aria-hidden className="fixed inset-x-0 top-0 z-50 h-1.5 origin-left bg-mustard will-change-transform transform-gpu" style={{ scaleX: scrollYProgress }} />
 
-        <motion.span aria-hidden style={{ y: webY1 }} className="pointer-events-none fixed top-10 left-0 z-0">
+        <motion.span aria-hidden style={{ y: webY1 }} className="pointer-events-none fixed top-10 left-0 z-0 hidden sm:block will-change-transform transform-gpu">
           <Web className="h-56 w-56 text-paper/20 sm:h-80 sm:w-80" />
         </motion.span>
-        <motion.span aria-hidden style={{ y: webY2 }} className="pointer-events-none fixed right-0 bottom-0 z-0">
+        <motion.span aria-hidden style={{ y: webY2 }} className="pointer-events-none fixed right-0 bottom-0 z-0 hidden sm:block will-change-transform transform-gpu">
           <Web className="h-56 w-56 rotate-180 text-paper/15 sm:h-80 sm:w-80" />
         </motion.span>
 

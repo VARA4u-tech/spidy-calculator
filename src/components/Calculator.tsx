@@ -484,8 +484,11 @@ export function Calculator() {
           </button>
         </div>
 
-        <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70">
+        <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70 hidden sm:block">
           ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
+        </p>
+        <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
+          💡 Tap any key · Switch to SCI for advanced functions
         </p>
       </section>
 
