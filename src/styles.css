@@ -332,3 +332,52 @@
   font-family: var(--font-body) !important;
   font-weight: 700;
 }
+
+/* ============================================================
+   SCI-MODE MOBILE LANDSCAPE ROTATION
+   On small screens (<640px) in portrait, rotate the entire
+   calculator 90° counter-clockwise so the wide sci keypad
+   fills the viewport naturally — like a real scientific calc.
+   The wrapper must be taller than the viewport so the rotated
+   inner div (which becomes "wide") fits without clipping.
+   ============================================================ */
+@media (max-width: 639px) and (orientation: portrait) {
+  .calc-sci-mobile-wrap {
+    /* Take up full viewport width; height = viewport width so the
+       rotated child (which is viewport-height wide) has room */
+    width: 100vw;
+    height: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .calc-sci-mobile-wrap > .grid {
+    /* Rotate the inner grid 90° clockwise, then size it to fill
+       the viewport. After rotation the "width" becomes the screen
+       height and vice versa, so swap them. */
+    transform: rotate(90deg);
+    transform-origin: center center;
+    width: 100svh;   /* after rotation, fills across the screen */
+    max-width: 100svh;
+    height: 100vw;   /* after rotation, fills down the screen */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
+  }
+}
+
+/* When device is already in landscape, no rotation needed */
+@media (max-width: 639px) and (orientation: landscape) {
+  .calc-sci-mobile-wrap {
+    width: 100%;
+  }
+  .calc-sci-mobile-wrap > .grid {
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+}

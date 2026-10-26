@@ -361,6 +361,15 @@ export function Calculator() {
           : "text-4xl sm:text-5xl";
 
   return (
+    /* Mobile landscape wrapper: when sci mode is on, rotate the whole calculator
+       90° on small screens so the wide sci keypad fills the viewport comfortably */
+    <div
+      className={`${
+        isScientific
+          ? "calc-sci-mobile-wrap"
+          : ""
+      } w-full flex justify-center`}
+    >
     <div
       className={`grid w-full gap-4 md:gap-6 ${
         isScientific
@@ -626,7 +635,9 @@ export function Calculator() {
           ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
         </p>
         <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
-          💡 Tap any key · Switch to SCI for advanced functions
+          {isScientific
+            ? "📐 Rotated to landscape · All sci keys accessible"
+            : "💡 Tap any key · Hit ⚡ SCI for advanced functions"}
         </p>
       </section>
 
@@ -683,6 +694,7 @@ export function Calculator() {
           </ul>
         )}
       </aside>
+    </div>
     </div>
   );
 }

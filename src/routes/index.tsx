@@ -173,7 +173,7 @@ function Home() {
         </motion.span>
 
         {/* Hero */}
-        <section className="relative flex min-h-[85vh] sm:min-h-screen flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
+        <section className="relative flex min-h-[85vh] sm:min-h-screen flex-col items-center justify-start pt-20 pb-16 sm:justify-center sm:pt-24 sm:pb-24 px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: -16, rotate: -4 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
