@@ -334,37 +334,114 @@
 }
 
 /* ============================================================
-   SCI-MODE FULL-SCREEN FIT LAYOUT
-   When Scientific Mode is active, the panel fills the screen
-   height and all 45 keys (sci 5×5 + basic 4×5) sit side-by-side
-   in a 9-column horizontal layout — zero scrolling, zero clipping.
+   SCIENTIFIC MODE: FULL-SCREEN HORIZONTAL LAYOUT
+   The entire calculator layout is arranged horizontally:
+   - Left side: Display console & controls
+   - Right side: All 9 columns of buttons in 5 rows
+   - Fits 100% within the screen without scrolling or clipping
+   - Automatically turns horizontally (landscape) on mobile portrait
    ============================================================ */
 
-/* Panel height: full viewport minus the navbar + page padding */
-.sci-fullscreen-panel {
-  height: calc(100dvh - 8.5rem);
-  max-height: 720px;
+.sci-mode-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* On tablets and larger, let the panel size naturally */
-@media (min-width: 640px) {
-  .sci-fullscreen-panel {
-    height: auto;
-    max-height: none;
+.sci-panel {
+  width: 100%;
+  max-width: 76rem;
+  height: calc(100dvh - 5.5rem);
+  max-height: 820px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Mobile Portrait (<640px in portrait):
+   Turn the entire calculator horizontally into full-screen landscape */
+@media (max-width: 639px) and (orientation: portrait) {
+  .sci-mode-wrapper.sci-mobile-rotated {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 100dvh !important;
+    height: 100dvw !important;
+    transform: translate(-50%, -50%) rotate(90deg) !important;
+    transform-origin: center center !important;
+    z-index: 100 !important;
+    padding: 0.35rem !important;
+    background-color: var(--ink) !important;
+    overflow: hidden !important;
+  }
+
+  .sci-mode-wrapper.sci-mobile-rotated .sci-panel {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    max-width: none !important;
+    border-radius: 0.5rem !important;
+  }
+
+  /* When mobile user toggles to vertical portrait view */
+  .sci-mode-wrapper.sci-mobile-portrait {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 100 !important;
+    padding: 0.35rem !important;
+    background-color: var(--ink) !important;
+    overflow: hidden !important;
+  }
+
+  .sci-mode-wrapper.sci-mobile-portrait .sci-panel {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
   }
 }
 
-/* Key font sizes: responsive to viewport width so all 9 cols fit */
-.sci-key-text {
-  font-size: clamp(8px, 2.2vw, 14px);
+/* Mobile / Tablet held in physical landscape orientation */
+@media (max-width: 899px) and (orientation: landscape) {
+  .sci-mode-wrapper {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 100 !important;
+    padding: 0.25rem 0.5rem !important;
+    background-color: var(--ink) !important;
+    transform: none !important;
+  }
+
+  .sci-panel {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    max-width: none !important;
+  }
 }
 
-@media (min-width: 400px) {
-  .sci-key-text { font-size: clamp(9px, 2.4vw, 14px); }
+/* Responsive font sizes for sci keys so text never wraps or clips */
+.sci-btn-text {
+  font-size: clamp(9px, 1.8vw, 15px);
+  line-height: 1;
 }
-@media (min-width: 640px) {
-  .sci-key-text { font-size: 0.875rem; } /* sm:text-sm */
+
+@media (max-width: 639px) and (orientation: portrait) {
+  .sci-mobile-rotated .sci-btn-text {
+    font-size: clamp(10px, 2.3vh, 16px);
+  }
+  .sci-mobile-portrait .sci-btn-text {
+    font-size: clamp(8px, 2.3vw, 12px);
+  }
 }
-@media (min-width: 768px) {
-  .sci-key-text { font-size: 1rem; }
+
+/* Make comic buttons in sci mode slightly tighter in padding so they fit perfectly */
+.sci-panel .comic-btn {
+  padding: 0 !important;
 }

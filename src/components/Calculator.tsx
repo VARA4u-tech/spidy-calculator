@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import * as C from "@/lib/calculator";
 import {
   loadSoundPref,
@@ -49,6 +50,7 @@ export function Calculator() {
   const [muted, setMuted] = useState(true);
   const [copied, setCopied] = useState(false);
   const [isScientific, setIsScientific] = useState(false);
+  const [mobileRotated, setMobileRotated] = useState(true);
 
   useEffect(() => {
     loadSoundPref();

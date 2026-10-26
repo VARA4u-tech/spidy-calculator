@@ -29,7 +29,7 @@ function CalculatorPage() {
       <Web className="pointer-events-none absolute -top-1 -left-1 h-20 w-20 text-paper/20 min-[400px]:h-28 min-[400px]:w-28 sm:top-0 sm:left-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
       <Web className="pointer-events-none absolute -right-1 -bottom-1 h-20 w-20 rotate-180 text-paper/15 min-[400px]:h-28 min-[400px]:w-28 sm:right-0 sm:bottom-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
 
-      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center">
         {/* Compact comic top header: back link + punchy headline */}
         <header className="relative mb-2 sm:mb-3 flex items-center justify-between gap-3 px-1">
           <Link
