@@ -49,7 +49,6 @@ export function Calculator() {
   const [muted, setMuted] = useState(true);
   const [copied, setCopied] = useState(false);
   const [isScientific, setIsScientific] = useState(false);
-  const [mobileTab, setMobileTab] = useState<"basic" | "sci">("basic");
 
   useEffect(() => {
     loadSoundPref();
@@ -361,26 +360,18 @@ export function Calculator() {
           : "text-4xl sm:text-5xl";
 
   return (
-    /* Mobile landscape wrapper: when sci mode is on, rotate the whole calculator
-       90° on small screens so the wide sci keypad fills the viewport comfortably */
-    <div
-      className={`${
-        isScientific
-          ? "calc-sci-mobile-wrap"
-          : ""
-      } w-full flex justify-center`}
-    >
-    <div
-      className={`grid w-full gap-4 md:gap-6 ${
-        isScientific
-          ? "max-w-5xl lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]"
-          : "max-w-4xl lg:grid-cols-[minmax(0,26.5rem)_1fr]"
-      } lg:items-start lg:justify-center`}
+    <div className={`grid w-full gap-4 md:gap-6 ${
+      isScientific
+        ? "max-w-5xl lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]"
+        : "max-w-4xl lg:grid-cols-[minmax(0,26.5rem)_1fr]"
+    } lg:items-start lg:justify-center`}
     >
       <section
         aria-label="Calculator"
-        className={`panel relative mx-auto w-full rounded-xl p-3 sm:p-4.5 transition-all duration-200 ${
-          isScientific ? "max-w-3xl" : "max-w-[26.5rem]"
+        className={`panel relative mx-auto w-full rounded-xl transition-all duration-200 ${
+          isScientific
+            ? "sci-fullscreen-panel p-2 sm:p-3 max-w-full flex flex-col"
+            : "max-w-[26.5rem] p-3 sm:p-4.5"
         }`}
       >
         <span
@@ -390,9 +381,13 @@ export function Calculator() {
           {isScientific ? "SCI" : "POW"}
         </span>
 
-        {/* Display Bezel */}
-        <div className="mb-3 rounded-lg border-3 border-ink bg-ink p-2.5 sm:p-3.5 shadow-[inset_0_0_0_3px_var(--hero-blue)]">
-          <div className="mb-1.5 flex items-center justify-between gap-2 border-b border-paper/15 pb-1.5">
+        {/* Display Bezel — more compact in sci mode to save vertical room */}
+        <div className={`rounded-lg border-3 border-ink bg-ink shadow-[inset_0_0_0_3px_var(--hero-blue)] shrink-0 ${
+          isScientific ? "mb-1.5 p-1.5 sm:p-2.5" : "mb-3 p-2.5 sm:p-3.5"
+        }`}>
+          <div className={`flex items-center justify-between gap-2 border-b border-paper/15 ${
+            isScientific ? "mb-1 pb-1" : "mb-1.5 pb-1.5"
+          }`}>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
@@ -438,7 +433,9 @@ export function Calculator() {
             aria-live="polite"
             onClick={copyResult}
             title="Click to copy result"
-            className={`font-comic block cursor-pointer truncate text-right text-paper transition-opacity hover:opacity-95 active:opacity-80 animate-pop ${size}`}
+            className={`font-comic block cursor-pointer truncate text-right text-paper transition-opacity hover:opacity-95 active:opacity-80 animate-pop ${
+              isScientific ? "text-2xl sm:text-4xl" : size
+            }`}
           >
             {state.display}
           </output>
@@ -455,69 +452,114 @@ export function Calculator() {
           )}
         </div>
 
-        {/* Mobile Tab Switcher when Scientific mode is active */}
-        {isScientific && (
-          <div className="mb-2.5 flex gap-2 md:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileTab("basic")}
-              className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm transition-colors ${
-                mobileTab === "basic"
-                  ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]"
-                  : "bg-paper text-ink"
-              }`}
-            >
-              123 NUMBERS
-            </button>
-            <button
-              type="button"
-              onClick={() => setMobileTab("sci")}
-              className={`flex-1 rounded border-2 border-ink py-1 font-comic text-sm transition-colors ${
-                mobileTab === "sci"
-                  ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)]"
-                  : "bg-paper text-ink"
-              }`}
-            >
-              ƒ(x) SCI-MATH
-            </button>
-          </div>
-        )}
-
-        {/* Keypad Container */}
+        {/* ── SCI MODE: side-by-side 9-column layout, all keys visible ── */}
         {isScientific ? (
-          <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-3 sm:gap-3.5">
-            {/* Scientific Deck (5 columns x 5 rows) */}
-            <div
-              className={`grid grid-cols-5 gap-1.5 sm:gap-2 ${mobileTab === "sci" ? "block" : "hidden md:grid"}`}
-            >
-              {sciKeys.map((k) => {
-                const isStaged =
-                  state.waiting &&
-                  ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
-                return (
-                  <button
-                    key={k.id}
-                    type="button"
-                    aria-label={k.aria}
-                    title={k.aria}
-                    data-pressed={pressed === k.id || isStaged}
-                    onClick={k.action}
-                    className={`comic-btn ${cls[k.kind]} btn-symbol ${
-                      isStaged
-                        ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
-                        : ""
-                    } h-11 text-sm min-[400px]:text-base sm:h-12 sm:text-base flex items-center justify-center`}
-                  >
-                    <span className="select-none">{k.label}</span>
-                  </button>
-                );
-              })}
+          <>
+            {/* Keys: sci (5 cols) + divider + basic (4 cols), fills all remaining height */}
+            <div className="flex-1 min-h-0 flex gap-1 sm:gap-2">
+
+              {/* Scientific block — 5 columns × 5 rows */}
+              <div className="flex-[5] grid grid-cols-5 auto-rows-fr gap-0.5 sm:gap-1 min-h-0">
+                {sciKeys.map((k) => {
+                  const isStaged =
+                    state.waiting &&
+                    ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
+                  return (
+                    <button
+                      key={k.id}
+                      type="button"
+                      aria-label={k.aria}
+                      title={k.aria}
+                      data-pressed={pressed === k.id || isStaged}
+                      onClick={k.action}
+                      className={`comic-btn ${cls[k.kind]} btn-symbol h-full w-full min-h-0 ${
+                        isStaged
+                          ? "ring-2 ring-mustard ring-offset-1 ring-offset-ink brightness-110 !translate-y-[2px] !shadow-[0_1px_0_0_var(--wall),0_1px_0_2px_var(--ink)]"
+                          : ""
+                      } sci-key-text flex items-center justify-center px-0`}
+                    >
+                      <span className="select-none leading-none truncate">{k.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Visual divider */}
+              <div className="w-px shrink-0 bg-ink/30 self-stretch mx-0.5" />
+
+              {/* Basic number block — 4 columns × 5 rows */}
+              <div className="flex-[4] grid grid-cols-4 auto-rows-fr gap-0.5 sm:gap-1 min-h-0">
+                {basicKeys.map((k) => {
+                  const isStaged =
+                    state.waiting &&
+                    (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+                  return (
+                    <button
+                      key={k.id}
+                      type="button"
+                      aria-label={k.aria}
+                      title={k.aria}
+                      data-pressed={pressed === k.id || isStaged}
+                      onClick={k.action}
+                      className={`comic-btn ${cls[k.kind]} h-full w-full min-h-0 ${
+                        isStaged
+                          ? "ring-2 ring-mustard ring-offset-1 ring-offset-ink brightness-110 !translate-y-[2px] !shadow-[0_1px_0_0_var(--wall),0_1px_0_2px_var(--ink)]"
+                          : ""
+                      } ${
+                        k.id === "sci_mode"
+                          ? "font-comic sci-key-text tracking-wide leading-none"
+                          : /^[0-9.]$|AC|C/.test(k.label)
+                            ? "sci-key-text"
+                            : "btn-symbol sci-key-text"
+                      } flex items-center justify-center px-0`}
+                    >
+                      {k.id === "sci_mode" ? (
+                        <span className="flex items-center justify-center gap-0.5 font-comic select-none leading-none">
+                          <span>123</span>
+                        </span>
+                      ) : (
+                        <span className="select-none leading-none">{k.label}</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Standard Number Deck (4 columns x 5 rows) */}
-            <div
-              className={`grid grid-cols-4 gap-1.5 sm:gap-2 ${mobileTab === "basic" ? "block" : "hidden md:grid"}`}
-            >
+            {/* Compact utility strip — always visible in sci mode */}
+            <div className="shrink-0 mt-1.5 flex gap-1.5 sm:gap-2">
+              <button
+                type="button"
+                aria-expanded={showHistory}
+                aria-controls="history"
+                onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
+                className="comic-btn btn-blue flex-1 flex items-center justify-center gap-1 py-1 text-[10px] sm:text-xs"
+              >
+                <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
+                <span className="halftone-red rounded border border-ink px-1 py-0 text-[9px] sm:text-[10px] font-mono text-paper">{history.length}</span>
+              </button>
+
+              <button
+                type="button"
+                aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
+                aria-pressed={!muted}
+                onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
+                className="comic-btn btn-blue flex-1 flex items-center justify-center gap-1 py-1 text-[10px] sm:text-xs"
+                title={muted ? "Sound off" : "Sound on"}
+              >
+                <span>{muted ? "🔇" : "🔊"}</span>
+                <span>{muted ? "MUTE" : "SFX"}</span>
+              </button>
+            </div>
+
+            <p className="shrink-0 mt-1 text-center font-mono text-[9px] sm:text-[10px] text-ink/60">
+              All {sciKeys.length + basicKeys.length} keys visible · No scrolling needed
+            </p>
+          </>
+        ) : (
+          /* ── STANDARD MODE: unchanged 4-column keypad ── */
+          <>
+            <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
               {basicKeys.map((k) => {
                 const isStaged =
                   state.waiting &&
@@ -536,14 +578,14 @@ export function Calculator() {
                         : ""
                     } ${
                       k.id === "sci_mode"
-                        ? "whitespace-nowrap px-1 text-sm min-[400px]:text-base sm:text-lg font-comic tracking-wide leading-none"
+                        ? "whitespace-nowrap px-1 text-base min-[400px]:text-lg sm:text-xl font-comic tracking-wide leading-none"
                         : /^[0-9.]$|AC|C/.test(k.label)
-                          ? "text-lg min-[400px]:text-xl sm:text-2xl"
-                          : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
-                    } h-11 min-[400px]:h-12 sm:h-12 flex items-center justify-center`}
+                          ? "text-xl min-[400px]:text-2xl sm:text-3xl"
+                          : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"
+                    } h-12 min-[400px]:h-13 sm:h-13.5 flex items-center justify-center`}
                   >
                     {k.id === "sci_mode" ? (
-                      <span className="flex items-center justify-center gap-1 font-comic tracking-wider select-none leading-none">
+                      <span className="flex items-center justify-center gap-1.5 font-comic tracking-wider select-none leading-none">
                         {!isScientific && <span className="text-sm min-[400px]:text-base">⚡</span>}
                         <span>{isScientific ? "123" : "SCI"}</span>
                       </span>
@@ -554,91 +596,43 @@ export function Calculator() {
                 );
               })}
             </div>
-          </div>
-        ) : (
-          /* Standard 4-Column Keypad */
-          <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
-            {basicKeys.map((k) => {
-              const isStaged =
-                state.waiting &&
-                (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
-              return (
-                <button
-                  key={k.id}
-                  type="button"
-                  aria-label={k.aria}
-                  title={k.aria}
-                  data-pressed={pressed === k.id || isStaged}
-                  onClick={k.action}
-                  className={`comic-btn ${cls[k.kind]} ${
-                    isStaged
-                      ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
-                      : ""
-                  } ${
-                    k.id === "sci_mode"
-                      ? "whitespace-nowrap px-1 text-base min-[400px]:text-lg sm:text-xl font-comic tracking-wide leading-none"
-                      : /^[0-9.]$|AC|C/.test(k.label)
-                        ? "text-xl min-[400px]:text-2xl sm:text-3xl"
-                        : "btn-symbol text-xl min-[400px]:text-2xl sm:text-3xl"
-                  } h-12 min-[400px]:h-13 sm:h-13.5 flex items-center justify-center`}
-                >
-                  {k.id === "sci_mode" ? (
-                    <span className="flex items-center justify-center gap-1.5 font-comic tracking-wider select-none leading-none">
-                      {!isScientific && <span className="text-sm min-[400px]:text-base">⚡</span>}
-                      <span>{isScientific ? "123" : "SCI"}</span>
-                    </span>
-                  ) : (
-                    <span className="select-none">{k.label}</span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+
+            {/* Bottom Utility Actions */}
+            <div className="mt-3.5 grid grid-cols-2 gap-2.5 sm:gap-3">
+              <button
+                type="button"
+                aria-expanded={showHistory}
+                aria-controls="history"
+                onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
+                className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
+              >
+                <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
+                <span className="halftone-red rounded border border-ink px-1.5 py-0.5 text-[10px] sm:text-xs font-mono text-paper">
+                  {history.length}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
+                aria-pressed={!muted}
+                onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
+                className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
+                title={muted ? "Sound off" : "Sound on"}
+              >
+                <span>{muted ? "🔇" : "🔊"}</span>
+                <span>{muted ? "SFX OFF" : "SFX ON"}</span>
+              </button>
+            </div>
+
+            <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70 hidden sm:block">
+              ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
+            </p>
+            <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
+              💡 Tap any key · Hit ⚡ SCI for advanced functions
+            </p>
+          </>
         )}
-
-        {/* Bottom Utility Actions: Balanced 2-Column Grid */}
-        <div className="mt-3.5 grid grid-cols-2 gap-2.5 sm:gap-3">
-          <button
-            type="button"
-            aria-expanded={showHistory}
-            aria-controls="history"
-            onClick={() => {
-              sfxToggle();
-              setShowHistory((v) => !v);
-            }}
-            className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
-          >
-            <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
-            <span className="halftone-red rounded border border-ink px-1.5 py-0.5 text-[10px] sm:text-xs font-mono text-paper">
-              {history.length}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
-            aria-pressed={!muted}
-            onClick={() => {
-              const next = toggleMuted();
-              setMuted(next);
-              if (!next) sfxToggle();
-            }}
-            className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
-            title={muted ? "Sound off" : "Sound on"}
-          >
-            <span>{muted ? "🔇" : "🔊"}</span>
-            <span>{muted ? "SFX OFF" : "SFX ON"}</span>
-          </button>
-        </div>
-
-        <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70 hidden sm:block">
-          ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
-        </p>
-        <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
-          {isScientific
-            ? "📐 Rotated to landscape · All sci keys accessible"
-            : "💡 Tap any key · Hit ⚡ SCI for advanced functions"}
-        </p>
       </section>
 
       {/* Case Files Panel */}
@@ -652,10 +646,7 @@ export function Calculator() {
           <button
             type="button"
             disabled={!history.length}
-            onClick={() => {
-              sfxToggle();
-              setHistory([]);
-            }}
+            onClick={() => { sfxToggle(); setHistory([]); }}
             className="comic-btn btn-red px-2.5 py-0.5 text-xs sm:text-sm disabled:opacity-50"
           >
             Clear
@@ -694,7 +685,6 @@ export function Calculator() {
           </ul>
         )}
       </aside>
-    </div>
     </div>
   );
 }

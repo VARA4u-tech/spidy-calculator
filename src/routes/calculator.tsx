@@ -25,7 +25,7 @@ export const Route = createFileRoute("/calculator")({
 
 function CalculatorPage() {
   return (
-    <main className="relative flex min-h-screen min-h-[100dvh] flex-col justify-start overflow-x-clip p-2 pt-[max(env(safe-area-inset-top),0.5rem)] pb-[max(env(safe-area-inset-bottom),0.5rem)] sm:p-3 md:p-4 lg:h-screen lg:justify-center lg:overflow-hidden">
+    <main className="relative flex min-h-[100dvh] flex-col justify-start overflow-x-clip p-2 pt-[max(env(safe-area-inset-top),0.5rem)] pb-[max(env(safe-area-inset-bottom),0.5rem)] sm:p-3 md:p-4 lg:h-screen lg:justify-center lg:overflow-hidden">
       <Web className="pointer-events-none absolute -top-1 -left-1 h-20 w-20 text-paper/20 min-[400px]:h-28 min-[400px]:w-28 sm:top-0 sm:left-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
       <Web className="pointer-events-none absolute -right-1 -bottom-1 h-20 w-20 rotate-180 text-paper/15 min-[400px]:h-28 min-[400px]:w-28 sm:right-0 sm:bottom-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
 
