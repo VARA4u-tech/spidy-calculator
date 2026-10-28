@@ -146,57 +146,57 @@ export function Footer() {
       {/* =================================================================== */}
       {/* BOTTOM FOOTER BAR: Clean navigation & credits below the artwork */}
       {/* =================================================================== */}
-      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-3 sm:px-4 py-4 sm:py-6">
-        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-6">
+      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-3 sm:px-6 py-4 sm:py-6">
+        <div className="mx-auto max-w-6xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6">
           {/* Brand Logo with moving Starburst background */}
-          <div className="flex items-center gap-3 sm:gap-4 text-left">
+          <div className="flex items-center gap-3 sm:gap-4 text-left min-w-0 w-full lg:w-auto">
             <Link to="/" className="group block shrink-0" aria-label="SPIDY Calculator home">
-              <div className="relative flex h-11 w-11 sm:h-14 sm:w-14 items-center justify-center">
+              <div className="relative flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center">
                 <Starburst className="animate-wobble absolute -inset-2 opacity-95 transition-transform duration-200 group-hover:scale-115" />
                 <img
                   src="/logo.png"
                   alt="Spidy Calculator Logo"
-                  className="relative z-10 h-8 w-8 sm:h-10 sm:w-10 object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
+                  className="relative z-10 h-8 w-8 sm:h-9 sm:w-9 object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
                 />
               </div>
             </Link>
-            <div className="min-w-0">
-              <h3 className="font-comic text-xl sm:text-2xl md:text-3xl text-paper tracking-wide leading-tight">
+            <div className="min-w-0 flex-1">
+              <h3 className="font-comic text-lg sm:text-xl md:text-2xl text-paper tracking-wide leading-tight">
                 MEANWHILE... <span className="text-mustard">SPIDER-SENSE TINGLING!</span>
               </h3>
-              <p className="mt-0.5 font-mono text-[11px] sm:text-xs text-paper/70 truncate">
+              <p className="mt-0.5 font-mono text-[11px] sm:text-xs text-paper/70">
                 Spidy Calculator · Friendly neighborhood superpower.
               </p>
             </div>
           </div>
 
           {/* Quick links & Back to Top */}
-          <div className="flex items-center justify-between sm:justify-end gap-3 pt-3 sm:pt-0 border-t border-paper/10 sm:border-t-0">
-            <div className="flex items-center gap-2.5 sm:gap-3 font-comic text-base sm:text-lg">
+          <div className="flex flex-wrap items-center justify-between lg:justify-end gap-3 w-full lg:w-auto pt-3 lg:pt-0 border-t border-paper/10 lg:border-t-0">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 font-comic text-base sm:text-lg">
               <Link
                 to="/"
-                className="text-paper hover:text-mustard transition-colors tracking-wider"
+                className="text-paper hover:text-mustard transition-colors tracking-wider whitespace-nowrap"
               >
                 HOME
               </Link>
               <span className="text-paper/40">·</span>
               <Link
                 to="/calculator"
-                className="text-mustard hover:text-mustard/80 transition-colors tracking-wider"
+                className="text-mustard hover:text-mustard/80 transition-colors tracking-wider whitespace-nowrap"
               >
                 CALCULATOR ⚡
               </Link>
-              <span className="text-paper/40 hidden lg:inline">·</span>
+              <span className="text-paper/40 hidden sm:inline">·</span>
               <Link
                 to="/privacy"
-                className="text-paper hover:text-mustard transition-colors tracking-wider hidden lg:inline"
+                className="text-paper hover:text-mustard transition-colors tracking-wider whitespace-nowrap hidden sm:inline"
               >
                 PRIVACY
               </Link>
-              <span className="text-paper/40 hidden lg:inline">·</span>
+              <span className="text-paper/40 hidden sm:inline">·</span>
               <Link
                 to="/terms"
-                className="text-paper hover:text-mustard transition-colors tracking-wider hidden lg:inline"
+                className="text-paper hover:text-mustard transition-colors tracking-wider whitespace-nowrap hidden sm:inline"
               >
                 TERMS
               </Link>
@@ -204,7 +204,7 @@ export function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="comic-btn btn-blue px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base flex items-center gap-1.5 shrink-0"
+              className="comic-btn btn-blue px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm flex items-center gap-1.5 shrink-0 whitespace-nowrap"
               aria-label="Back to top"
             >
               <span>▲</span>
@@ -214,27 +214,29 @@ export function Footer() {
         </div>
 
         {/* Legal & Credits with Privacy Policy & Terms Links */}
-        <div className="mx-auto max-w-6xl mt-4 pt-3 border-t border-paper/10 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center font-mono text-[11px] sm:text-xs">
-          <div className="flex flex-wrap items-center justify-center gap-3 text-paper/85">
+        <div className="mx-auto max-w-6xl mt-4 pt-3.5 border-t border-paper/10 flex flex-col md:flex-row items-center justify-between gap-2.5 text-center md:text-left font-mono text-[11px] sm:text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-paper/85">
             <Link
               to="/privacy"
-              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider"
+              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider whitespace-nowrap"
             >
               PRIVACY POLICY
             </Link>
             <span className="text-paper/30">|</span>
             <Link
               to="/terms"
-              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider"
+              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider whitespace-nowrap"
             >
               TERMS &amp; CONDITIONS
             </Link>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-paper/50 text-[10px] sm:text-[11px]">
-            <p>© 2026 Spidy Calculator · Zero ads · Zero tracking</p>
-            <span className="hidden sm:inline text-paper/30">·</span>
-            <p className="text-[9px] sm:text-[10px] text-paper/40">Classic vintage comic homage</p>
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-paper/50 text-[10px] sm:text-[11px]">
+            <span className="whitespace-nowrap">© 2026 Spidy Calculator</span>
+            <span className="text-paper/30">·</span>
+            <span className="whitespace-nowrap">Zero ads · Zero tracking</span>
+            <span className="text-paper/30 hidden sm:inline">·</span>
+            <span className="whitespace-nowrap hidden sm:inline">Classic vintage comic homage</span>
           </div>
         </div>
       </div>
