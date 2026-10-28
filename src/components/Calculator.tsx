@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import * as C from "@/lib/calculator";
+import { MobileSciCalculator } from "@/components/MobileSciCalculator";
 import {
   loadSoundPref,
   isMuted,
@@ -50,7 +51,6 @@ export function Calculator() {
   const [muted, setMuted] = useState(true);
   const [copied, setCopied] = useState(false);
   const [isScientific, setIsScientific] = useState(false);
-  const [mobileRotated, setMobileRotated] = useState(true);
 
   useEffect(() => {
     loadSoundPref();
@@ -362,106 +362,131 @@ export function Calculator() {
           : "text-4xl sm:text-5xl";
 
   return (
-    <div className={`grid w-full gap-4 md:gap-6 ${
-      isScientific
-        ? "max-w-5xl lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]"
-        : "max-w-4xl lg:grid-cols-[minmax(0,26.5rem)_1fr]"
-    } lg:items-start lg:justify-center`}
-    >
-      <section
-        aria-label="Calculator"
-        className={`panel relative mx-auto w-full rounded-xl transition-all duration-200 ${
+    <>
+      {/* ── MOBILE-ONLY SCIENTIFIC VIEW (< 768px) ──
+          Separate dedicated mobile component:
+          Horizontal by default so all 45 keys have wide spacing without clipping. */}
+      {isScientific && (
+        <div className="block md:hidden">
+          <MobileSciCalculator
+            state={state}
+            setState={setState}
+            history={history}
+            setHistory={setHistory}
+            showHistory={showHistory}
+            setShowHistory={setShowHistory}
+            muted={muted}
+            setMuted={setMuted}
+            copied={copied}
+            copyResult={copyResult}
+            toggleAngle={toggleAngle}
+            onCloseSci={() => {
+              sfxToggle();
+              setIsScientific(false);
+            }}
+            sciKeys={sciKeys}
+            basicKeys={basicKeys}
+            pressed={pressed}
+            cls={cls}
+          />
+        </div>
+      )}
+
+      {/* ── DESKTOP & TABLETS VIEW (>= 768px) AND STANDARD BASIC VIEW ──
+          Completely untouched and undisturbed layout:
+          - Full page header and webs remain visible.
+          - Keypad has 5 sci columns + 4 basic columns side-by-side on desktop/tablets.
+          - Case Files panel stays on the right side on desktop. */}
+      <div
+        className={`w-full gap-4 md:gap-6 ${
           isScientific
-            ? "sci-fullscreen-panel p-2 sm:p-3 max-w-full flex flex-col"
-            : "max-w-[26.5rem] p-3 sm:p-4.5"
-        }`}
+            ? "hidden md:grid max-w-5xl lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]"
+            : "grid max-w-4xl lg:grid-cols-[minmax(0,26.5rem)_1fr]"
+        } lg:items-start lg:justify-center`}
       >
-        <span
-          aria-hidden
-          className="font-comic halftone-red absolute -top-3.5 -right-2.5 z-10 grid h-11 w-11 rotate-12 place-items-center text-xs text-primary-foreground sm:-top-4 sm:-right-3 sm:h-14 sm:w-14 sm:text-base [clip-path:polygon(50%_0,61%_30%,95%_20%,72%_48%,100%_75%,65%_70%,50%_100%,38%_70%,4%_78%,28%_50%,6%_18%,40%_30%)] animate-wobble"
+        <section
+          aria-label="Calculator"
+          className={`panel relative mx-auto w-full rounded-xl p-3 sm:p-4.5 transition-all duration-200 ${
+            isScientific ? "max-w-3xl" : "max-w-[26.5rem]"
+          }`}
         >
-          {isScientific ? "SCI" : "POW"}
-        </span>
+          <span
+            aria-hidden
+            className="font-comic halftone-red absolute -top-3.5 -right-2.5 z-10 grid h-11 w-11 rotate-12 place-items-center text-xs text-primary-foreground sm:-top-4 sm:-right-3 sm:h-14 sm:w-14 sm:text-base [clip-path:polygon(50%_0,61%_30%,95%_20%,72%_48%,100%_75%,65%_70%,50%_100%,38%_70%,4%_78%,28%_50%,6%_18%,40%_30%)] animate-wobble"
+          >
+            {isScientific ? "SCI" : "POW"}
+          </span>
 
-        {/* Display Bezel — more compact in sci mode to save vertical room */}
-        <div className={`rounded-lg border-3 border-ink bg-ink shadow-[inset_0_0_0_3px_var(--hero-blue)] shrink-0 ${
-          isScientific ? "mb-1.5 p-1.5 sm:p-2.5" : "mb-3 p-2.5 sm:p-3.5"
-        }`}>
-          <div className={`flex items-center justify-between gap-2 border-b border-paper/15 ${
-            isScientific ? "mb-1 pb-1" : "mb-1.5 pb-1.5"
-          }`}>
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={copyResult}
-                aria-label="Copy current calculation result"
-                className={`inline-flex items-center gap-1 rounded border-2 border-ink px-2 py-0.5 font-mono text-[10px] sm:text-xs font-bold tracking-wider transition-all duration-150 active:scale-95 ${
-                  copied
-                    ? "bg-mustard text-ink shadow-[2px_2px_0_var(--ink)]"
-                    : "bg-hero-blue text-paper shadow-[2px_2px_0_var(--ink)] hover:brightness-110"
-                }`}
-                title="Copy result (Ctrl+C)"
-              >
-                <span aria-hidden>{copied ? "✓" : "📋"}</span>
-                <span>{copied ? "COPIED!" : "COPY"}</span>
-              </button>
+          {/* Display Bezel */}
+          <div className="mb-3 rounded-lg border-3 border-ink bg-ink p-2.5 sm:p-3.5 shadow-[inset_0_0_0_3px_var(--hero-blue)]">
+            <div className="mb-1.5 flex items-center justify-between gap-2 border-b border-paper/15 pb-1.5">
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={copyResult}
+                  aria-label="Copy current calculation result"
+                  className={`inline-flex items-center gap-1 rounded border-2 border-ink px-2 py-0.5 font-mono text-[10px] sm:text-xs font-bold tracking-wider transition-all duration-150 active:scale-95 ${
+                    copied
+                      ? "bg-mustard text-ink shadow-[2px_2px_0_var(--ink)]"
+                      : "bg-hero-blue text-paper shadow-[2px_2px_0_var(--ink)] hover:brightness-110"
+                  }`}
+                  title="Copy result (Ctrl+C)"
+                >
+                  <span aria-hidden>{copied ? "✓" : "📋"}</span>
+                  <span>{copied ? "COPIED!" : "COPY"}</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={toggleAngle}
-                className="rounded border border-paper/30 bg-ink px-1.5 py-0.5 font-mono text-[10px] font-bold text-mustard hover:border-mustard transition-colors"
-                title={`Switch angle mode (currently ${state.angleMode.toUpperCase()})`}
-              >
-                {state.angleMode.toUpperCase()}
-              </button>
+                <button
+                  type="button"
+                  onClick={toggleAngle}
+                  className="rounded border border-paper/30 bg-ink px-1.5 py-0.5 font-mono text-[10px] font-bold text-mustard hover:border-mustard transition-colors sm:text-xs"
+                  title={`Switch angle mode (currently ${state.angleMode.toUpperCase()})`}
+                >
+                  {state.angleMode.toUpperCase()}
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="font-comic text-[11px] sm:text-xs tracking-wider text-mustard bg-navy/80 px-2 py-0.5 rounded border border-ink">
+                  {isScientific ? "MODE: SCI-TECH" : "MODE: BASIC"}
+                </span>
+
+                <p
+                  className="min-h-5 max-w-[14rem] truncate text-right font-mono text-xs text-mustard sm:text-sm"
+                  aria-label="Expression"
+                >
+                  {state.expression || "\u00a0"}
+                </p>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="font-comic text-[11px] sm:text-xs tracking-wider text-mustard bg-navy/80 px-2 py-0.5 rounded border border-ink">
-                {isScientific ? "MODE: SCI-TECH" : "MODE: BASIC"}
-              </span>
+            <output
+              key={state.display}
+              aria-live="polite"
+              onClick={copyResult}
+              title="Click to copy result"
+              className={`font-comic block cursor-pointer truncate text-right text-paper transition-opacity hover:opacity-95 active:opacity-80 animate-pop ${size}`}
+            >
+              {state.display}
+            </output>
 
-              <p
-                className="min-h-5 max-w-[14rem] truncate text-right font-mono text-xs text-mustard sm:text-sm"
-                aria-label="Expression"
-              >
-                {state.expression || "\u00a0"}
-              </p>
-            </div>
+            {state.error && (
+              <div className="text-right">
+                <p
+                  role="alert"
+                  className="font-comic mt-1 inline-block animate-shake rounded border-2 border-paper bg-hero-red px-2 py-0.5 text-xs text-paper"
+                >
+                  ZAP! {state.error}
+                </p>
+              </div>
+            )}
           </div>
 
-          <output
-            key={state.display}
-            aria-live="polite"
-            onClick={copyResult}
-            title="Click to copy result"
-            className={`font-comic block cursor-pointer truncate text-right text-paper transition-opacity hover:opacity-95 active:opacity-80 animate-pop ${
-              isScientific ? "text-2xl sm:text-4xl" : size
-            }`}
-          >
-            {state.display}
-          </output>
-
-          {state.error && (
-            <div className="text-right">
-              <p
-                role="alert"
-                className="font-comic mt-1 inline-block animate-shake rounded border-2 border-paper bg-hero-red px-2 py-0.5 text-xs text-paper"
-              >
-                ZAP! {state.error}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* ── SCI MODE: side-by-side 9-column layout, all keys visible ── */}
-        {isScientific ? (
-          <>
-            {/* Keys: sci (5 cols) + divider + basic (4 cols), fills all remaining height */}
-            <div className="flex-1 min-h-0 flex gap-1 sm:gap-2">
-
-              {/* Scientific block — 5 columns × 5 rows */}
-              <div className="flex-[5] grid grid-cols-5 auto-rows-fr gap-0.5 sm:gap-1 min-h-0">
+          {/* Keypad Container */}
+          {isScientific ? (
+            <div className="grid grid-cols-[1.25fr_1fr] gap-3 sm:gap-3.5">
+              {/* Scientific Deck (5 columns x 5 rows) */}
+              <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
                 {sciKeys.map((k) => {
                   const isStaged =
                     state.waiting &&
@@ -474,23 +499,20 @@ export function Calculator() {
                       title={k.aria}
                       data-pressed={pressed === k.id || isStaged}
                       onClick={k.action}
-                      className={`comic-btn ${cls[k.kind]} btn-symbol h-full w-full min-h-0 ${
+                      className={`comic-btn ${cls[k.kind]} btn-symbol ${
                         isStaged
-                          ? "ring-2 ring-mustard ring-offset-1 ring-offset-ink brightness-110 !translate-y-[2px] !shadow-[0_1px_0_0_var(--wall),0_1px_0_2px_var(--ink)]"
+                          ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
                           : ""
-                      } sci-key-text flex items-center justify-center px-0`}
+                      } h-11 text-sm min-[400px]:text-base sm:h-12 sm:text-base flex items-center justify-center`}
                     >
-                      <span className="select-none leading-none truncate">{k.label}</span>
+                      <span className="select-none">{k.label}</span>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Visual divider */}
-              <div className="w-px shrink-0 bg-ink/30 self-stretch mx-0.5" />
-
-              {/* Basic number block — 4 columns × 5 rows */}
-              <div className="flex-[4] grid grid-cols-4 auto-rows-fr gap-0.5 sm:gap-1 min-h-0">
+              {/* Standard Number Deck (4 columns x 5 rows) */}
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
                 {basicKeys.map((k) => {
                   const isStaged =
                     state.waiting &&
@@ -503,64 +525,32 @@ export function Calculator() {
                       title={k.aria}
                       data-pressed={pressed === k.id || isStaged}
                       onClick={k.action}
-                      className={`comic-btn ${cls[k.kind]} h-full w-full min-h-0 ${
+                      className={`comic-btn ${cls[k.kind]} ${
                         isStaged
-                          ? "ring-2 ring-mustard ring-offset-1 ring-offset-ink brightness-110 !translate-y-[2px] !shadow-[0_1px_0_0_var(--wall),0_1px_0_2px_var(--ink)]"
+                          ? "ring-2 ring-mustard ring-offset-2 ring-offset-ink brightness-110 !translate-y-[4px] !shadow-[0_2px_0_0_var(--wall),0_2px_0_3px_var(--ink)]"
                           : ""
                       } ${
                         k.id === "sci_mode"
-                          ? "font-comic sci-key-text tracking-wide leading-none"
+                          ? "whitespace-nowrap px-1 text-sm min-[400px]:text-base sm:text-lg font-comic tracking-wide leading-none"
                           : /^[0-9.]$|AC|C/.test(k.label)
-                            ? "sci-key-text"
-                            : "btn-symbol sci-key-text"
-                      } flex items-center justify-center px-0`}
+                            ? "text-lg min-[400px]:text-xl sm:text-2xl"
+                            : "btn-symbol text-lg min-[400px]:text-xl sm:text-2xl"
+                      } h-11 min-[400px]:h-12 sm:h-12 flex items-center justify-center`}
                     >
                       {k.id === "sci_mode" ? (
-                        <span className="flex items-center justify-center gap-0.5 font-comic select-none leading-none">
+                        <span className="flex items-center justify-center gap-1 font-comic tracking-wider select-none leading-none">
                           <span>123</span>
                         </span>
                       ) : (
-                        <span className="select-none leading-none">{k.label}</span>
+                        <span className="select-none">{k.label}</span>
                       )}
                     </button>
                   );
                 })}
               </div>
             </div>
-
-            {/* Compact utility strip — always visible in sci mode */}
-            <div className="shrink-0 mt-1.5 flex gap-1.5 sm:gap-2">
-              <button
-                type="button"
-                aria-expanded={showHistory}
-                aria-controls="history"
-                onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
-                className="comic-btn btn-blue flex-1 flex items-center justify-center gap-1 py-1 text-[10px] sm:text-xs"
-              >
-                <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
-                <span className="halftone-red rounded border border-ink px-1 py-0 text-[9px] sm:text-[10px] font-mono text-paper">{history.length}</span>
-              </button>
-
-              <button
-                type="button"
-                aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
-                aria-pressed={!muted}
-                onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
-                className="comic-btn btn-blue flex-1 flex items-center justify-center gap-1 py-1 text-[10px] sm:text-xs"
-                title={muted ? "Sound off" : "Sound on"}
-              >
-                <span>{muted ? "🔇" : "🔊"}</span>
-                <span>{muted ? "MUTE" : "SFX"}</span>
-              </button>
-            </div>
-
-            <p className="shrink-0 mt-1 text-center font-mono text-[9px] sm:text-[10px] text-ink/60">
-              All {sciKeys.length + basicKeys.length} keys visible · No scrolling needed
-            </p>
-          </>
-        ) : (
-          /* ── STANDARD MODE: unchanged 4-column keypad ── */
-          <>
+          ) : (
+            /* Standard 4-Column Keypad */
             <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
               {basicKeys.map((k) => {
                 const isStaged =
@@ -588,8 +578,8 @@ export function Calculator() {
                   >
                     {k.id === "sci_mode" ? (
                       <span className="flex items-center justify-center gap-1.5 font-comic tracking-wider select-none leading-none">
-                        {!isScientific && <span className="text-sm min-[400px]:text-base">⚡</span>}
-                        <span>{isScientific ? "123" : "SCI"}</span>
+                        <span className="text-sm min-[400px]:text-base">⚡</span>
+                        <span>SCI</span>
                       </span>
                     ) : (
                       <span className="select-none">{k.label}</span>
@@ -598,95 +588,105 @@ export function Calculator() {
                 );
               })}
             </div>
+          )}
 
-            {/* Bottom Utility Actions */}
-            <div className="mt-3.5 grid grid-cols-2 gap-2.5 sm:gap-3">
-              <button
-                type="button"
-                aria-expanded={showHistory}
-                aria-controls="history"
-                onClick={() => { sfxToggle(); setShowHistory((v) => !v); }}
-                className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
-              >
-                <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
-                <span className="halftone-red rounded border border-ink px-1.5 py-0.5 text-[10px] sm:text-xs font-mono text-paper">
-                  {history.length}
-                </span>
-              </button>
+          {/* Bottom Utility Actions */}
+          <div className="mt-3.5 grid grid-cols-2 gap-2.5 sm:gap-3">
+            <button
+              type="button"
+              aria-expanded={showHistory}
+              aria-controls="history"
+              onClick={() => {
+                sfxToggle();
+                setShowHistory((v) => !v);
+              }}
+              className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
+            >
+              <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
+              <span className="halftone-red rounded border border-ink px-1.5 py-0.5 text-[10px] sm:text-xs font-mono text-paper">
+                {history.length}
+              </span>
+            </button>
 
-              <button
-                type="button"
-                aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
-                aria-pressed={!muted}
-                onClick={() => { const next = toggleMuted(); setMuted(next); if (!next) sfxToggle(); }}
-                className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
-                title={muted ? "Sound off" : "Sound on"}
-              >
-                <span>{muted ? "🔇" : "🔊"}</span>
-                <span>{muted ? "SFX OFF" : "SFX ON"}</span>
-              </button>
-            </div>
+            <button
+              type="button"
+              aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
+              aria-pressed={!muted}
+              onClick={() => {
+                const next = toggleMuted();
+                setMuted(next);
+                if (!next) sfxToggle();
+              }}
+              className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
+              title={muted ? "Sound off" : "Sound on"}
+            >
+              <span>{muted ? "🔇" : "🔊"}</span>
+              <span>{muted ? "SFX OFF" : "SFX ON"}</span>
+            </button>
+          </div>
 
-            <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70 hidden sm:block">
-              ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
-            </p>
-            <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
-              💡 Tap any key · Hit ⚡ SCI for advanced functions
-            </p>
-          </>
-        )}
-      </section>
-
-      {/* Case Files Panel */}
-      <aside
-        id="history"
-        hidden={!showHistory}
-        className="panel mx-auto flex w-full max-w-[26.5rem] flex-col -rotate-1 rounded-xl p-3.5 sm:p-4 lg:mt-0 max-h-[480px]"
-      >
-        <div className="mb-2.5 flex items-center justify-between border-b-2 border-ink pb-2">
-          <h2 className="font-comic text-2xl text-hero-blue">Case Files</h2>
-          <button
-            type="button"
-            disabled={!history.length}
-            onClick={() => { sfxToggle(); setHistory([]); }}
-            className="comic-btn btn-red px-2.5 py-0.5 text-xs sm:text-sm disabled:opacity-50"
-          >
-            Clear
-          </button>
-        </div>
-
-        {history.length === 0 ? (
-          <p className="font-mono text-xs sm:text-sm text-muted-foreground py-6 text-center">
-            No calculations yet. Go save the day!
+          <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70 hidden sm:block">
+            ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
           </p>
-        ) : (
-          <ul className="flex-1 space-y-1.5 overflow-y-auto pr-1">
-            {history.map((h, i) => (
-              <li key={i}>
-                <button
-                  type="button"
-                  title="Click to recall result"
-                  onClick={() => {
-                    sfxKey();
-                    setState({
-                      ...C.initialState,
-                      angleMode: state.angleMode,
-                      display: h.result,
-                      waiting: true,
-                    });
-                  }}
-                  className="w-full rounded border-2 border-ink bg-paper px-2.5 py-1.5 text-right font-mono hover:bg-paper-dark focus-visible:outline-2 focus-visible:outline-hero-blue transition-colors"
-                >
-                  <span className="block text-[10px] sm:text-xs text-muted-foreground">
-                    {h.expression} =
-                  </span>
-                  <span className="text-base sm:text-lg font-bold">{h.result}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </aside>
-    </div>
+          <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
+            💡 Tap any key · Switch to SCI for advanced functions
+          </p>
+        </section>
+
+        {/* Case Files Panel */}
+        <aside
+          id="history"
+          hidden={!showHistory}
+          className="panel mx-auto flex w-full max-w-[26.5rem] flex-col -rotate-1 rounded-xl p-3.5 sm:p-4 lg:mt-0 max-h-[480px]"
+        >
+          <div className="mb-2.5 flex items-center justify-between border-b-2 border-ink pb-2">
+            <h2 className="font-comic text-2xl text-hero-blue">Case Files</h2>
+            <button
+              type="button"
+              disabled={!history.length}
+              onClick={() => {
+                sfxToggle();
+                setHistory([]);
+              }}
+              className="comic-btn btn-red px-2.5 py-0.5 text-xs sm:text-sm disabled:opacity-50"
+            >
+              Clear
+            </button>
+          </div>
+
+          {history.length === 0 ? (
+            <p className="font-mono text-xs sm:text-sm text-muted-foreground py-6 text-center">
+              No calculations yet. Go save the day!
+            </p>
+          ) : (
+            <ul className="flex-1 space-y-1.5 overflow-y-auto pr-1">
+              {history.map((h, i) => (
+                <li key={i}>
+                  <button
+                    type="button"
+                    title="Click to recall result"
+                    onClick={() => {
+                      sfxKey();
+                      setState({
+                        ...C.initialState,
+                        angleMode: state.angleMode,
+                        display: h.result,
+                        waiting: true,
+                      });
+                    }}
+                    className="w-full rounded border-2 border-ink bg-paper px-2.5 py-1.5 text-right font-mono hover:bg-paper-dark focus-visible:outline-2 focus-visible:outline-hero-blue transition-colors"
+                  >
+                    <span className="block text-[10px] sm:text-xs text-muted-foreground">
+                      {h.expression} =
+                    </span>
+                    <span className="text-base sm:text-lg font-bold">{h.result}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+      </div>
+    </>
   );
 }

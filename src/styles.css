@@ -334,114 +334,93 @@
 }
 
 /* ============================================================
-   SCIENTIFIC MODE: FULL-SCREEN HORIZONTAL LAYOUT
-   The entire calculator layout is arranged horizontally:
-   - Left side: Display console & controls
-   - Right side: All 9 columns of buttons in 5 rows
-   - Fits 100% within the screen without scrolling or clipping
-   - Automatically turns horizontally (landscape) on mobile portrait
+   MOBILE SCIENTIFIC CALCULATOR (< 768px)
+   Completely separate from desktop and tablets.
+   Horizontal (landscape) by default so all 45 keys have wide spacing.
+   Never clips or overflows screen edges.
    ============================================================ */
 
-.sci-mode-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.sci-panel {
-  width: 100%;
-  max-width: 76rem;
-  height: calc(100dvh - 5.5rem);
-  max-height: 820px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Mobile Portrait (<640px in portrait):
-   Turn the entire calculator horizontally into full-screen landscape */
-@media (max-width: 639px) and (orientation: portrait) {
-  .sci-mode-wrapper.sci-mobile-rotated {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    width: 100dvh !important;
-    height: 100dvw !important;
-    transform: translate(-50%, -50%) rotate(90deg) !important;
-    transform-origin: center center !important;
-    z-index: 100 !important;
-    padding: 0.35rem !important;
-    background-color: var(--ink) !important;
-    overflow: hidden !important;
+@media (max-width: 767px) {
+  /* Rotated Horizontal mode in portrait */
+  .sci-mobile-wrapper-rotated {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* Leaves safe margins so rounded iPhone corners, notch & Safari bars never clip */
+    width: calc(100dvh - max(env(safe-area-inset-top), 14px) - max(env(safe-area-inset-bottom), 14px) - 16px);
+    height: calc(100dvw - max(env(safe-area-inset-left), 10px) - max(env(safe-area-inset-right), 10px) - 16px);
+    max-width: 920px;
+    max-height: 440px;
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
+    z-index: 50;
+    background-color: var(--paper);
+    border-radius: 0.75rem;
+    box-shadow: 0 0 0 9999px var(--ink), 4px 4px 0 0 var(--ink);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.35rem 0.5rem;
+    box-sizing: border-box;
   }
 
-  .sci-mode-wrapper.sci-mobile-rotated .sci-panel {
-    width: 100% !important;
-    height: 100% !important;
-    max-height: none !important;
-    max-width: none !important;
-    border-radius: 0.5rem !important;
+  /* Physical landscape: naturally horizontal without rotation */
+  @media (orientation: landscape) {
+    .sci-mobile-wrapper-rotated {
+      top: 0;
+      left: 0;
+      transform: none;
+      width: 100vw;
+      height: 100dvh;
+      max-width: none;
+      max-height: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: max(env(safe-area-inset-top), 4px)
+               max(env(safe-area-inset-right), 12px)
+               max(env(safe-area-inset-bottom), 6px)
+               max(env(safe-area-inset-left), 12px);
+    }
   }
 
-  /* When mobile user toggles to vertical portrait view */
-  .sci-mode-wrapper.sci-mobile-portrait {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    z-index: 100 !important;
-    padding: 0.35rem !important;
-    background-color: var(--ink) !important;
-    overflow: hidden !important;
+  /* Upright portrait mode when user toggles off rotation */
+  .sci-mobile-wrapper-upright {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 50;
+    background-color: var(--ink);
+    padding: max(env(safe-area-inset-top), 0.35rem)
+             max(env(safe-area-inset-right), 0.35rem)
+             max(env(safe-area-inset-bottom), 0.35rem)
+             max(env(safe-area-inset-left), 0.35rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
 
-  .sci-mode-wrapper.sci-mobile-portrait .sci-panel {
-    width: 100% !important;
-    height: 100% !important;
-    max-height: none !important;
-  }
-}
-
-/* Mobile / Tablet held in physical landscape orientation */
-@media (max-width: 899px) and (orientation: landscape) {
-  .sci-mode-wrapper {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    z-index: 100 !important;
-    padding: 0.25rem 0.5rem !important;
-    background-color: var(--ink) !important;
-    transform: none !important;
+  .sci-mobile-wrapper-upright .sci-mobile-panel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
   }
 
-  .sci-panel {
-    width: 100% !important;
-    height: 100% !important;
-    max-height: none !important;
-    max-width: none !important;
+  /* Button text scaling */
+  .sci-mobile-wrapper-rotated .comic-btn {
+    padding: 0 !important;
+    font-size: clamp(9px, 2.3vh, 15px) !important;
+    line-height: 1 !important;
   }
-}
 
-/* Responsive font sizes for sci keys so text never wraps or clips */
-.sci-btn-text {
-  font-size: clamp(9px, 1.8vw, 15px);
-  line-height: 1;
-}
-
-@media (max-width: 639px) and (orientation: portrait) {
-  .sci-mobile-rotated .sci-btn-text {
-    font-size: clamp(10px, 2.3vh, 16px);
+  .sci-mobile-wrapper-upright .comic-btn {
+    padding: 0 !important;
+    font-size: clamp(8px, 2.4vw, 13px) !important;
+    line-height: 1 !important;
   }
-  .sci-mobile-portrait .sci-btn-text {
-    font-size: clamp(8px, 2.3vw, 12px);
-  }
-}
-
-/* Make comic buttons in sci mode slightly tighter in padding so they fit perfectly */
-.sci-panel .comic-btn {
-  padding: 0 !important;
 }
