@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Starburst, Web } from "@/components/comic";
 import { Footer } from "@/components/Footer";
@@ -22,8 +23,12 @@ export const Route = createFileRoute("/terms")({
 });
 
 function TermsPage() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
+
   return (
-    <div className="relative min-h-screen bg-navy text-paper overflow-x-hidden select-none">
+    <div className="relative min-h-screen bg-navy text-paper overflow-x-hidden">
       {/* Decorative corner spider webs */}
       <Web className="pointer-events-none absolute -top-4 -left-4 h-32 w-32 text-paper/15 sm:top-0 sm:left-0 sm:h-56 sm:w-56" />
       <Web className="pointer-events-none absolute top-72 -right-4 h-32 w-32 rotate-90 text-paper/10 sm:h-56 sm:w-56" />

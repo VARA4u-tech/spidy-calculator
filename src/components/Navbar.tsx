@@ -30,9 +30,12 @@ export function Navbar() {
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 36));
 
-  // Close the mobile menu whenever the route changes.
+  // Close the mobile menu whenever the route changes and reset scroll state.
   useEffect(() => {
     setMenuOpen(false);
+    if (typeof window !== "undefined") {
+      setScrolled(window.scrollY > 36);
+    }
   }, [pathname]);
 
   // Close on Escape for keyboard heroes.
@@ -55,8 +58,9 @@ export function Navbar() {
       {/* Masthead strip — auto-scrolling ticker, collapses as you scroll */}
       <motion.div
         aria-hidden
+        initial={false}
         animate={scrolled ? { height: 0, opacity: 0 } : { height: "auto", opacity: 1 }}
-        transition={{ duration: reduce ? 0 : 0.25 }}
+        transition={{ duration: reduce ? 0 : 0.2 }}
         className="overflow-hidden border-b-4 border-ink bg-hero-red py-1"
       >
         <div className="flex w-max animate-marquee hover:[animation-play-state:paused] select-none will-change-transform transform-gpu">
