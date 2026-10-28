@@ -172,7 +172,7 @@ export function Footer() {
 
           {/* Quick links & Back to Top */}
           <div className="flex items-center justify-between sm:justify-end gap-3 pt-3 sm:pt-0 border-t border-paper/10 sm:border-t-0">
-            <div className="flex items-center gap-3 font-comic text-base sm:text-lg">
+            <div className="flex items-center gap-2.5 sm:gap-3 font-comic text-base sm:text-lg">
               <Link
                 to="/"
                 className="text-paper hover:text-mustard transition-colors tracking-wider"
@@ -186,11 +186,25 @@ export function Footer() {
               >
                 CALCULATOR ⚡
               </Link>
+              <span className="text-paper/40 hidden lg:inline">·</span>
+              <Link
+                to="/privacy"
+                className="text-paper hover:text-mustard transition-colors tracking-wider hidden lg:inline"
+              >
+                PRIVACY
+              </Link>
+              <span className="text-paper/40 hidden lg:inline">·</span>
+              <Link
+                to="/terms"
+                className="text-paper hover:text-mustard transition-colors tracking-wider hidden lg:inline"
+              >
+                TERMS
+              </Link>
             </div>
             <button
               type="button"
               onClick={scrollToTop}
-              className="comic-btn btn-blue px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base flex items-center gap-1.5"
+              className="comic-btn btn-blue px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base flex items-center gap-1.5 shrink-0"
               aria-label="Back to top"
             >
               <span>▲</span>
@@ -199,12 +213,31 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Legal & Credits */}
-        <div className="mx-auto max-w-6xl mt-4 pt-3 border-t border-paper/10 flex flex-col sm:flex-row items-center justify-between gap-1 text-center font-mono text-[10px] sm:text-[11px] text-paper/50">
-          <p>© 2026 Spidy Calculator · Zero ads · Zero tracking</p>
-          <p className="text-[9px] sm:text-[10px] text-paper/40">
-            Spider-Man homage · Classic vintage comic aesthetic
-          </p>
+        {/* Legal & Credits with Privacy Policy & Terms Links */}
+        <div className="mx-auto max-w-6xl mt-4 pt-3 border-t border-paper/10 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center font-mono text-[11px] sm:text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-paper/85">
+            <Link
+              to="/privacy"
+              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider"
+            >
+              PRIVACY POLICY
+            </Link>
+            <span className="text-paper/30">|</span>
+            <Link
+              to="/terms"
+              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider"
+            >
+              TERMS &amp; CONDITIONS
+            </Link>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-paper/50 text-[10px] sm:text-[11px]">
+            <p>© 2026 Spidy Calculator · Zero ads · Zero tracking</p>
+            <span className="hidden sm:inline text-paper/30">·</span>
+            <p className="text-[9px] sm:text-[10px] text-paper/40">
+              Classic vintage comic homage
+            </p>
+          </div>
         </div>
       </div>
     </footer>
