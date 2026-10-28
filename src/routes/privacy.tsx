@@ -61,10 +61,9 @@ function PrivacyPage() {
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               Spidy Calculator was built with a simple superhero principle:{" "}
-              <strong>your calculations belong only to you</strong>. We do not require you to
-              create an account, log in, provide an email address, or enter any personal identity
-              details. You can use all standard and scientific features without ever revealing who
-              you are.
+              <strong>your calculations belong only to you</strong>. We do not require you to create
+              an account, log in, provide an email address, or enter any personal identity details.
+              You can use all standard and scientific features without ever revealing who you are.
             </p>
           </section>
 
@@ -75,10 +74,10 @@ function PrivacyPage() {
               <h2 className="font-comic text-2xl text-hero-blue">100% Client-Side Calculations</h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
-              Every single equation, button tap, and calculation happens strictly inside your device’s
-              web browser. Nothing you type—whether calculating lunch bills, trigonometry, or physics
-              homework—is ever transmitted over the internet or saved to our servers. If you unplug
-              your internet connection, the calculator continues to work seamlessly!
+              Every single equation, button tap, and calculation happens strictly inside your
+              device’s web browser. Nothing you type—whether calculating lunch bills, trigonometry,
+              or physics homework—is ever transmitted over the internet or saved to our servers. If
+              you unplug your internet connection, the calculator continues to work seamlessly!
             </p>
           </section>
 
@@ -112,7 +111,9 @@ function PrivacyPage() {
           <section className="panel rounded-xl p-5 sm:p-7 bg-paper text-ink shadow-[6px_6px_0_0_var(--ink)] border-3 border-ink">
             <div className="flex items-center gap-2 border-b-2 border-ink pb-2 mb-3">
               <span className="font-comic text-2xl text-hero-red">04</span>
-              <h2 className="font-comic text-2xl text-hero-blue">No Ads, No Trackers, No Cookies</h2>
+              <h2 className="font-comic text-2xl text-hero-blue">
+                No Ads, No Trackers, No Cookies
+              </h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               We do not use tracking cookies, analytics pixels, advertising SDKs, or third-party
@@ -141,9 +142,9 @@ function PrivacyPage() {
               <h2 className="font-comic text-2xl text-hero-blue">Questions & Policy Updates</h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
-              If we ever update this policy, revisions will be published right here on this page with
-              an updated effective date. If you have questions about privacy, feel free to visit our
-              project repository.
+              If we ever update this policy, revisions will be published right here on this page
+              with an updated effective date. If you have questions about privacy, feel free to
+              visit our project repository.
             </p>
           </section>
         </div>
@@ -163,4 +164,3 @@ function PrivacyPage() {
     </div>
   );
 }
-

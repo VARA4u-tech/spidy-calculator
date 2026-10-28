@@ -53,13 +53,7 @@ export function MobileSciCalculator({
   const [isRotated, setIsRotated] = useState(true);
 
   return (
-    <div
-      className={
-        isRotated
-          ? "sci-mobile-wrapper-rotated"
-          : "sci-mobile-wrapper-upright"
-      }
-    >
+    <div className={isRotated ? "sci-mobile-wrapper-rotated" : "sci-mobile-wrapper-upright"}>
       <section
         aria-label="Mobile Scientific Calculator"
         className={
@@ -156,9 +150,7 @@ export function MobileSciCalculator({
                 onClick={copyResult}
                 aria-label="Copy result"
                 className={`inline-flex items-center gap-0.5 rounded border border-ink px-1.5 py-0.5 font-mono text-[9px] font-bold ${
-                  copied
-                    ? "bg-mustard text-ink"
-                    : "bg-hero-blue text-paper hover:brightness-110"
+                  copied ? "bg-mustard text-ink" : "bg-hero-blue text-paper hover:brightness-110"
                 }`}
               >
                 <span aria-hidden>{copied ? "✓" : "📋"}</span>

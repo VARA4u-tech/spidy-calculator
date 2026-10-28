@@ -46,9 +46,7 @@ function TermsPage() {
             your use of Spidy Calculator.
           </p>
 
-          <p className="mt-1 font-mono text-[11px] text-paper/50">
-            Last Updated: October 29, 2026
-          </p>
+          <p className="mt-1 font-mono text-[11px] text-paper/50">Last Updated: October 29, 2026</p>
         </header>
 
         {/* Content Panels */}
@@ -60,9 +58,9 @@ function TermsPage() {
               <h2 className="font-comic text-2xl text-hero-blue">Acceptance of Terms</h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
-              By accessing or using <strong>Spidy Calculator</strong> (the "Application"), you
-              agree to be bound by these Terms &amp; Conditions. If you do not agree with any part
-              of these terms, you should discontinue using the Application.
+              By accessing or using <strong>Spidy Calculator</strong> (the "Application"), you agree
+              to be bound by these Terms &amp; Conditions. If you do not agree with any part of
+              these terms, you should discontinue using the Application.
             </p>
           </section>
 
@@ -70,7 +68,9 @@ function TermsPage() {
           <section className="panel rounded-xl p-5 sm:p-7 bg-paper text-ink shadow-[6px_6px_0_0_var(--ink)] border-3 border-ink">
             <div className="flex items-center gap-2 border-b-2 border-ink pb-2 mb-3">
               <span className="font-comic text-2xl text-hero-red">02</span>
-              <h2 className="font-comic text-2xl text-hero-blue">Free License &amp; Permitted Use</h2>
+              <h2 className="font-comic text-2xl text-hero-blue">
+                Free License &amp; Permitted Use
+              </h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               Spidy Calculator is provided free of charge for personal, educational, and
@@ -109,11 +109,11 @@ function TermsPage() {
               </h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
-              Spidy Calculator is an open fan-inspired artistic homage celebrating classic vintage comic
-              books and retro pop-art print aesthetics. Spider-Man, Marvel, and associated comic book
-              characters and trademarks are the intellectual property of Marvel Characters, Inc. /
-              The Walt Disney Company. This project is independent, educational, non-commercial, and
-              not affiliated with, authorized, or sponsored by Marvel or Disney.
+              Spidy Calculator is an open fan-inspired artistic homage celebrating classic vintage
+              comic books and retro pop-art print aesthetics. Spider-Man, Marvel, and associated
+              comic book characters and trademarks are the intellectual property of Marvel
+              Characters, Inc. / The Walt Disney Company. This project is independent, educational,
+              non-commercial, and not affiliated with, authorized, or sponsored by Marvel or Disney.
             </p>
           </section>
 
@@ -126,8 +126,8 @@ function TermsPage() {
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               You agree not to use the Application in any manner that could disable, overburden,
               damage, or impair our infrastructure, or interfere with any other party's use and
-              enjoyment of the service. Automated scraping, malicious attacks, or attempts to reverse
-              engineer the backend service are prohibited.
+              enjoyment of the service. Automated scraping, malicious attacks, or attempts to
+              reverse engineer the backend service are prohibited.
             </p>
           </section>
 
@@ -160,4 +160,3 @@ function TermsPage() {
     </div>
   );
 }
-

@@ -234,9 +234,7 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-paper/50 text-[10px] sm:text-[11px]">
             <p>© 2026 Spidy Calculator · Zero ads · Zero tracking</p>
             <span className="hidden sm:inline text-paper/30">·</span>
-            <p className="text-[9px] sm:text-[10px] text-paper/40">
-              Classic vintage comic homage
-            </p>
+            <p className="text-[9px] sm:text-[10px] text-paper/40">Classic vintage comic homage</p>
           </div>
         </div>
       </div>
