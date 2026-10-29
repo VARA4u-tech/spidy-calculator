@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Starburst, Web } from "@/components/comic";
 import { Footer } from "@/components/Footer";
+import { useTermsStatus } from "@/lib/terms";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
@@ -10,12 +11,13 @@ export const Route = createFileRoute("/terms")({
       {
         name: "description",
         content:
-          "Terms and conditions for using Spidy Calculator: a free, retro comic-book calculator web app.",
+          "Terms and conditions for using Spidy Calculator: a free, retro comic-book calculator web app. Review and accept terms for calculator access.",
       },
       { property: "og:title", content: "Terms & Conditions — Spidy Calculator" },
       {
         property: "og:description",
-        content: "Terms of service for using Spidy Calculator. Fair use, non-commercial homage.",
+        content:
+          "Terms of service for using Spidy Calculator. Review our terms and accept to access the calculator.",
       },
     ],
   }),
@@ -23,9 +25,42 @@ export const Route = createFileRoute("/terms")({
 });
 
 function TermsPage() {
+  const navigate = useNavigate();
+  const { status, acceptedDate, isLoaded, accept, decline, reset } = useTermsStatus();
+  const alertRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
+
+  const handleAccept = () => {
+    accept();
+    // Redirect to calculator after explicit acceptance
+    navigate({ to: "/calculator", replace: true });
+  };
+
+  const handleDecline = () => {
+    decline();
+    // Scroll alert banner into view politely
+    if (alertRef.current) {
+      alertRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleReset = () => {
+    reset();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const formattedDate = acceptedDate
+    ? new Date(acceptedDate).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
 
   return (
     <div className="relative min-h-screen bg-navy text-paper overflow-x-hidden">
@@ -35,7 +70,7 @@ function TermsPage() {
 
       <main className="relative z-10 mx-auto max-w-4xl px-4 py-8 sm:py-14">
         {/* Top Hero Banner */}
-        <header className="mb-8 sm:mb-12 text-center">
+        <header className="mb-6 sm:mb-8 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-mustard px-3.5 py-1 text-xs font-mono font-bold text-ink shadow-[2px_2px_0_var(--ink)] mb-3">
             <span>📜 CODE OF CONDUCT</span>
             <span>·</span>
@@ -54,7 +89,94 @@ function TermsPage() {
           <p className="mt-1 font-mono text-[11px] text-paper/50">Last Updated: October 29, 2026</p>
         </header>
 
-        {/* Content Panels */}
+        {/* Dynamic Status / Alert Banner */}
+        <div ref={alertRef} className="mb-8">
+          {/* DECLINED STATE: Polite Restriction Notice */}
+          {isLoaded && status === "declined" && (
+            <div className="panel rounded-xl p-4 sm:p-6 bg-hero-red/10 border-3 border-hero-red shadow-[5px_5px_0_0_var(--ink)] text-paper">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center">
+                  <Starburst className="animate-wobble absolute -inset-2 opacity-95 text-hero-red" />
+                  <span className="relative z-10 text-2xl font-comic">⛔</span>
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-comic text-xl sm:text-2xl text-hero-red leading-tight">
+                    ACCESS RESTRICTED: ACCEPTANCE REQUIRED
+                  </h2>
+                  <p className="mt-1 font-mono text-xs sm:text-sm text-paper/90 leading-relaxed">
+                    You have declined the terms. To protect our community and respect mathematical
+                    disclaimers, <strong>acceptance of the Terms &amp; Conditions is required</strong> to
+                    use Spidy Calculator.
+                  </p>
+                  <p className="mt-1 font-mono text-xs text-mustard">
+                    Take your time! You can review the terms below and click{" "}
+                    <strong>"I Accept &amp; Continue"</strong> whenever you're ready to proceed.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAccept}
+                  className="comic-btn btn-red px-4 py-2 text-sm sm:text-base whitespace-nowrap shrink-0 self-stretch sm:self-auto cursor-pointer"
+                >
+                  ⚡ ACCEPT &amp; CONTINUE
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* UNSEEN STATE: Friendly First-Time Welcome Banner */}
+          {isLoaded && status === "unseen" && (
+            <div className="panel rounded-xl p-4 sm:p-5 bg-mustard/15 border-3 border-mustard shadow-[5px_5px_0_0_var(--ink)] text-paper">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
+                  <Starburst className="animate-wobble absolute -inset-1.5 opacity-90 text-mustard" />
+                  <span className="relative z-10 text-xl font-comic">👋</span>
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-comic text-lg sm:text-xl text-mustard leading-tight">
+                    WELCOME, HERO! ONE QUICK STEP BEFORE CALCULATING
+                  </h2>
+                  <p className="mt-0.5 font-mono text-xs sm:text-sm text-paper/85">
+                    Before accessing the calculator for the first time, please review the Terms &amp;
+                    Conditions below and click <strong>"I Accept &amp; Continue"</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ACCEPTED STATE: Clearance Badge & Returning User Status */}
+          {isLoaded && status === "accepted" && (
+            <div className="panel rounded-xl p-4 sm:p-5 bg-emerald-950/40 border-3 border-emerald-500 shadow-[5px_5px_0_0_var(--ink)] text-paper">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">✅</span>
+                  <div>
+                    <h2 className="font-comic text-lg sm:text-xl text-emerald-400 leading-tight">
+                      TERMS ACCEPTED · FULL CLEARANCE GRANTED
+                    </h2>
+                    <p className="font-mono text-xs text-paper/75">
+                      {formattedDate
+                        ? `You accepted these terms on ${formattedDate}.`
+                        : "You have accepted the terms of service."}{" "}
+                      The calculator is fully unlocked!
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 self-stretch sm:self-auto">
+                  <Link
+                    to="/calculator"
+                    className="comic-btn btn-red px-4 py-2 text-sm sm:text-base whitespace-nowrap flex-1 sm:flex-initial text-center"
+                  >
+                    ⚡ OPEN CALCULATOR
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Complete Terms Content Panels */}
         <div className="space-y-6 sm:space-y-8">
           {/* Section 1: Acceptance */}
           <section className="panel rounded-xl p-5 sm:p-7 bg-paper text-ink shadow-[6px_6px_0_0_var(--ink)] border-3 border-ink">
@@ -64,12 +186,14 @@ function TermsPage() {
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               By accessing or using <strong>Spidy Calculator</strong> (the "Application"), you agree
-              to be bound by these Terms &amp; Conditions. If you do not agree with any part of
-              these terms, you should discontinue using the Application.
+              to be bound by these Terms &amp; Conditions and all applicable laws. Explicit acceptance
+              via the "I Accept &amp; Continue" action is required prior to unlocking and using the
+              calculator. If you do not agree with any part of these terms, access to the calculator
+              remains restricted.
             </p>
           </section>
 
-          {/* Section 2: License & Fair Use */}
+          {/* Section 2: License & Permitted Use */}
           <section className="panel rounded-xl p-5 sm:p-7 bg-paper text-ink shadow-[6px_6px_0_0_var(--ink)] border-3 border-ink">
             <div className="flex items-center gap-2 border-b-2 border-ink pb-2 mb-3">
               <span className="font-comic text-2xl text-hero-red">02</span>
@@ -80,7 +204,8 @@ function TermsPage() {
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               Spidy Calculator is provided free of charge for personal, educational, and
               non-commercial use. You are granted a non-exclusive, non-transferable, revocable
-              license to access and use the calculator for mathematical and calculation purposes.
+              license to access and use the calculator for mathematical and scientific calculation
+              purposes directly within your browser.
             </p>
           </section>
 
@@ -94,9 +219,9 @@ function TermsPage() {
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               While our calculation engine is tested rigorously to provide fast and accurate
-              standard arithmetic and scientific functions, Spidy Calculator is provided on an{" "}
-              <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties
-              of any kind.
+              standard arithmetic, trigonometric, and scientific functions, Spidy Calculator is provided
+              on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties
+              of any kind, either express or implied.
             </p>
             <p className="mt-2 font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               Spidy Calculator should not be used as the sole calculation tool for mission-critical
@@ -122,17 +247,17 @@ function TermsPage() {
             </p>
           </section>
 
-          {/* Section 5: Acceptable Use */}
+          {/* Section 5: Acceptable Use & Conduct */}
           <section className="panel rounded-xl p-5 sm:p-7 bg-paper text-ink shadow-[6px_6px_0_0_var(--ink)] border-3 border-ink">
             <div className="flex items-center gap-2 border-b-2 border-ink pb-2 mb-3">
               <span className="font-comic text-2xl text-hero-red">05</span>
-              <h2 className="font-comic text-2xl text-hero-blue">Acceptable Use</h2>
+              <h2 className="font-comic text-2xl text-hero-blue">Acceptable Use &amp; Conduct</h2>
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               You agree not to use the Application in any manner that could disable, overburden,
               damage, or impair our infrastructure, or interfere with any other party's use and
-              enjoyment of the service. Automated scraping, malicious attacks, or attempts to
-              reverse engineer the backend service are prohibited.
+              enjoyment of the service. Automated scraping, malicious attacks, denial of service,
+              or attempts to reverse engineer backend services are strictly prohibited.
             </p>
           </section>
 
@@ -150,14 +275,99 @@ function TermsPage() {
           </section>
         </div>
 
-        {/* Action Buttons */}
-        <div className="mt-10 sm:mt-12 flex flex-wrap items-center justify-center gap-4">
-          <Link to="/calculator" className="comic-btn btn-red px-6 py-2.5 text-base sm:text-xl">
-            ⚡ THWIP! OPEN CALCULATOR
-          </Link>
-          <Link to="/" className="comic-btn btn-blue px-5 py-2.5 text-base sm:text-lg">
-            ◀ BACK TO HOME
-          </Link>
+        {/* =================================================================== */}
+        {/* ACTION PANEL: Explicit Accept & Continue vs Decline Buttons */}
+        {/* =================================================================== */}
+        <div className="mt-10 sm:mt-12 panel rounded-2xl p-6 sm:p-8 bg-paper text-ink shadow-[8px_8px_0_0_var(--ink)] border-4 border-ink text-center">
+          {status === "accepted" ? (
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-mustard px-3.5 py-1 text-xs font-mono font-bold text-ink shadow-[2px_2px_0_var(--ink)] mb-3">
+                <span>✓ CLEARANCE ACTIVE</span>
+              </div>
+              <h3 className="font-comic text-2xl sm:text-3xl text-ink leading-tight">
+                YOU'VE ACCEPTED THE TERMS!
+              </h3>
+              <p className="mt-2 font-mono text-xs sm:text-sm text-ink/80 max-w-lg mx-auto">
+                Your acceptance is recorded in browser storage. You can jump straight into calculating,
+                or head back to the home page anytime.
+              </p>
+
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <Link
+                  to="/calculator"
+                  className="comic-btn btn-red w-full sm:w-auto px-7 py-3 text-lg sm:text-xl font-comic tracking-wider inline-flex items-center justify-center gap-2 shadow-[4px_4px_0_var(--ink)]"
+                >
+                  <span>⚡</span>
+                  <span>OPEN CALCULATOR</span>
+                  <span aria-hidden>➔</span>
+                </Link>
+                <Link
+                  to="/"
+                  className="comic-btn btn-blue w-full sm:w-auto px-6 py-3 text-base sm:text-lg font-comic tracking-wider inline-flex items-center justify-center gap-2 shadow-[4px_4px_0_var(--ink)]"
+                >
+                  <span aria-hidden>◀</span>
+                  <span>BACK TO HOME</span>
+                </Link>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-ink/15 text-center">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="font-mono text-xs text-ink/60 hover:text-hero-red underline transition-colors cursor-pointer"
+                >
+                  Reset Acceptance Status (to test first-time visitor flow)
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-mustard px-3.5 py-1 text-xs font-mono font-bold text-ink shadow-[2px_2px_0_var(--ink)] mb-3">
+                <span>⚡ YOUR CHOICE, HERO</span>
+              </div>
+              <h3 className="font-comic text-2xl sm:text-3xl text-ink leading-tight">
+                ACCEPT TERMS TO UNLOCK THE CALCULATOR
+              </h3>
+              <p className="mt-2 font-mono text-xs sm:text-sm text-ink/80 max-w-lg mx-auto">
+                By clicking <strong>"I Accept &amp; Continue"</strong>, you agree to these Terms &amp;
+                Conditions. Your preference will be remembered for future visits.
+              </p>
+
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <button
+                  type="button"
+                  onClick={handleAccept}
+                  className="comic-btn btn-red w-full sm:w-auto px-7 py-3.5 text-lg sm:text-xl font-comic tracking-wider flex items-center justify-center gap-2 shadow-[5px_5px_0_var(--ink)] cursor-pointer"
+                >
+                  <span>⚡</span>
+                  <span>I ACCEPT &amp; CONTINUE</span>
+                  <span aria-hidden>➔</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDecline}
+                  className="comic-btn btn-digit w-full sm:w-auto px-6 py-3.5 text-base sm:text-lg font-comic tracking-wider text-ink/80 hover:text-hero-red border-2 border-ink shadow-[4px_4px_0_var(--ink)] cursor-pointer"
+                >
+                  <span aria-hidden>✕</span>
+                  <span>I DECLINE</span>
+                </button>
+              </div>
+
+              {status === "declined" ? (
+                <div className="mt-4 rounded-lg bg-hero-red/10 border-2 border-hero-red p-3 max-w-md mx-auto">
+                  <p className="font-mono text-xs text-hero-red font-bold">
+                    ⚠️ You have declined. Calculator access is currently restricted. Click "I Accept &amp;
+                    Continue" when you wish to proceed.
+                  </p>
+                </div>
+              ) : (
+                <p className="mt-4 font-mono text-[11px] text-ink/50">
+                  Declining will keep the calculator locked until you choose to accept.
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </main>
 
