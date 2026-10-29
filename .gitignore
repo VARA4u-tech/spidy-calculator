@@ -1,9 +1,18 @@
-# Dependencies
+# ==========================================
+# 1. Dependencies & Package Managers
+# ==========================================
 node_modules/
 .pnp
 .pnp.js
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
 
-# Production & Build outputs
+# ==========================================
+# 2. Production & Build Outputs
+# ==========================================
 dist/
 dist-ssr/
 build/
@@ -14,13 +23,27 @@ out/
 .nitro/
 .vite/
 
-# Cloudflare / Wrangler / Deployments
+# ==========================================
+# 3. Caches & Temporary Build Artifacts
+# ==========================================
+.cache/
+*.tsbuildinfo
+*.timestamp-*
+vite.config.ts.timestamp-*
+vite.config.js.timestamp-*
+vitest.config.ts.timestamp-*
+
+# ==========================================
+# 4. Deployments & Serverless Providers
+# ==========================================
 .wrangler/
 .dev.vars
 .vercel/
 .netlify/
 
-# Environment Variables & Secrets
+# ==========================================
+# 5. Environment Variables & Secrets
+# ==========================================
 .env
 .env.local
 .env.*.local
@@ -30,15 +53,27 @@ out/
 *.local
 !.env.example
 
-# Testing & Coverage (Vitest)
+# SSL Certificates, Private Keys & Credentials
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# ==========================================
+# 6. Testing, Reports & Coverage
+# ==========================================
 coverage/
 *.lcov
 .nyc_output/
+test-results/
+playwright-report/
+blob-report/
 
-# TypeScript
-*.tsbuildinfo
-
-# Logs
+# ==========================================
+# 7. Logs, PIDs & Crash Reports
+# ==========================================
 logs/
 *.log
 npm-debug.log*
@@ -46,8 +81,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+*.pid
+*.seed
+*.pid.lock
 
-# Editor directories and files
+# ==========================================
+# 8. Editor & IDE Workspaces
+# ==========================================
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -59,17 +99,39 @@ lerna-debug.log*
 *.sw?
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
 
-# Operating System Files
+# ==========================================
+# 9. AI Assistants & Agentic Workspace State
+# ==========================================
+.gemini/
+.cursor/
+.claude/
+.copilot/
+
+# ==========================================
+# 10. Operating System Files
+# ==========================================
+# macOS
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
+.AppleDouble
+.LSOverride
+
+# Windows
 Thumbs.db
 ehthumbs.db
 [Dd]esktop.ini
+$RECYCLE.BIN/
 
-# Temporary files & Backups
+# Linux
+*~
+
+# ==========================================
+# 11. Temporary Files & Backups
+# ==========================================
 *.tmp
 *.bak
