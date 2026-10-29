@@ -2,22 +2,26 @@ import { useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Starburst, Web } from "@/components/comic";
 import { Footer } from "@/components/Footer";
+import { getCanonicalUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Spidy Calculator" },
+      { title: "Privacy Policy | Spidy Calculator" },
       {
         name: "description",
         content:
-          "Spidy Calculator Privacy Policy: zero ads, zero trackers, 100% private client-side calculations.",
+          "Read how Spidy Calculator handles local calculation history and preferences. Calculations run in your browser; no account or tracking is required.",
       },
       { property: "og:title", content: "Privacy Policy — Spidy Calculator" },
       {
         property: "og:description",
         content: "Zero data collection. 100% private calculations in your browser.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: getCanonicalUrl("/privacy") }],
   }),
   component: PrivacyPage,
 });
