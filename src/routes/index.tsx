@@ -92,7 +92,14 @@ const STATS = [
 
 function Home() {
   const navigate = useNavigate();
+  const reduce = useReducedMotion();
   const [isFirstTime, setIsFirstTime] = useState(false);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const webY1 = useTransform(scrollYProgress, [0, 1], [0, -140]);
+  const webY2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
 
   useEffect(() => {
     // Automatically redirect first-time visitors to /terms
@@ -102,13 +109,17 @@ function Home() {
     }
   }, [navigate]);
 
-  const reduce = useReducedMotion();
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const stepsRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
-  const webY1 = useTransform(scrollYProgress, [0, 1], [0, -140]);
-  const webY2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      const id = window.location.hash.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        window.setTimeout(() => {
+          el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+        }, 150);
+      }
+    }
+  }, [reduce]);
 
   useGSAP(() => {
     if (isFirstTime) return;
@@ -356,7 +367,7 @@ function Home() {
         </section>
 
         {/* Pinned, scrubbed how-it-works (GSAP ScrollTrigger) */}
-        <section ref={stepsRef} className="relative">
+        <section id="how-it-works" ref={stepsRef} className="relative scroll-mt-20">
           <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4 py-16 text-center">
             <h2 className="font-comic print-shadow-text mb-8 text-4xl text-paper sm:text-6xl">
               HOW IT <span className="text-mustard">WORKS</span>
