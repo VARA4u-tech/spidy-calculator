@@ -93,7 +93,7 @@ function TermsPage() {
         <div ref={alertRef} className="mb-8">
           {/* DECLINED STATE: Polite Restriction Notice */}
           {isLoaded && status === "declined" && (
-            <div className="panel rounded-xl p-4 sm:p-6 bg-hero-red/10 border-3 border-hero-red shadow-[5px_5px_0_0_var(--ink)] text-paper">
+            <div className="rounded-xl p-4 sm:p-6 bg-[#2d0e12] border-3 border-hero-red shadow-[5px_5px_0_0_var(--ink)] text-white">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                 <div className="relative flex h-12 w-12 shrink-0 items-center justify-center">
                   <Starburst className="animate-wobble absolute -inset-2 opacity-95 text-hero-red" />
@@ -103,12 +103,12 @@ function TermsPage() {
                   <h2 className="font-comic text-xl sm:text-2xl text-hero-red leading-tight">
                     ACCESS RESTRICTED: ACCEPTANCE REQUIRED
                   </h2>
-                  <p className="mt-1 font-mono text-xs sm:text-sm text-paper/90 leading-relaxed">
+                  <p className="mt-1 font-body text-sm sm:text-base text-white/95 leading-relaxed">
                     You have declined the terms. To protect our community and respect mathematical
                     disclaimers, <strong>acceptance of the Terms &amp; Conditions is required</strong> to
                     use Spidy Calculator.
                   </p>
-                  <p className="mt-1 font-mono text-xs text-mustard">
+                  <p className="mt-1.5 font-body text-xs sm:text-sm text-mustard font-medium">
                     Take your time! You can review the terms below and click{" "}
                     <strong>"I Accept &amp; Continue"</strong> whenever you're ready to proceed.
                   </p>
@@ -126,7 +126,7 @@ function TermsPage() {
 
           {/* UNSEEN STATE: Friendly First-Time Welcome Banner */}
           {isLoaded && status === "unseen" && (
-            <div className="panel rounded-xl p-4 sm:p-5 bg-mustard/15 border-3 border-mustard shadow-[5px_5px_0_0_var(--ink)] text-paper">
+            <div className="rounded-xl p-4 sm:p-5 bg-[#2a200a] border-3 border-mustard shadow-[5px_5px_0_0_var(--ink)] text-white">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                 <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
                   <Starburst className="animate-wobble absolute -inset-1.5 opacity-90 text-mustard" />
@@ -136,7 +136,7 @@ function TermsPage() {
                   <h2 className="font-comic text-lg sm:text-xl text-mustard leading-tight">
                     WELCOME, HERO! ONE QUICK STEP BEFORE CALCULATING
                   </h2>
-                  <p className="mt-0.5 font-mono text-xs sm:text-sm text-paper/85">
+                  <p className="mt-1 font-body text-sm sm:text-base text-white/95 leading-relaxed">
                     Before accessing the calculator for the first time, please review the Terms &amp;
                     Conditions below and click <strong>"I Accept &amp; Continue"</strong>.
                   </p>
@@ -147,15 +147,15 @@ function TermsPage() {
 
           {/* ACCEPTED STATE: Clearance Badge & Returning User Status */}
           {isLoaded && status === "accepted" && (
-            <div className="panel rounded-xl p-4 sm:p-5 bg-emerald-950/40 border-3 border-emerald-500 shadow-[5px_5px_0_0_var(--ink)] text-paper">
+            <div className="rounded-xl p-4 sm:p-5 bg-[#092218] border-3 border-emerald-400 shadow-[5px_5px_0_0_var(--ink)] text-white">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">✅</span>
+                  <span className="text-2xl shrink-0">✅</span>
                   <div>
-                    <h2 className="font-comic text-lg sm:text-xl text-emerald-400 leading-tight">
+                    <h2 className="font-comic text-xl sm:text-2xl text-emerald-300 leading-tight tracking-wide font-bold">
                       TERMS ACCEPTED · FULL CLEARANCE GRANTED
                     </h2>
-                    <p className="font-mono text-xs text-paper/75">
+                    <p className="mt-1 font-body text-sm sm:text-base text-white font-medium leading-relaxed">
                       {formattedDate
                         ? `You accepted these terms on ${formattedDate}.`
                         : "You have accepted the terms of service."}{" "}
@@ -163,10 +163,10 @@ function TermsPage() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 self-stretch sm:self-auto">
+                <div className="flex items-center gap-2 self-stretch sm:self-auto shrink-0">
                   <Link
                     to="/calculator"
-                    className="comic-btn btn-red px-4 py-2 text-sm sm:text-base whitespace-nowrap flex-1 sm:flex-initial text-center"
+                    className="comic-btn btn-red px-5 py-2.5 text-base sm:text-lg whitespace-nowrap flex-1 sm:flex-initial text-center font-comic font-bold tracking-wider"
                   >
                     ⚡ OPEN CALCULATOR
                   </Link>
