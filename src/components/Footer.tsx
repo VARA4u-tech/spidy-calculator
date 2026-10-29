@@ -159,7 +159,10 @@ export function Footer() {
           </div>
 
           {/* Single-Source Navigation Links (No Duplication) */}
-          <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-comic text-sm sm:text-base">
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-comic text-sm sm:text-base"
+          >
             <a
               href="/#powers"
               className="text-paper hover:text-mustard transition-colors tracking-wider"
@@ -199,9 +202,7 @@ export function Footer() {
 
         {/* Clean Copyright & Ethics Strip */}
         <div className="mx-auto max-w-6xl mt-4 pt-3.5 border-t border-paper/10 text-center font-mono text-[11px] sm:text-xs text-paper/60">
-          <p>
-            © 2026 Spidy Calculator · Zero ads · Zero tracking · Vintage comic book homage.
-          </p>
+          <p>© 2026 Spidy Calculator · Zero ads · Zero tracking · Vintage comic book homage.</p>
         </div>
       </div>
     </footer>

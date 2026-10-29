@@ -35,11 +35,12 @@ export function BackToTop() {
           title="Scroll back to top"
           className="fixed bottom-5 right-5 z-40 flex items-center gap-1.5 rounded-full border-3 border-ink bg-hero-blue px-3.5 py-2 font-comic text-xs sm:text-sm font-bold text-paper shadow-[3px_3px_0_var(--ink)] hover:brightness-110 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--ink)] focus-visible:outline-4 focus-visible:outline-mustard cursor-pointer select-none"
         >
-          <span aria-hidden className="text-xs">▲</span>
+          <span aria-hidden className="text-xs">
+            ▲
+          </span>
           <span className="tracking-wider">TOP</span>
         </motion.button>
       )}
     </AnimatePresence>
   );
 }
-

@@ -45,10 +45,7 @@ export function Navbar() {
     setMenuOpen((v) => !v);
   };
 
-  const handleSectionClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
-  ) => {
+  const handleSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     sfxToggle();
     if (pathname === "/") {
       e.preventDefault();

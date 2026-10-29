@@ -104,7 +104,9 @@ export function MobileSciCalculator({
               aria-label="Back to Home"
               title="Return to Home"
             >
-              <span aria-hidden className="text-[10px]">◀</span>
+              <span aria-hidden className="text-[10px]">
+                ◀
+              </span>
               <span>HOME</span>
             </Link>
           </div>
@@ -151,12 +153,14 @@ export function MobileSciCalculator({
               className={`comic-header-btn ${
                 isRotated ? "btn-blue" : "btn-equals"
               } inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 text-xs font-bold`}
-              title={isRotated ? "Switch to upright portrait layout" : "Turn to horizontal landscape layout"}
+              title={
+                isRotated
+                  ? "Switch to upright portrait layout"
+                  : "Turn to horizontal landscape layout"
+              }
             >
               <span aria-hidden>{isRotated ? "📱" : "📐"}</span>
-              <span className="hidden min-[360px]:inline">
-                {isRotated ? "UPRIGHT" : "HORIZ"}
-              </span>
+              <span className="hidden min-[360px]:inline">{isRotated ? "UPRIGHT" : "HORIZ"}</span>
             </button>
 
             {/* Switch back to basic calculator */}
@@ -261,7 +265,9 @@ export function MobileSciCalculator({
                   >
                     <span
                       className={`select-none leading-none whitespace-nowrap px-0.5 ${
-                        k.label.length > 3 ? "text-[10px] min-[360px]:text-[11px] tracking-tighter" : ""
+                        k.label.length > 3
+                          ? "text-[10px] min-[360px]:text-[11px] tracking-tighter"
+                          : ""
                       }`}
                     >
                       {k.label}
@@ -335,7 +341,9 @@ export function MobileSciCalculator({
                   >
                     <span
                       className={`select-none leading-none whitespace-nowrap px-0.5 ${
-                        k.label.length > 3 ? "text-[10px] min-[360px]:text-[11px] tracking-tighter" : ""
+                        k.label.length > 3
+                          ? "text-[10px] min-[360px]:text-[11px] tracking-tighter"
+                          : ""
                       }`}
                     >
                       {k.label}

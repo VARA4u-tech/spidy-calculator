@@ -105,8 +105,9 @@ function TermsPage() {
                   </h2>
                   <p className="mt-1 font-body text-sm sm:text-base text-white/95 leading-relaxed">
                     You have declined the terms. To protect our community and respect mathematical
-                    disclaimers, <strong>acceptance of the Terms &amp; Conditions is required</strong> to
-                    use Spidy Calculator.
+                    disclaimers,{" "}
+                    <strong>acceptance of the Terms &amp; Conditions is required</strong> to use
+                    Spidy Calculator.
                   </p>
                   <p className="mt-1.5 font-body text-xs sm:text-sm text-mustard font-medium">
                     Take your time! You can review the terms below and click{" "}
@@ -137,8 +138,8 @@ function TermsPage() {
                     WELCOME, HERO! ONE QUICK STEP BEFORE CALCULATING
                   </h2>
                   <p className="mt-1 font-body text-sm sm:text-base text-white/95 leading-relaxed">
-                    Before accessing the calculator for the first time, please review the Terms &amp;
-                    Conditions below and click <strong>"I Accept &amp; Continue"</strong>.
+                    Before accessing the calculator for the first time, please review the Terms
+                    &amp; Conditions below and click <strong>"I Accept &amp; Continue"</strong>.
                   </p>
                 </div>
               </div>
@@ -186,10 +187,10 @@ function TermsPage() {
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               By accessing or using <strong>Spidy Calculator</strong> (the "Application"), you agree
-              to be bound by these Terms &amp; Conditions and all applicable laws. Explicit acceptance
-              via the "I Accept &amp; Continue" action is required prior to unlocking and using the
-              calculator. If you do not agree with any part of these terms, access to the calculator
-              remains restricted.
+              to be bound by these Terms &amp; Conditions and all applicable laws. Explicit
+              acceptance via the "I Accept &amp; Continue" action is required prior to unlocking and
+              using the calculator. If you do not agree with any part of these terms, access to the
+              calculator remains restricted.
             </p>
           </section>
 
@@ -219,9 +220,9 @@ function TermsPage() {
             </div>
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               While our calculation engine is tested rigorously to provide fast and accurate
-              standard arithmetic, trigonometric, and scientific functions, Spidy Calculator is provided
-              on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties
-              of any kind, either express or implied.
+              standard arithmetic, trigonometric, and scientific functions, Spidy Calculator is
+              provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis
+              without warranties of any kind, either express or implied.
             </p>
             <p className="mt-2 font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               Spidy Calculator should not be used as the sole calculation tool for mission-critical
@@ -256,8 +257,8 @@ function TermsPage() {
             <p className="font-mono text-xs sm:text-sm leading-relaxed text-ink/90">
               You agree not to use the Application in any manner that could disable, overburden,
               damage, or impair our infrastructure, or interfere with any other party's use and
-              enjoyment of the service. Automated scraping, malicious attacks, denial of service,
-              or attempts to reverse engineer backend services are strictly prohibited.
+              enjoyment of the service. Automated scraping, malicious attacks, denial of service, or
+              attempts to reverse engineer backend services are strictly prohibited.
             </p>
           </section>
 
@@ -288,8 +289,8 @@ function TermsPage() {
                 YOU'VE ACCEPTED THE TERMS!
               </h3>
               <p className="mt-2 font-mono text-xs sm:text-sm text-ink/80 max-w-lg mx-auto">
-                Your acceptance is recorded in browser storage. You can jump straight into calculating,
-                or head back to the home page anytime.
+                Your acceptance is recorded in browser storage. You can jump straight into
+                calculating, or head back to the home page anytime.
               </p>
 
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -329,8 +330,8 @@ function TermsPage() {
                 ACCEPT TERMS TO UNLOCK THE CALCULATOR
               </h3>
               <p className="mt-2 font-mono text-xs sm:text-sm text-ink/80 max-w-lg mx-auto">
-                By clicking <strong>"I Accept &amp; Continue"</strong>, you agree to these Terms &amp;
-                Conditions. Your preference will be remembered for future visits.
+                By clicking <strong>"I Accept &amp; Continue"</strong>, you agree to these Terms
+                &amp; Conditions. Your preference will be remembered for future visits.
               </p>
 
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -357,8 +358,8 @@ function TermsPage() {
               {status === "declined" ? (
                 <div className="mt-4 rounded-lg bg-hero-red/10 border-2 border-hero-red p-3 max-w-md mx-auto">
                   <p className="font-mono text-xs text-hero-red font-bold">
-                    ⚠️ You have declined. Calculator access is currently restricted. Click "I Accept &amp;
-                    Continue" when you wish to proceed.
+                    ⚠️ You have declined. Calculator access is currently restricted. Click "I Accept
+                    &amp; Continue" when you wish to proceed.
                   </p>
                 </div>
               ) : (

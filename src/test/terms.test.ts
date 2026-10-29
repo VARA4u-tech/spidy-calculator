@@ -57,4 +57,3 @@ describe("Terms & Conditions visitor flow and storage", () => {
     expect(hasAcceptedTerms()).toBe(true);
   });
 });
-

@@ -10,9 +10,7 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
     if (
       isRedirect(error) ||
       error instanceof Response ||
-      (error != null &&
-        typeof error === "object" &&
-        ("statusCode" in error || "status" in error))
+      (error != null && typeof error === "object" && ("statusCode" in error || "status" in error))
     ) {
       throw error;
     }
