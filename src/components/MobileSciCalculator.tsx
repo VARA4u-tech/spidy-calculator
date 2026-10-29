@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import * as C from "@/lib/calculator";
 import { sfxKey, sfxToggle } from "@/lib/sounds";
@@ -31,6 +31,8 @@ interface MobileSciCalculatorProps {
   cls: Record<string, string>;
 }
 
+const ORIENTATION_PREF_KEY = "spidy-sci-mobile-orientation";
+
 export function MobileSciCalculator({
   state,
   setState,
@@ -49,8 +51,38 @@ export function MobileSciCalculator({
   pressed,
   cls,
 }: MobileSciCalculatorProps) {
-  // Mobile orientation: horizontal (landscape) by default as requested, with toggle to upright
-  const [isRotated, setIsRotated] = useState(true);
+  // Mobile orientation preference: defaults to upright (portrait), switchable to horizontal (landscape)
+  const [isRotated, setIsRotated] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.sessionStorage.getItem(ORIENTATION_PREF_KEY);
+      if (saved === "rotated") return true;
+      if (saved === "upright") return false;
+    }
+    // Default to upright portrait mode for natural phone orientation
+    return false;
+  });
+
+  const handleToggleOrientation = () => {
+    sfxToggle();
+    setIsRotated((prev) => {
+      const next = !prev;
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem(ORIENTATION_PREF_KEY, next ? "rotated" : "upright");
+      }
+      return next;
+    });
+  };
+
+  const len = state.display.length;
+  const uprightDisplaySize =
+    len > 14
+      ? "text-xl min-[360px]:text-2xl"
+      : len > 10
+        ? "text-2xl min-[360px]:text-3xl"
+        : "text-3xl min-[360px]:text-4xl";
+
+  const rotatedDisplaySize =
+    len > 12 ? "text-xl min-[360px]:text-2xl" : "text-2xl min-[360px]:text-3xl";
 
   return (
     <div className={isRotated ? "sci-mobile-wrapper-rotated" : "sci-mobile-wrapper-upright"}>
@@ -59,35 +91,30 @@ export function MobileSciCalculator({
         className={
           isRotated
             ? "relative w-full h-full flex flex-col justify-between overflow-hidden"
-            : "sci-mobile-panel panel relative rounded-xl border-3 border-ink bg-paper p-1.5 shadow-[6px_6px_0_0_var(--ink)] flex flex-col justify-between overflow-hidden"
+            : "sci-mobile-panel panel relative rounded-2xl border-4 border-ink bg-paper p-2 sm:p-2.5 shadow-[6px_6px_0_0_var(--ink)] flex flex-col justify-between overflow-hidden"
         }
       >
-        {/* Decorative Comic Badge */}
-        <span
-          aria-hidden
-          className="font-comic halftone-red absolute -top-3 -right-2 z-20 grid h-7 w-7 rotate-12 place-items-center text-[9px] text-primary-foreground [clip-path:polygon(50%_0,61%_30%,95%_20%,72%_48%,100%_75%,65%_70%,50%_100%,38%_70%,4%_78%,28%_50%,6%_18%,40%_30%)] animate-wobble pointer-events-none"
-        >
-          SCI
-        </span>
-
-        {/* Top Navigation & Control Bar */}
-        <header className="flex items-center justify-between gap-1 pb-1 mb-0.5 border-b border-ink/30 shrink-0 select-none">
-          <div className="flex items-center gap-1 sm:gap-1.5">
+        {/* Top Navigation & Control Header */}
+        <header className="flex items-center justify-between gap-1 pb-1.5 mb-1.5 border-b-2 border-ink/20 shrink-0 select-none">
+          <div className="flex items-center gap-1.5 shrink-0">
             <Link
               to="/"
-              className="comic-btn btn-blue py-0.5 px-1.5 text-[10px] inline-flex items-center gap-0.5"
+              className="comic-header-btn btn-blue gap-1 px-2 text-xs font-bold"
               aria-label="Back to Home"
             >
-              <span aria-hidden>◀</span>
+              <span aria-hidden className="text-[10px]">◀</span>
               <span>HOME</span>
             </Link>
-            <span className="font-comic text-[11px] text-hero-blue tracking-wide hidden min-[340px]:inline">
-              SPIDY <span className="text-hero-red">SCI-TECH</span>
-            </span>
+
+            <div className="hidden min-[540px]:inline-flex items-center gap-1 rounded-md border border-ink/30 bg-paper-dark/40 px-2 py-0.5 shadow-[1px_1px_0_var(--ink)]">
+              <span className="font-comic text-xs tracking-wider font-bold text-hero-blue">
+                SPIDY <span className="text-hero-red">SCI-TECH</span>
+              </span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1">
-            {/* Case Files Toggle */}
+          <div className="flex items-center gap-1 shrink-0">
+            {/* Case Files History Toggle */}
             <button
               type="button"
               aria-expanded={showHistory}
@@ -95,10 +122,11 @@ export function MobileSciCalculator({
                 sfxToggle();
                 setShowHistory((v) => !v);
               }}
-              className="comic-btn btn-blue py-0.5 px-1.5 text-[10px] inline-flex items-center gap-1"
+              className="comic-header-btn btn-blue gap-1 px-1.5 sm:px-2 text-xs font-bold"
+              title="Open Case Files calculation history"
             >
               <span>{showHistory ? "CLOSE" : "LOG"}</span>
-              <span className="halftone-red rounded border border-ink px-1 text-[9px] font-mono text-paper">
+              <span className="bg-hero-red text-paper rounded border border-ink px-1.5 py-0.2 text-[10px] font-mono font-bold leading-none shadow-[1px_1px_0_var(--ink)]">
                 {history.length}
               </span>
             </button>
@@ -110,21 +138,21 @@ export function MobileSciCalculator({
                 sfxToggle();
                 setMuted(!muted);
               }}
-              className="comic-btn btn-blue py-0.5 px-1 text-[10px] inline-flex items-center"
-              title={muted ? "Sound off" : "Sound on"}
+              className="comic-header-btn btn-blue px-1.5 sm:px-2 text-xs sm:text-sm font-bold"
+              title={muted ? "Sound effects off (tap to enable)" : "Sound effects on (tap to mute)"}
             >
-              <span>{muted ? "🔇" : "🔊"}</span>
+              <span aria-hidden>{muted ? "🔇" : "🔊"}</span>
+              <span className="sr-only">{muted ? "SFX Off" : "SFX On"}</span>
             </button>
 
-            {/* Horizontal / Upright Orientation Toggle */}
+            {/* Upright vs Horizontal View Toggle */}
             <button
               type="button"
-              onClick={() => {
-                sfxToggle();
-                setIsRotated((v) => !v);
-              }}
-              className="comic-btn btn-blue py-0.5 px-1.5 text-[10px] font-bold"
-              title={isRotated ? "Switch to upright view" : "Turn horizontally"}
+              onClick={handleToggleOrientation}
+              className={`comic-header-btn ${
+                isRotated ? "btn-blue" : "btn-equals"
+              } px-1.5 sm:px-2 text-xs font-bold`}
+              title={isRotated ? "Switch to upright portrait layout" : "Turn to horizontal landscape layout"}
             >
               <span>{isRotated ? "📱 UPRIGHT" : "📐 HORIZ"}</span>
             </button>
@@ -133,23 +161,28 @@ export function MobileSciCalculator({
             <button
               type="button"
               onClick={onCloseSci}
-              className="comic-btn btn-red py-0.5 px-2 text-[10px] font-bold"
+              className="comic-header-btn btn-red px-2 text-xs font-bold"
               title="Switch back to basic calculator"
             >
-              123 BASIC
+              <span>123 BASIC</span>
             </button>
           </div>
         </header>
 
-        {/* Compact Display Bezel */}
-        <div className="rounded-lg border-2 border-ink bg-ink p-1 sm:p-1.5 shadow-[inset_0_0_0_2px_var(--hero-blue)] shrink-0 mb-1 flex flex-col justify-between">
+        {/* Display Bezel */}
+        <div
+          className={`rounded-xl border-3 border-ink bg-ink p-1.5 sm:p-2 shadow-[inset_0_0_0_2px_var(--hero-blue)] shrink-0 ${
+            isRotated ? "mb-1" : "mb-1.5"
+          } flex flex-col justify-between`}
+        >
+          {/* Bezel Status Bar */}
           <div className="flex items-center justify-between gap-1 border-b border-paper/15 pb-0.5 mb-0.5">
             <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={copyResult}
-                aria-label="Copy result"
-                className={`inline-flex items-center gap-0.5 rounded border border-ink px-1.5 py-0.5 font-mono text-[9px] font-bold ${
+                aria-label="Copy current calculation result"
+                className={`inline-flex items-center gap-0.5 rounded border border-ink px-1.5 py-0.5 font-mono text-[9px] font-bold transition-transform active:scale-95 ${
                   copied ? "bg-mustard text-ink" : "bg-hero-blue text-paper hover:brightness-110"
                 }`}
               >
@@ -160,8 +193,8 @@ export function MobileSciCalculator({
               <button
                 type="button"
                 onClick={toggleAngle}
-                className="rounded border border-paper/30 bg-ink px-1.5 py-0.5 font-mono text-[9px] font-bold text-mustard hover:border-mustard"
-                title={`Angle Mode: ${state.angleMode.toUpperCase()}`}
+                className="rounded border border-mustard/50 bg-ink px-1.5 py-0.5 font-mono text-[9px] font-bold text-mustard hover:border-mustard transition-colors"
+                title={`Angle Mode: currently ${state.angleMode.toUpperCase()} (tap to toggle)`}
               >
                 {state.angleMode.toUpperCase()}
               </button>
@@ -171,17 +204,20 @@ export function MobileSciCalculator({
               </span>
             </div>
 
-            <p className="min-h-4 max-w-[200px] truncate text-right font-mono text-[10px] text-mustard">
+            <p className="min-h-4 max-w-[210px] truncate text-right font-mono text-[10px] text-mustard tracking-wider">
               {state.expression || "\u00a0"}
             </p>
           </div>
 
+          {/* Main Calculation Output */}
           <output
             key={state.display}
             aria-live="polite"
             onClick={copyResult}
             title="Click to copy result"
-            className="font-comic block cursor-pointer truncate text-right text-paper text-2xl min-[360px]:text-3xl animate-pop leading-tight select-all py-0.5"
+            className={`font-comic block cursor-pointer truncate text-right text-paper ${
+              isRotated ? rotatedDisplaySize : uprightDisplaySize
+            } animate-pop leading-tight select-all py-0.5`}
           >
             {state.display}
           </output>
@@ -196,69 +232,163 @@ export function MobileSciCalculator({
           )}
         </div>
 
-        {/* Keypad Grid: 9 Columns x 5 Rows (Fills all remaining height) */}
-        <div className="flex-1 min-h-0 flex gap-1">
-          {/* 5 Scientific Columns */}
-          <div className="flex-[5] grid grid-cols-5 auto-rows-fr gap-0.5 min-h-0">
-            {sciKeys.map((k) => {
-              const isStaged =
-                state.waiting &&
-                ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
-              return (
-                <button
-                  key={k.id}
-                  type="button"
-                  aria-label={k.aria}
-                  title={k.aria}
-                  data-pressed={pressed === k.id || isStaged}
-                  onClick={k.action}
-                  className={`comic-btn ${cls[k.kind]} btn-symbol h-full w-full min-h-0 flex items-center justify-center px-0 ${
-                    isStaged ? "ring-2 ring-mustard brightness-110 !translate-y-[2px]" : ""
-                  }`}
-                >
-                  <span className="select-none leading-none truncate">{k.label}</span>
-                </button>
-              );
-            })}
-          </div>
+        {/* Keypad Section: Adaptive Layout */}
+        {isRotated ? (
+          /* =================================================================== */
+          /* ── HORIZONTAL (LANDSCAPE) VIEW: 9 Columns side-by-side ──           */
+          /* =================================================================== */
+          <div className="flex-1 min-h-0 flex gap-1 sci-keypad">
+            {/* 5 Scientific Columns */}
+            <div className="flex-[5] grid grid-cols-5 auto-rows-fr gap-0.5 min-h-0">
+              {sciKeys.map((k) => {
+                const isStaged =
+                  state.waiting &&
+                  ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
+                return (
+                  <button
+                    key={k.id}
+                    type="button"
+                    aria-label={k.aria}
+                    title={k.aria}
+                    data-pressed={pressed === k.id || isStaged}
+                    onClick={k.action}
+                    className={`comic-btn ${cls[k.kind]} btn-symbol h-full w-full min-h-0 flex items-center justify-center px-0 ${
+                      isStaged ? "ring-2 ring-mustard brightness-110 !translate-y-[2px]" : ""
+                    }`}
+                  >
+                    <span
+                      className={`select-none leading-none whitespace-nowrap px-0.5 ${
+                        k.label.length > 3 ? "text-[10px] min-[360px]:text-[11px] tracking-tighter" : ""
+                      }`}
+                    >
+                      {k.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
-          {/* Comic Divider */}
-          <div className="w-1 bg-ink/30 rounded-full shrink-0 self-stretch my-0.5" />
+            {/* Comic Vertical Divider */}
+            <div className="w-1 bg-ink/30 rounded-full shrink-0 self-stretch my-0.5" />
 
-          {/* 4 Basic Number Columns */}
-          <div className="flex-[4] grid grid-cols-4 auto-rows-fr gap-0.5 min-h-0">
-            {basicKeys.map((k) => {
-              const isStaged =
-                state.waiting &&
-                (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
-              return (
-                <button
-                  key={k.id}
-                  type="button"
-                  aria-label={k.aria}
-                  title={k.aria}
-                  data-pressed={pressed === k.id || isStaged}
-                  onClick={k.action}
-                  className={`comic-btn ${cls[k.kind]} h-full w-full min-h-0 flex items-center justify-center px-0 ${
-                    isStaged ? "ring-2 ring-mustard brightness-110 !translate-y-[2px]" : ""
-                  } ${
-                    k.id === "sci_mode"
-                      ? "font-comic tracking-wide leading-none"
-                      : /^[0-9.]$|AC|C/.test(k.label)
-                        ? ""
-                        : "btn-symbol"
-                  }`}
-                >
-                  {k.id === "sci_mode" ? (
-                    <span className="select-none leading-none font-comic font-bold">123</span>
-                  ) : (
-                    <span className="select-none leading-none">{k.label}</span>
-                  )}
-                </button>
-              );
-            })}
+            {/* 4 Basic Number Columns */}
+            <div className="flex-[4] grid grid-cols-4 auto-rows-fr gap-0.5 min-h-0">
+              {basicKeys.map((k) => {
+                const isStaged =
+                  state.waiting &&
+                  (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+                return (
+                  <button
+                    key={k.id}
+                    type="button"
+                    aria-label={k.aria}
+                    title={k.aria}
+                    data-pressed={pressed === k.id || isStaged}
+                    onClick={k.action}
+                    className={`comic-btn ${cls[k.kind]} h-full w-full min-h-0 flex items-center justify-center px-0 ${
+                      isStaged ? "ring-2 ring-mustard brightness-110 !translate-y-[2px]" : ""
+                    } ${
+                      k.id === "sci_mode"
+                        ? "font-comic tracking-wide leading-none"
+                        : /^[0-9.]$|AC|C/.test(k.label)
+                          ? ""
+                          : "btn-symbol"
+                    }`}
+                  >
+                    {k.id === "sci_mode" ? (
+                      <span className="select-none leading-none font-comic font-bold">123</span>
+                    ) : (
+                      <span className="select-none leading-none">{k.label}</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : (
+          /* =================================================================== */
+          /* ── UPRIGHT (PORTRAIT) VIEW: Stacked 5-Col Sci Deck + 4-Col Basic Deck ── */
+          /* =================================================================== */
+          <div className="flex-1 min-h-0 flex flex-col gap-1 sm:gap-1.5 justify-between">
+            {/* Upper Scientific Deck (5 cols x 5 rows) */}
+            <div className="sci-deck flex-[4.5] grid grid-cols-5 auto-rows-fr gap-1 min-h-0">
+              {sciKeys.map((k) => {
+                const isStaged =
+                  state.waiting &&
+                  ((k.id === "pow" && state.operator === "^") || state.operator === k.label);
+                return (
+                  <button
+                    key={k.id}
+                    type="button"
+                    aria-label={k.aria}
+                    title={k.aria}
+                    data-pressed={pressed === k.id || isStaged}
+                    onClick={k.action}
+                    className={`comic-btn ${cls[k.kind]} btn-symbol h-full w-full min-h-0 flex items-center justify-center font-comic font-bold ${
+                      isStaged
+                        ? "ring-2 ring-mustard brightness-110 !translate-y-[2px] !shadow-[0_1px_0_0_var(--wall),0_1px_0_2px_var(--ink)]"
+                        : ""
+                    }`}
+                  >
+                    <span
+                      className={`select-none leading-none whitespace-nowrap px-0.5 ${
+                        k.label.length > 3 ? "text-[10px] min-[360px]:text-[11px] tracking-tighter" : ""
+                      }`}
+                    >
+                      {k.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Tactile Comic Separator */}
+            <div className="relative flex items-center justify-center my-0.5 shrink-0 select-none">
+              <div className="w-full h-0.5 bg-ink/20 rounded-full" />
+              <span className="absolute px-2 py-0.2 bg-paper text-[8px] min-[360px]:text-[9px] font-mono font-bold text-ink/60 uppercase tracking-widest border border-ink/25 rounded shadow-[1px_1px_0_var(--ink)]">
+                ⚡ NUMERIC DECK
+              </span>
+            </div>
+
+            {/* Lower Standard Number Deck (4 cols x 5 rows) */}
+            <div className="basic-deck flex-[5.5] grid grid-cols-4 auto-rows-fr gap-1 sm:gap-1.5 min-h-0">
+              {basicKeys.map((k) => {
+                const isStaged =
+                  state.waiting &&
+                  (state.operator === k.id || (k.id === "pow" && state.operator === "^"));
+                return (
+                  <button
+                    key={k.id}
+                    type="button"
+                    aria-label={k.aria}
+                    title={k.aria}
+                    data-pressed={pressed === k.id || isStaged}
+                    onClick={k.action}
+                    className={`comic-btn ${cls[k.kind]} h-full w-full min-h-0 flex items-center justify-center ${
+                      isStaged
+                        ? "ring-2 ring-mustard ring-offset-1 ring-offset-ink brightness-110 !translate-y-[2px] !shadow-[0_1px_0_0_var(--wall),0_1px_0_2px_var(--ink)]"
+                        : ""
+                    } ${
+                      k.id === "sci_mode"
+                        ? "font-comic tracking-wider leading-none text-sm min-[360px]:text-base"
+                        : /^[0-9.]$|AC|C/.test(k.label)
+                          ? "font-comic font-bold text-lg min-[360px]:text-xl"
+                          : "btn-symbol font-comic font-bold text-lg min-[360px]:text-xl"
+                    }`}
+                  >
+                    {k.id === "sci_mode" ? (
+                      <span className="select-none leading-none font-comic font-bold tracking-wider">
+                        123
+                      </span>
+                    ) : (
+                      <span className="select-none leading-none">{k.label}</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Case Files Overlay Modal */}
         {showHistory && (
@@ -266,7 +396,7 @@ export function MobileSciCalculator({
             <div className="flex items-center justify-between border-b-2 border-ink pb-1 mb-1 shrink-0">
               <div className="flex items-center gap-1.5">
                 <h2 className="font-comic text-base text-hero-blue">Case Files History</h2>
-                <span className="halftone-red rounded border border-ink px-1 text-[10px] font-mono text-paper">
+                <span className="halftone-red rounded border border-ink px-1 text-[10px] font-mono text-paper font-bold">
                   {history.length}
                 </span>
               </div>
@@ -278,7 +408,7 @@ export function MobileSciCalculator({
                     sfxToggle();
                     setHistory([]);
                   }}
-                  className="comic-btn btn-red px-2 py-0.5 text-[10px] disabled:opacity-50"
+                  className="comic-btn btn-red px-2 py-0.5 text-[10px] disabled:opacity-50 cursor-pointer"
                 >
                   Clear
                 </button>
@@ -288,7 +418,7 @@ export function MobileSciCalculator({
                     sfxToggle();
                     setShowHistory(false);
                   }}
-                  className="comic-btn btn-equals px-2 py-0.5 text-[10px] font-bold"
+                  className="comic-btn btn-equals px-2 py-0.5 text-[10px] font-bold cursor-pointer"
                 >
                   ✕ CLOSE
                 </button>
@@ -315,7 +445,7 @@ export function MobileSciCalculator({
                         });
                         setShowHistory(false);
                       }}
-                      className="w-full rounded border border-ink bg-paper px-2 py-1 text-right font-mono hover:bg-paper-dark text-xs transition-colors flex items-center justify-between"
+                      className="w-full rounded border border-ink bg-paper px-2 py-1 text-right font-mono hover:bg-paper-dark text-xs transition-colors flex items-center justify-between cursor-pointer"
                     >
                       <span className="text-[10px] text-muted-foreground">{h.expression} =</span>
                       <span className="text-sm font-bold text-ink">{h.result}</span>
