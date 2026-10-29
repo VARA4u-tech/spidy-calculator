@@ -13,7 +13,7 @@
 
 **THWIP! Let’s do the math — Your Friendly Neighborhood High-Performance Web Calculator**
 
-*A production-grade, art-directed retro comic-book calculator web application built with React 19, TanStack Start, TypeScript, and a decoupled pure functional math engine.*
+_A production-grade, art-directed retro comic-book calculator web application built with React 19, TanStack Start, TypeScript, and a decoupled pure functional math engine._
 
 [Explore Live Demo](https://spidy-calculator.lovable.app) · [Report Bug](https://github.com/lovable-dev/spidy-calculator/issues) · [Request Feature](https://github.com/lovable-dev/spidy-calculator/issues)
 
@@ -75,32 +75,38 @@
 ## 📌 Project Overview
 
 ### Problem Statement
+
 Standard web calculators fall into two extremes:
+
 1. **Generic, lifeless utility widgets** lacking brand identity, tactile feedback, responsive ergonomics, and engaging design.
 2. **Ad-heavy web applications** burdened with slow loading times, tracking cookies, unreliable `eval()` mathematical parsers, and poor mobile adaptation.
 
 Furthermore, engineering scientific calculator keypads on modern mobile viewports (360px–430px) is notoriously difficult: squeezing 40+ keys into a portrait phone layout either causes illegible micro-buttons, horizontal overflow clipping, or severe usability friction.
 
 ### Why Spidy Calculator Was Built
+
 **Spidy Calculator** was engineered to prove that utility software can be both **mathematically rigorous** and **visually captivating**. Inspired by vintage comic book print art (halftone printing, Ben-Day dots, 3D extruded tactile buttons, dynamic starbursts, and bold ink outlines), the application delivers:
+
 - Precision mathematical computation with zero external dependencies.
 - A full **45-function scientific deck** designed specifically for touch ergonomics on mobile and desktop viewports.
 - An audibly tactile user experience powered by purely synthesized in-browser audio waveforms (zero media downloads).
 - A zero-ads, zero-tracking, privacy-first computing environment.
 
 ### Real-World Impact & Target Audience
+
 - **Students & STEM Learners**: Accessible math sidekick with rapid trigonometry, logarithm, powers, and factorials.
 - **Developers & Designers**: Benchmark reference for combining modern SSR frameworks (TanStack Start, React 19) with Tailwind CSS v4 and production-grade animation pipelines (GSAP + Framer Motion).
 - **Comic Enthusiasts & Power Users**: Tactile keyboard-driven calculation with a dedicated Case Files history log for quick reuse.
 
 ### Core Objectives & Business Value
-| Objective | Engineering Implementation | Business / User Value |
-| :--- | :--- | :--- |
-| **Mathematical Precision** | Pure functional IEEE-754 engine with 16-digit precision | Zero calculation drift, rock-solid logic, zero `eval()` vulnerabilities |
-| **Mobile Ergonomics** | Dual-orientation mobile layout (Upright vs. 90° Landscape turn) | 45 scientific keys accessible on any smartphone without clipping |
-| **Instantaneous Loading** | Zero external audio or font asset downloads; pure CSS & SVG | Ultra-fast initial page load, perfect Lighthouse performance |
-| **Decoupled Architecture** | Presentation layer isolated from stateful math logic | Ready to swap for a Java Spring Boot REST API client at any time |
-| **Legal Compliance** | Explicit Terms & Conditions clearance gate with persistent storage | GDPR/CCPA compliant disclaimer model without cookies |
+
+| Objective                  | Engineering Implementation                                         | Business / User Value                                                   |
+| :------------------------- | :----------------------------------------------------------------- | :---------------------------------------------------------------------- |
+| **Mathematical Precision** | Pure functional IEEE-754 engine with 16-digit precision            | Zero calculation drift, rock-solid logic, zero `eval()` vulnerabilities |
+| **Mobile Ergonomics**      | Dual-orientation mobile layout (Upright vs. 90° Landscape turn)    | 45 scientific keys accessible on any smartphone without clipping        |
+| **Instantaneous Loading**  | Zero external audio or font asset downloads; pure CSS & SVG        | Ultra-fast initial page load, perfect Lighthouse performance            |
+| **Decoupled Architecture** | Presentation layer isolated from stateful math logic               | Ready to swap for a Java Spring Boot REST API client at any time        |
+| **Legal Compliance**       | Explicit Terms & Conditions clearance gate with persistent storage | GDPR/CCPA compliant disclaimer model without cookies                    |
 
 ---
 
@@ -171,13 +177,13 @@ flowchart TD
 
 ### Inter-Module Communication Matrix
 
-| Module A | Module B | Communication Protocol | Purpose |
-| :--- | :--- | :--- | :--- |
-| `Calculator.tsx` | `calculator.ts` | Pure functional call & state update | Dispatches input action, receives new immutable state |
-| `Calculator.tsx` | `sounds.ts` | Direct procedural trigger | Emits synthesized click/operator frequencies and haptics |
-| `routes/calculator.tsx`| `terms.ts` | Storage query (`hasAcceptedTerms`) | Enforces clearance check; redirects to `/terms` if unauthorized |
-| `routes/terms.tsx` | `terms.ts` | State mutator (`accept()`, `decline()`) | Records consent timestamp and notifies active listeners |
-| `Navbar.tsx` | `routes/index.tsx` | Hash-based smooth scroll / URL push | Navigates to `#powers` and `#how-it-works` sections |
+| Module A                | Module B           | Communication Protocol                  | Purpose                                                         |
+| :---------------------- | :----------------- | :-------------------------------------- | :-------------------------------------------------------------- |
+| `Calculator.tsx`        | `calculator.ts`    | Pure functional call & state update     | Dispatches input action, receives new immutable state           |
+| `Calculator.tsx`        | `sounds.ts`        | Direct procedural trigger               | Emits synthesized click/operator frequencies and haptics        |
+| `routes/calculator.tsx` | `terms.ts`         | Storage query (`hasAcceptedTerms`)      | Enforces clearance check; redirects to `/terms` if unauthorized |
+| `routes/terms.tsx`      | `terms.ts`         | State mutator (`accept()`, `decline()`) | Records consent timestamp and notifies active listeners         |
+| `Navbar.tsx`            | `routes/index.tsx` | Hash-based smooth scroll / URL push     | Navigates to `#powers` and `#how-it-works` sections             |
 
 ---
 
@@ -209,26 +215,31 @@ gantt
 ### Sprint Planning & Execution Details
 
 #### Sprint 1: Core Mathematical Engine & Testing Foundation
+
 - **Goal**: Build a bulletproof, decoupled calculator state machine.
 - **Challenge**: Standard JavaScript floating point arithmetic produces rounding errors (e.g., `0.1 + 0.2 = 0.30000000000000004`).
 - **Solution**: Implemented precision-clamped float formatting (`Number.parseFloat(n.toPrecision(12))`), chained left-to-right calculation queuing, and 100% Vitest unit test coverage.
 
 #### Sprint 2: Comic Design Language & Dual Motion Stack
+
 - **Goal**: Implement physical 3D comic styling and fluid scroll animations without bloating bundle size.
 - **Challenge**: Multiple animation packages often collide, causing jank, thread contention, and accessibility issues.
 - **Solution**: Established a strict animation contract: **GSAP ScrollTrigger** for scroll-driven pinned timelines, and **Framer Motion** for state transitions and entrance reveals. Enforced `prefers-reduced-motion` across every animation.
 
 #### Sprint 3: Zero-Asset Audio & Mobile Scientific Deck
+
 - **Goal**: Provide instant audio feedback and full scientific calculation on smartphones.
 - **Challenge**: Shipping MP3/WAV files introduces network latency, caching failures, and audio clipping on rapid keypresses.
 - **Solution**: Built a real-time synthetic sound generator with Web Audio API oscillators. Created a dedicated mobile scientific deck supporting both upright portrait and 90° horizontal landscape rotation.
 
 #### Sprint 4: Security Clearance & First-Time Visitor Flow
+
 - **Goal**: Require explicit Terms of Service acceptance before unlocking calculator functionality.
 - **Challenge**: Handling server-side rendering (SSR) hydration mismatch while checking `localStorage`.
 - **Solution**: Initialized authorization status to `null` on mount to eliminate UI flickering, displaying a comic "Security Clearance Check" loading state before verifying stored consent.
 
 #### Sprint 5: Senior UI/UX Audit & Navigation Consolidation
+
 - **Goal**: Eliminate redundant navigation links (`Back to Top`, repeated `Home`, duplicate footer links) and resolve mobile header clipping.
 - **Challenge**: Mobile header buttons were overflowing on narrow screens (360px–430px), clipping the mode toggle.
 - **Solution**: Refactored `Navbar.tsx` into a 3-tier hierarchy (Brand → Feature Links → Hero CTA), engineered a contextual floating action button (`BackToTop.tsx`) active only after 350px scroll, and streamlined `MobileSciCalculator.tsx` with responsive icon-only adaptations.
@@ -238,12 +249,14 @@ gantt
 ## ✨ Features Breakdown
 
 ### 1. Standard 4-Column Comic Keypad
+
 - **3D Extruded Key Caps**: Physical side walls, dark ink borders, and reactive translate animations simulating mechanical key depressions (`transform: translate3d(0, 5px, 0)`).
 - **Arithmetic Precision**: Addition, Subtraction, Multiplication, Division, Percentage of stored value, and Positive/Negative sign toggling.
 - **Division-by-Zero Protection**: Gracefully catches zero divisor errors with comic alert `"Can't divide by zero, hero!"`.
 - **Keyboard Combat**: Full desktop keyboard support (`0-9`, `+`, `-`, `*`, `/`, `Enter` for equals, `Backspace`, `Escape` for AC, `^` for exponentiation, `!` for factorial, `p` for $\pi$).
 
 ### 2. Mobile Scientific Calculator Deck (45 Functions)
+
 - **Trigonometric Functions**: $\sin, \cos, \tan, \sin^{-1}, \cos^{-1}, \tan^{-1}$.
 - **Hyperbolic Trigonometry**: $\sinh, \cosh, \tanh$.
 - **Angle Mode Switching**: Seamless switching between Degrees (`DEG`) and Radians (`RAD`).
@@ -252,17 +265,20 @@ gantt
 - **Combinatorics & Utilities**: Factorial ($n!$), Reciprocal ($1/x$), Absolute Value ($|x|$), Mathematical Constants ($\pi, e$).
 
 ### 3. Dynamic Dual-Orientation Engine (Upright vs. Horiz)
+
 - **Upright Portrait Mode**: Optimized for one-handed thumb typing on vertical mobile devices.
 - **Horizontal Landscape Mode**: Automatically turns the calculator 90° into a wide widescreen deck with expanded button target areas.
 - **Session Persistence**: Stores orientation preference in `sessionStorage` (`spidy-sci-mobile-orientation`).
 
 ### 4. Case Files Calculation History
+
 - **20-Item Archive**: Automatically records each solved mystery (expression + result) into a dedicated side panel.
 - **Instant Result Reuse**: Tap any historical case file to immediately load its result into the active calculation display.
 - **One-Click Clear**: Easily purge the case history with sound feedback.
 - **Persistent Storage**: Serialized to `localStorage` (`spidy-calc-history`).
 
 ### 5. Synthesized Web Audio API Sound Engine
+
 - **7 Unique Waveform Synthesizers**:
   - `sfxKey`: High-pitched square wave (1046 Hz) with exponential volume decay.
   - `sfxOperator`: Crisp 880 Hz square blip.
@@ -274,12 +290,14 @@ gantt
 - **Global Mute Toggle**: State preserved in `localStorage`; automatically mutes all audio threads when disabled.
 
 ### 6. Legal & Security Clearance Access Guard
+
 - **Three-State Consent Gate**: `"unseen"`, `"accepted"`, or `"declined"`.
 - **First-Time Visitor Routing**: Automatically guides new visitors to `/terms` before calculator access.
 - **Strict Guard Verification**: Direct navigation to `/calculator` without clearance immediately triggers the comic clearance check and redirects to review terms.
 - **High-Contrast Legibility**: Accepted clearance banner rendered with 100% solid dark emerald background (`#092218`) for crisp, readable status confirmation.
 
 ### 7. Art-Directed Comic UX & Unified Navigation
+
 - **Collapsible Masthead**: Sticky retro issue strip that smoothly folds away on downward scroll.
 - **Contextual Floating Action Button (`BackToTop.tsx`)**: Appears smoothly only after 350px of vertical scroll on long pages (`/`, `/terms`, `/privacy`) and remains omitted on contained viewports (`/calculator`).
 - **Consolidated Navigation Strip**: Single-source footer row without duplicate buttons or wrapping clutter.
@@ -303,16 +321,16 @@ gantt
   └─────────────────────────────────────────────────────────────┘
 ```
 
-| Technology | Category | Version | Rationale & MNC Engineering Justification |
-| :--- | :--- | :--- | :--- |
-| **React** | UI Library | `^19.2.0` | Latest concurrent features, optimized hooks, and zero-overhead rendering engine. |
-| **TypeScript** | Language | `^5.8.3` | Strict type safety (`exactOptionalPropertyTypes: true`) preventing runtime bugs. |
-| **TanStack Start** | Fullstack Framework | `1.168.60` | Cutting-edge type-safe routing, SSR capabilities, and Nitro deployment flexibility. |
-| **Tailwind CSS v4** | Styling | `^4.2.1` | Next-generation engine using native `@theme inline` and modern `oklch()` color models. |
-| **GSAP + ScrollTrigger** | Animation | `^3.15.0` | Industry-standard high-performance pinned scrub sequences and parallax effects. |
-| **Framer Motion** | Motion Component | `^14.6.0` | Declarative layout animations, exit animations, and gesture physics. |
-| **Web Audio API** | Audio Processing | Native | Zero network overhead, zero third-party audio files, microsecond sound latency. |
-| **Vitest** | Testing Framework | `^4.1.10` | Blazing-fast Vite-native unit testing runner with instant feedback cycles. |
+| Technology               | Category            | Version    | Rationale & MNC Engineering Justification                                              |
+| :----------------------- | :------------------ | :--------- | :------------------------------------------------------------------------------------- |
+| **React**                | UI Library          | `^19.2.0`  | Latest concurrent features, optimized hooks, and zero-overhead rendering engine.       |
+| **TypeScript**           | Language            | `^5.8.3`   | Strict type safety (`exactOptionalPropertyTypes: true`) preventing runtime bugs.       |
+| **TanStack Start**       | Fullstack Framework | `1.168.60` | Cutting-edge type-safe routing, SSR capabilities, and Nitro deployment flexibility.    |
+| **Tailwind CSS v4**      | Styling             | `^4.2.1`   | Next-generation engine using native `@theme inline` and modern `oklch()` color models. |
+| **GSAP + ScrollTrigger** | Animation           | `^3.15.0`  | Industry-standard high-performance pinned scrub sequences and parallax effects.        |
+| **Framer Motion**        | Motion Component    | `^14.6.0`  | Declarative layout animations, exit animations, and gesture physics.                   |
+| **Web Audio API**        | Audio Processing    | Native     | Zero network overhead, zero third-party audio files, microsecond sound latency.        |
+| **Vitest**               | Testing Framework   | `^4.1.10`  | Blazing-fast Vite-native unit testing runner with instant feedback cycles.             |
 
 ---
 
@@ -400,18 +418,18 @@ sequenceDiagram
 ```mermaid
 stateDiagram-v2
     [*] --> InitialState: Load initial state (display: "0")
-    
+
     InitialState --> InputDigit: Tap digit (0-9, π, e)
     InputDigit --> InputDigit: Append digit (up to 16 digits)
-    
+
     InputDigit --> ChooseOperator: Tap operator (+, -, ×, ÷, ^)
     ChooseOperator --> WaitingSecondOperand: Operator staged, expression updated
-    
+
     WaitingSecondOperand --> InputDigit: Tap next operand digits
-    
+
     WaitingSecondOperand --> ComputeResult: Tap "=" (Equals)
     InputDigit --> ComputeResult: Tap "=" (Equals)
-    
+
     state ComputeResult {
         [*] --> CheckDivisor
         CheckDivisor --> DivideByZero: Divisor == 0 for "÷"
@@ -420,7 +438,7 @@ stateDiagram-v2
         PerformArithmetic --> FormatPrecision: Clamp to 16 digits
         FormatPrecision --> DispatchHistory: Prepend to Case Files
     }
-    
+
     ComputeResult --> InitialState: Tap "AC" (Clear All)
     ComputeResult --> ChooseOperator: Chain next calculation
 ```
@@ -443,46 +461,52 @@ flowchart LR
 ## 📊 Deep-Dive Engineering Decisions
 
 ### 1. Pure Functional Math vs. `eval()` Vulnerabilities
-* **Vulnerability Avoided**: Many naive web calculators rely on `eval()` or `new Function()` to parse mathematical strings. This exposes applications to **Cross-Site Scripting (XSS)** and arbitrary code execution if user inputs or query parameters are maliciously manipulated.
-* **Our Solution**: Developed an immutable, pure state machine in [`src/lib/calculator.ts`](file:///d:/spidy-calculator/src/lib/calculator.ts). Operations are processed through strict type-safe switches (`+`, `-`, `×`, `÷`, `^`), handling intermediate state and chaining predictably.
+
+- **Vulnerability Avoided**: Many naive web calculators rely on `eval()` or `new Function()` to parse mathematical strings. This exposes applications to **Cross-Site Scripting (XSS)** and arbitrary code execution if user inputs or query parameters are maliciously manipulated.
+- **Our Solution**: Developed an immutable, pure state machine in [`src/lib/calculator.ts`](file:///d:/spidy-calculator/src/lib/calculator.ts). Operations are processed through strict type-safe switches (`+`, `-`, `×`, `÷`, `^`), handling intermediate state and chaining predictably.
 
 ### 2. REST API Client Decoupling Architecture
-* **Design Philosophy**: As mandated in the architectural rules, mathematical evaluation is isolated from UI components and hooks.
-* **Enterprise Benefit**: The `compute()` and `equals()` functions in `src/lib/calculator.ts` can be replaced with an asynchronous REST client communicating with a **Java Spring Boot** or **Python FastAPI** microservice without modifying a single line of UI presentation code in `Calculator.tsx`.
+
+- **Design Philosophy**: As mandated in the architectural rules, mathematical evaluation is isolated from UI components and hooks.
+- **Enterprise Benefit**: The `compute()` and `equals()` functions in `src/lib/calculator.ts` can be replaced with an asynchronous REST client communicating with a **Java Spring Boot** or **Python FastAPI** microservice without modifying a single line of UI presentation code in `Calculator.tsx`.
 
 ### 3. Unified Animation Protocol: GSAP + Framer Motion
-* **Rule**: Maintain one shared visual language across the product without third-party library bloat.
-* **Separation of Concerns**:
+
+- **Rule**: Maintain one shared visual language across the product without third-party library bloat.
+- **Separation of Concerns**:
   - **GSAP (ScrollTrigger)**: Orchestrates pinned timelines, the infinite marquee ticker, and scrubbed multi-step panel transitions on the landing page.
   - **Framer Motion**: Manages declarative component lifecycle events, entrance spring physics, dropdown drawers, and the scroll progress indicator.
   - **Accessibility**: All animations query `prefers-reduced-motion`. When enabled, animations snap instantly without motion triggers.
 
 ### 4. Zero-Asset Web Audio API Synthesizer
-* **Problem**: Traditional web applications fetch `.mp3` or `.wav` sound files over HTTP. This wastes bandwidth, suffers from audio playback lag (100ms–300ms latency), and frequently fails on mobile browsers due to media autoplay policies.
-* **Our Solution**: Built a real-time procedural synthesizer in [`src/lib/sounds.ts`](file:///d:/spidy-calculator/src/lib/sounds.ts) that instantiates short-lived Web Audio API oscillator nodes. Audio plays with sub-millisecond latency, zero network requests, and zero bundle bloat.
+
+- **Problem**: Traditional web applications fetch `.mp3` or `.wav` sound files over HTTP. This wastes bandwidth, suffers from audio playback lag (100ms–300ms latency), and frequently fails on mobile browsers due to media autoplay policies.
+- **Our Solution**: Built a real-time procedural synthesizer in [`src/lib/sounds.ts`](file:///d:/spidy-calculator/src/lib/sounds.ts) that instantiates short-lived Web Audio API oscillator nodes. Audio plays with sub-millisecond latency, zero network requests, and zero bundle bloat.
 
 ### 5. Performance & GPU Layer Optimization
-* **Hardware Acceleration**: Heavy animated elements utilize `will-change: transform` and `transform: translateZ(0)` to force browser GPU layer promotion, eliminating layout thrashing and repaint cycles.
-* **Modern Color Space**: Styled using **Tailwind CSS v4** with native `oklch()` color gamuts for richer, more vibrant comic book tones that remain perceptually uniform across diverse monitor color profiles.
+
+- **Hardware Acceleration**: Heavy animated elements utilize `will-change: transform` and `transform: translateZ(0)` to force browser GPU layer promotion, eliminating layout thrashing and repaint cycles.
+- **Modern Color Space**: Styled using **Tailwind CSS v4** with native `oklch()` color gamuts for richer, more vibrant comic book tones that remain perceptually uniform across diverse monitor color profiles.
 
 ### 6. Strict Security & Privacy Model
-* **Zero Tracking**: No Google Analytics, no third-party tracking pixels, and no ad network scripts.
-* **Zero Cookies**: All state persistence (history, sound preference, terms acceptance) uses client-side HTML5 `localStorage` and `sessionStorage`.
-* **Content Security Policy (CSP) Ready**: Fully functional without `unsafe-eval`.
+
+- **Zero Tracking**: No Google Analytics, no third-party tracking pixels, and no ad network scripts.
+- **Zero Cookies**: All state persistence (history, sound preference, terms acceptance) uses client-side HTML5 `localStorage` and `sessionStorage`.
+- **Content Security Policy (CSP) Ready**: Fully functional without `unsafe-eval`.
 
 ---
 
 ## 🧪 Testing & Quality Assurance
 
 ### Unit Testing with Vitest
+
 Automated unit tests in [`src/test/calculator.test.ts`](file:///d:/spidy-calculator/src/test/calculator.test.ts) rigorously validate the mathematical core:
 
 ```typescript
 describe("calculator", () => {
   it("adds decimals precisely", () =>
     expect(run(["0", ".", "1", "+", "0", ".", "2", "="]).display).toBe("0.3"));
-  it("chains left to right", () =>
-    expect(run(["2", "+", "3", "×", "4", "="]).display).toBe("20"));
+  it("chains left to right", () => expect(run(["2", "+", "3", "×", "4", "="]).display).toBe("20"));
   it("divides by zero shows error", () => {
     const s = run(["5", "÷", "0", "="]);
     expect(s.error).toBeTruthy();
@@ -497,24 +521,28 @@ describe("calculator", () => {
 ```
 
 ### Integration & Routing Verification
+
 Automated routing verification in [`src/test/app-routing.test.tsx`](file:///d:/spidy-calculator/src/test/app-routing.test.tsx) ensures zero dead links across core entry points:
+
 - Matches `/` (Landing Page)
 - Matches `/calculator` (Main App)
 - Matches `/terms` (Code of Conduct & Clearance)
 - Matches `/privacy` (Privacy Policy)
 
 ### Accessibility (a11y) & WCAG Compliance
+
 - **Full Keyboard Operability**: Complete focus trapping, tab navigation, and keyboard combat listeners.
 - **Screen Reader Announcements**: Calculation results and error alerts utilize `aria-live="polite"` and `role="alert"`.
 - **High-Contrast Themes**: Strict text-to-background contrast ratios compliant with WCAG 2.1 AA standards.
 
 ### Cross-Browser & Hardware Compatibility
-| Platform | Browser | Status | Verification Notes |
-| :--- | :--- | :--- | :--- |
-| **macOS / Windows** | Chrome, Edge, Brave | ✅ Verified | 60 FPS GSAP scrub, perfect Web Audio oscillator support |
-| **macOS / iOS** | Safari (WebKit) | ✅ Verified | Tested with WebKit AudioContext fallback and notch safe areas |
-| **Linux / Windows** | Mozilla Firefox | ✅ Verified | Flawless SVG starburst rendering and scroll restoration |
-| **Android** | Chrome Mobile | ✅ Verified | Mobile upright and rotated scientific mode tested on budget devices |
+
+| Platform            | Browser             | Status      | Verification Notes                                                  |
+| :------------------ | :------------------ | :---------- | :------------------------------------------------------------------ |
+| **macOS / Windows** | Chrome, Edge, Brave | ✅ Verified | 60 FPS GSAP scrub, perfect Web Audio oscillator support             |
+| **macOS / iOS**     | Safari (WebKit)     | ✅ Verified | Tested with WebKit AudioContext fallback and notch safe areas       |
+| **Linux / Windows** | Mozilla Firefox     | ✅ Verified | Flawless SVG starburst rendering and scroll restoration             |
+| **Android**         | Chrome Mobile       | ✅ Verified | Mobile upright and rotated scientific mode tested on budget devices |
 
 ---
 
@@ -540,18 +568,21 @@ Automated routing verification in [`src/test/app-routing.test.tsx`](file:///d:/s
 ## 💻 Getting Started & Local Development
 
 ### Prerequisites
+
 - **Node.js**: v18.x or higher (Node v20+ recommended)
 - **npm** or **pnpm**: Modern package manager
 
 ### Installation & Setup
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/VARA4u-tech/spidy-calculator
    cd spidy-calculator
    ```
 
 2. **Install project dependencies**:
+
    ```bash
    npm install
    ```
@@ -560,7 +591,7 @@ Automated routing verification in [`src/test/app-routing.test.tsx`](file:///d:/s
    ```bash
    npm run dev
    ```
-   *The application will boot at `http://localhost:8080`.*
+   _The application will boot at `http://localhost:8080`._
 
 ---
 
