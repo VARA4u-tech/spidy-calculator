@@ -1,33 +1,44 @@
 import { useEffect, useRef, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, useReducedMotion, MotionConfig } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  m as motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  MotionConfig,
+} from "framer-motion";
 import { Web, Starburst } from "@/components/comic";
 import { Footer } from "@/components/Footer";
-import { getTermsStatus } from "@/lib/terms";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Spidy Calculator — Math with super strength" },
+      { title: "Free Online Calculator | Spidy Calculator" },
       {
         name: "description",
         content:
-          "Meet your friendly neighborhood calculator: Spidy Calculator brings retro comic style, rapid-fire results, keyboard combat and a case-file history log.",
+          "Use a free online math calculator for arithmetic, percentages, and scientific functions. No download or account needed; works on desktop and mobile.",
       },
-      { property: "og:title", content: "Spidy Calculator" },
+      { property: "og:title", content: "Free Online Calculator | Spidy Calculator" },
       {
         property: "og:description",
         content:
-          "Math with super strength — Spidy Calculator with keyboard support and case history.",
+          "A free online calculator for everyday arithmetic and scientific functions, with keyboard support and private on-device history.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        "script:ld+json": {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Spidy Calculator",
+          description: "A free online calculator for everyday arithmetic and scientific functions.",
+          ...(getAbsoluteSiteUrl("/") ? { url: getAbsoluteSiteUrl("/") } : {}),
+        },
+      },
     ],
+    links: [{ rel: "canonical", href: getCanonicalUrl("/") }],
   }),
   component: Home,
 });
@@ -91,23 +102,13 @@ const STATS = [
 ] as const;
 
 function Home() {
-  const navigate = useNavigate();
   const reduce = useReducedMotion();
-  const [isFirstTime, setIsFirstTime] = useState(false);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
   const webY1 = useTransform(scrollYProgress, [0, 1], [0, -140]);
   const webY2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
-
-  useEffect(() => {
-    // Automatically redirect first-time visitors to /terms
-    if (getTermsStatus() === "unseen") {
-      setIsFirstTime(true);
-      navigate({ to: "/terms", replace: true });
-    }
-  }, [navigate]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.hash) {
@@ -121,59 +122,71 @@ function Home() {
     }
   }, [reduce]);
 
-  useGSAP(() => {
-    if (isFirstTime) return;
-    // Prevent address bar resize jitter on mobile devices (e.g. Android Chrome on Samsung M11)
-    ScrollTrigger.config({ ignoreMobileResize: true });
+  useEffect(() => {
+    let disposed = false;
+    let revertAnimations: (() => void) | undefined;
 
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Infinite comic ticker
-      gsap.to(marqueeRef.current, { xPercent: -50, ease: "none", duration: 24, repeat: -1 });
+    void Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
+      .then(([gsapModule, scrollTriggerModule]) => {
+        if (disposed) return;
 
-      // Pinned, scrubbed how-it-works sequence with hardware acceleration
-      const panels = gsap.utils.toArray<HTMLElement>(".step-panel");
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: stepsRef.current,
-          start: "top top",
-          end: "+=180%",
-          scrub: 0.8,
-          pin: true,
-          anticipatePin: 1,
-        },
-      });
-      panels.forEach((p, i) => {
-        if (i === 0) return;
-        tl.fromTo(
-          p,
-          { autoAlpha: 0, y: 60, rotate: i % 2 ? 3 : -3 },
-          { autoAlpha: 1, y: 0, rotate: 0, duration: 1 },
-          i,
-        );
-      });
-      // Parallax halftone blobs behind the stats band
-      gsap.utils.toArray<HTMLElement>(".parallax-blob").forEach((b, i) => {
-        gsap.to(b, {
-          yPercent: i % 2 ? 24 : -24,
-          ease: "none",
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
+        const gsap = gsapModule.default;
+        const { ScrollTrigger } = scrollTriggerModule;
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ ignoreMobileResize: true });
+
+        const mm = gsap.matchMedia();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+          gsap.to(marqueeRef.current, { xPercent: -50, ease: "none", duration: 24, repeat: -1 });
+
+          const panels = gsap.utils.toArray<HTMLElement>(".step-panel");
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: stepsRef.current,
+              start: "top top",
+              end: "+=180%",
+              scrub: 0.8,
+              pin: true,
+              anticipatePin: 1,
+            },
+          });
+          panels.forEach((p, i) => {
+            if (i === 0) return;
+            tl.fromTo(
+              p,
+              { autoAlpha: 0, y: 60, rotate: i % 2 ? 3 : -3 },
+              { autoAlpha: 1, y: 0, rotate: 0, duration: 1 },
+              i,
+            );
+          });
+
+          gsap.utils.toArray<HTMLElement>(".parallax-blob").forEach((b, i) => {
+            gsap.to(b, {
+              yPercent: i % 2 ? 24 : -24,
+              ease: "none",
+              scrollTrigger: {
+                trigger: statsRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            });
+          });
         });
+        mm.add("(prefers-reduced-motion: reduce)", () => {
+          gsap.set(".step-panel", { autoAlpha: 1, y: 0, rotate: 0 });
+        });
+        revertAnimations = () => mm.revert();
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to load homepage scroll animations.", error);
       });
-    });
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".step-panel", { autoAlpha: 1, y: 0, rotate: 0 });
-    });
-  });
 
-  if (isFirstTime) {
-    return null;
-  }
+    return () => {
+      disposed = true;
+      revertAnimations?.();
+    };
+  }, []);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -416,6 +429,93 @@ function Home() {
                 <p className="mt-1 font-mono text-xs tracking-widest text-paper/80">{s.k}</p>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        <section
+          id="calculator-guide"
+          className="relative mx-auto max-w-5xl scroll-mt-10 px-4 py-16 sm:py-20"
+        >
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-comic print-shadow-text text-4xl text-paper sm:text-6xl">
+              A FREE ONLINE <span className="text-mustard">MATH CALCULATOR</span>
+            </h2>
+            <p className="mt-4 font-mono text-sm leading-relaxed text-paper/80 sm:text-base">
+              Solve everyday arithmetic in your browser with a free calculator that needs no
+              download or account. Enter calculations with the keypad or keyboard, then reopen
+              recent results from your private case-file history.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <article className="panel rounded-xl p-5 sm:p-6">
+              <h3 className="font-comic text-2xl text-hero-blue sm:text-3xl">
+                Standard calculator operations
+              </h3>
+              <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
+                Add, subtract, multiply, and divide decimal numbers; chain operations; clear or
+                correct an entry; change its sign; or calculate a percentage. For example, enter{" "}
+                <code className="rounded bg-paper-dark px-1">200 + 10%</code> to find 10% of 200
+                added to 200, giving 220.
+              </p>
+            </article>
+            <article className="panel rounded-xl p-5 sm:p-6">
+              <h3 className="font-comic text-2xl text-hero-blue sm:text-3xl">
+                Scientific calculator mode
+              </h3>
+              <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
+                Switch to Scientific Mode for trigonometry, inverse and hyperbolic functions,
+                logarithms, powers, roots, factorials, constants π and e, reciprocals, and absolute
+                values. Choose degrees or radians for angle-based calculations.
+              </p>
+            </article>
+          </div>
+
+          <div className="mx-auto mt-12 max-w-3xl">
+            <h2 className="font-comic print-shadow-text text-center text-4xl text-paper sm:text-5xl">
+              CALCULATOR <span className="text-mustard">FAQ</span>
+            </h2>
+            <div className="mt-6 space-y-3">
+              <details className="panel rounded-lg p-4">
+                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
+                  Is this calculator free, and do I need to download anything?
+                </summary>
+                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
+                  Yes. Spidy Calculator is free to use in a modern web browser. There is no
+                  installation, account, or sign-up; calculations run on your device.
+                </p>
+              </details>
+              <details className="panel rounded-lg p-4">
+                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
+                  Which scientific functions are available?
+                </summary>
+                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
+                  Scientific Mode includes sine, cosine, tangent and their inverses, hyperbolic
+                  functions, base-10 and natural logarithms, powers, square and cube roots,
+                  factorial, reciprocal, absolute value, π, and e. Trigonometric angles can use
+                  degrees or radians.
+                </p>
+              </details>
+              <details className="panel rounded-lg p-4">
+                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
+                  Can I use the calculator with a keyboard?
+                </summary>
+                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
+                  Yes. Type digits and arithmetic operators, press Enter or = for the result, use
+                  Backspace to edit, and press Escape to clear. The visible keypad also supports
+                  touch and mouse input.
+                </p>
+              </details>
+              <details className="panel rounded-lg p-4">
+                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
+                  Where is my calculation history stored?
+                </summary>
+                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
+                  Recent results are stored in your browser on this device. They are not sent to a
+                  calculator server, and you can clear the history from the calculator.
+                </p>
+              </details>
+            </div>
           </div>
         </section>
 
