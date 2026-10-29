@@ -3,24 +3,46 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Calculator } from "@/components/Calculator";
 import { Starburst, Web } from "@/components/comic";
 import { hasAcceptedTerms } from "@/lib/terms";
+import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/calculator")({
   head: () => ({
     meta: [
-      { title: "Spidy Calculator — Thwip! Let's do the math" },
+      { title: "Free Online Scientific Calculator | Spidy Calculator" },
       {
         name: "description",
         content:
-          "Spidy Calculator: retro comic-book calculator with history, keyboard support and punchy 3D buttons.",
+          "Use a free online calculator for arithmetic, percentages, trigonometry, logarithms, powers, and roots. Switch between basic and scientific modes—no download required.",
       },
-      { property: "og:title", content: "Spidy Calculator" },
+      { property: "og:title", content: "Free Online Scientific Calculator | Spidy Calculator" },
       {
         property: "og:description",
-        content: "Spidy Calculator: your friendly neighborhood calculator in vintage comic style.",
+        content:
+          "A free online math calculator with basic and scientific modes, keyboard support, and on-device history.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        "script:ld+json": {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: "Spidy Calculator",
+          applicationCategory: "UtilitiesApplication",
+          operatingSystem: "Any",
+          browserRequirements: "Requires a modern web browser with JavaScript enabled.",
+          isAccessibleForFree: true,
+          featureList: [
+            "Basic arithmetic and chained calculations",
+            "Percentages, decimals, sign toggle, and backspace",
+            "Scientific trigonometric, logarithmic, power, and root functions",
+            "Degree and radian angle modes",
+            "Keyboard input and local calculation history",
+          ],
+          ...(getAbsoluteSiteUrl("/calculator") ? { url: getAbsoluteSiteUrl("/calculator") } : {}),
+        },
+      },
     ],
+    links: [{ rel: "canonical", href: getCanonicalUrl("/calculator") }],
   }),
   component: CalculatorPage,
 });
@@ -54,7 +76,7 @@ function CalculatorPage() {
               <Starburst className="animate-wobble absolute -inset-2 opacity-95 text-mustard" />
               <img
                 src="/logo.png"
-                alt="Spider logo"
+                alt="Spidy Calculator emblem"
                 className="relative z-10 h-10 w-10 object-contain drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
               />
             </div>
@@ -93,7 +115,8 @@ function CalculatorPage() {
             </div>
 
             <p className="mt-4 font-mono text-[11px] text-ink/50 animate-pulse">
-              Redirecting you to Terms &amp; Conditions...
+              This free online calculator includes standard and scientific modes. Review and accept
+              the Terms &amp; Conditions to use the keypad.
             </p>
           </div>
         </div>
@@ -129,7 +152,7 @@ function CalculatorPage() {
               <Starburst className="animate-wobble absolute -inset-1 opacity-90" />
               <img
                 src="/logo.png"
-                alt="Spider logo"
+                alt="Spidy Calculator emblem"
                 className="relative z-10 h-4.5 w-4.5 object-contain"
               />
             </div>
