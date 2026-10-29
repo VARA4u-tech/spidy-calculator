@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion, useScroll, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m as motion, useScroll, useReducedMotion } from "framer-motion";
 import { sfxClick } from "@/lib/sounds";
 
 export function BackToTop() {
