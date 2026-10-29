@@ -95,25 +95,22 @@ export function MobileSciCalculator({
         }
       >
         {/* Top Navigation & Control Header */}
-        <header className="flex items-center justify-between gap-1 pb-1.5 mb-1.5 border-b-2 border-ink/20 shrink-0 select-none">
-          <div className="flex items-center gap-1.5 shrink-0">
+        <header className="flex items-center justify-between gap-1.5 pb-2 mb-1.5 border-b-2 border-ink/20 shrink-0 select-none">
+          {/* Left: Home Navigation */}
+          <div className="flex items-center shrink-0">
             <Link
               to="/"
-              className="comic-header-btn btn-blue gap-1 px-2 text-xs font-bold"
+              className="comic-header-btn btn-blue inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold"
               aria-label="Back to Home"
+              title="Return to Home"
             >
               <span aria-hidden className="text-[10px]">◀</span>
               <span>HOME</span>
             </Link>
-
-            <div className="hidden min-[540px]:inline-flex items-center gap-1 rounded-md border border-ink/30 bg-paper-dark/40 px-2 py-0.5 shadow-[1px_1px_0_var(--ink)]">
-              <span className="font-comic text-xs tracking-wider font-bold text-hero-blue">
-                SPIDY <span className="text-hero-red">SCI-TECH</span>
-              </span>
-            </div>
           </div>
 
-          <div className="flex items-center gap-1 shrink-0">
+          {/* Right: Essential Tools & Mode Switchers */}
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
             {/* Case Files History Toggle */}
             <button
               type="button"
@@ -122,11 +119,13 @@ export function MobileSciCalculator({
                 sfxToggle();
                 setShowHistory((v) => !v);
               }}
-              className="comic-header-btn btn-blue gap-1 px-1.5 sm:px-2 text-xs font-bold"
-              title="Open Case Files calculation history"
+              className={`comic-header-btn ${
+                showHistory ? "btn-equals" : "btn-blue"
+              } inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 text-xs font-bold`}
+              title={showHistory ? "Close Case Files log" : "Open Case Files calculation history"}
             >
               <span>{showHistory ? "CLOSE" : "LOG"}</span>
-              <span className="bg-hero-red text-paper rounded border border-ink px-1.5 py-0.2 text-[10px] font-mono font-bold leading-none shadow-[1px_1px_0_var(--ink)]">
+              <span className="bg-hero-red text-paper rounded border border-ink px-1 py-0.2 text-[9px] font-mono font-bold leading-none shadow-[1px_1px_0_var(--ink)]">
                 {history.length}
               </span>
             </button>
@@ -138,7 +137,7 @@ export function MobileSciCalculator({
                 sfxToggle();
                 setMuted(!muted);
               }}
-              className="comic-header-btn btn-blue px-1.5 sm:px-2 text-xs sm:text-sm font-bold"
+              className="comic-header-btn btn-blue inline-flex items-center justify-center w-7 sm:w-8 px-1 py-0.5 text-xs font-bold"
               title={muted ? "Sound effects off (tap to enable)" : "Sound effects on (tap to mute)"}
             >
               <span aria-hidden>{muted ? "🔇" : "🔊"}</span>
@@ -151,20 +150,24 @@ export function MobileSciCalculator({
               onClick={handleToggleOrientation}
               className={`comic-header-btn ${
                 isRotated ? "btn-blue" : "btn-equals"
-              } px-1.5 sm:px-2 text-xs font-bold`}
+              } inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 text-xs font-bold`}
               title={isRotated ? "Switch to upright portrait layout" : "Turn to horizontal landscape layout"}
             >
-              <span>{isRotated ? "📱 UPRIGHT" : "📐 HORIZ"}</span>
+              <span aria-hidden>{isRotated ? "📱" : "📐"}</span>
+              <span className="hidden min-[360px]:inline">
+                {isRotated ? "UPRIGHT" : "HORIZ"}
+              </span>
             </button>
 
             {/* Switch back to basic calculator */}
             <button
               type="button"
               onClick={onCloseSci}
-              className="comic-header-btn btn-red px-2 text-xs font-bold"
+              className="comic-header-btn btn-red inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold"
               title="Switch back to basic calculator"
             >
-              <span>123 BASIC</span>
+              <span aria-hidden>123</span>
+              <span className="hidden min-[400px]:inline">BASIC</span>
             </button>
           </div>
         </header>

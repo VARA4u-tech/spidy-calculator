@@ -1,16 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { useReducedMotion } from "framer-motion";
 import { Starburst, Web } from "@/components/comic";
-import { sfxClick } from "@/lib/sounds";
 
 export function Footer() {
-  const reduce = useReducedMotion();
-
-  const scrollToTop = () => {
-    sfxClick();
-    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  };
-
   return (
     <footer className="relative mt-20 w-full overflow-hidden border-t-4 border-ink bg-[#be2629] text-paper select-none">
       {/* Decorative comic halftone pattern over red background */}
@@ -55,7 +46,6 @@ export function Footer() {
 
       {/* =================================================================== */}
       {/* MAIN SHOWCASE: Complete Uncropped 3:4 Poster + Comic Wings          */}
-      {/* 100% of the image is shown crystal-clear without any blur           */}
       {/* =================================================================== */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:py-12 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
         {/* Left Comic Wing (Desktop Widescreen) */}
@@ -96,7 +86,7 @@ export function Footer() {
           </div>
         </aside>
 
-        {/* Center: The Complete Uncropped Poster (100% Crisp & Clear) */}
+        {/* Center: The Complete Uncropped Poster */}
         <div className="relative mx-auto w-full max-w-[460px] sm:max-w-[540px] md:max-w-[600px] aspect-[3/4] rounded-2xl overflow-hidden border-4 border-ink shadow-[10px_10px_0_0_#0f172a] sm:shadow-[14px_14px_0_0_#0f172a] bg-[#be2629]">
           <img
             src="/footer-image.jpg"
@@ -110,7 +100,7 @@ export function Footer() {
 
         {/* Right Comic Wing (Desktop Widescreen) */}
         <aside className="hidden lg:flex flex-col gap-6 shrink-0 w-60">
-          {/* Action Speech Box */}
+          {/* Action Speech Box: Direct calculator access */}
           <div className="border-4 border-ink bg-navy text-paper p-4 rounded-xl shadow-[6px_6px_0_0_#0f172a] rotate-2">
             <div className="flex items-center gap-2">
               <span className="font-comic text-lg text-mustard">MEANWHILE...</span>
@@ -119,38 +109,36 @@ export function Footer() {
               SPIDER-SENSE <span className="text-hero-red">TINGLING!</span>
             </h4>
             <p className="mt-2 font-mono text-xs text-paper/80 leading-relaxed">
-              Every math hero needs quick reflexes. Tap below to launch your calculator!
+              Every math hero needs quick reflexes. Ready to solve equations in a flash?
             </p>
             <Link
               to="/calculator"
               className="comic-btn btn-equals mt-4 block text-center py-2.5 text-base sm:text-lg"
             >
-              OPEN CALC ⚡
+              LAUNCH CALCULATOR ⚡
             </Link>
           </div>
 
-          {/* Fast Scroll to Top Card */}
-          <div className="border-3 border-ink bg-paper text-ink p-3 rounded-lg shadow-[4px_4px_0_0_#0f172a] -rotate-1 text-center">
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="comic-btn btn-blue w-full py-2 text-sm flex items-center justify-center gap-1.5"
-            >
-              <span>▲</span>
-              <span>SWING TO TOP</span>
-            </button>
+          {/* Superhero Guarantee Card (Replaced duplicate back-to-top button) */}
+          <div className="border-3 border-ink bg-paper text-ink p-3.5 rounded-lg shadow-[4px_4px_0_0_#0f172a] -rotate-1 text-center font-mono">
+            <p className="font-comic text-base text-hero-blue font-bold tracking-wider">
+              ZERO ADS · ZERO TRACKING
+            </p>
+            <p className="text-[11px] text-ink/80 mt-1 leading-snug">
+              100% private, client-side math. Your friendly neighborhood superpower.
+            </p>
           </div>
         </aside>
       </div>
 
       {/* =================================================================== */}
-      {/* BOTTOM FOOTER BAR: Clean navigation & credits below the artwork */}
+      {/* BOTTOM FOOTER BAR: Consolidated, Non-Repetitive Navigation          */}
       {/* =================================================================== */}
-      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-3 sm:px-6 py-4 sm:py-6">
-        <div className="mx-auto max-w-6xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6">
-          {/* Brand Logo with moving Starburst background */}
-          <div className="flex items-center gap-3 sm:gap-4 text-left min-w-0 w-full lg:w-auto">
-            <Link to="/" className="group block shrink-0" aria-label="SPIDY Calculator home">
+      <div className="relative z-10 w-full border-t-4 border-ink bg-ink/95 px-4 sm:px-6 py-6">
+        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
+          {/* Brand Identity */}
+          <div className="flex items-center gap-3 sm:gap-4 text-center md:text-left">
+            <Link to="/" className="group block shrink-0" aria-label="Spidy Calculator home">
               <div className="relative flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center">
                 <Starburst className="animate-wobble absolute -inset-2 opacity-95 transition-transform duration-200 group-hover:scale-115" />
                 <img
@@ -160,84 +148,60 @@ export function Footer() {
                 />
               </div>
             </Link>
-            <div className="min-w-0 flex-1">
-              <h3 className="font-comic text-lg sm:text-xl md:text-2xl text-paper tracking-wide leading-tight">
-                MEANWHILE... <span className="text-mustard">SPIDER-SENSE TINGLING!</span>
+            <div>
+              <h3 className="font-comic text-xl sm:text-2xl text-paper tracking-wide leading-tight">
+                SPIDY <span className="text-mustard">CALCULATOR</span>
               </h3>
               <p className="mt-0.5 font-mono text-[11px] sm:text-xs text-paper/70">
-                Spidy Calculator · Friendly neighborhood superpower.
+                Friendly neighborhood math sidekick.
               </p>
             </div>
           </div>
 
-          {/* Quick links & Back to Top */}
-          <div className="flex flex-wrap items-center justify-between lg:justify-end gap-3 w-full lg:w-auto pt-3 lg:pt-0 border-t border-paper/10 lg:border-t-0">
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 font-comic text-base sm:text-lg">
-              <Link
-                to="/"
-                className="text-paper hover:text-mustard transition-colors tracking-wider whitespace-nowrap"
-              >
-                HOME
-              </Link>
-              <span className="text-paper/40">·</span>
-              <Link
-                to="/calculator"
-                className="text-mustard hover:text-mustard/80 transition-colors tracking-wider whitespace-nowrap"
-              >
-                CALCULATOR ⚡
-              </Link>
-              <span className="text-paper/40 hidden sm:inline">·</span>
-              <Link
-                to="/privacy"
-                className="text-paper hover:text-mustard transition-colors tracking-wider whitespace-nowrap hidden sm:inline"
-              >
-                PRIVACY
-              </Link>
-              <span className="text-paper/40 hidden sm:inline">·</span>
-              <Link
-                to="/terms"
-                className="text-paper hover:text-mustard transition-colors tracking-wider whitespace-nowrap hidden sm:inline"
-              >
-                TERMS
-              </Link>
-            </div>
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="comic-btn btn-blue px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm flex items-center gap-1.5 shrink-0 whitespace-nowrap"
-              aria-label="Back to top"
+          {/* Single-Source Navigation Links (No Duplication) */}
+          <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-comic text-sm sm:text-base">
+            <a
+              href="/#powers"
+              className="text-paper hover:text-mustard transition-colors tracking-wider"
             >
-              <span>▲</span>
-              <span>BACK TO TOP</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Legal & Credits with Privacy Policy & Terms Links */}
-        <div className="mx-auto max-w-6xl mt-4 pt-3.5 border-t border-paper/10 flex flex-col md:flex-row items-center justify-between gap-2.5 text-center md:text-left font-mono text-[11px] sm:text-xs">
-          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-paper/85">
+              POWERS
+            </a>
+            <span className="text-paper/30">·</span>
+            <a
+              href="/#how-it-works"
+              className="text-paper hover:text-mustard transition-colors tracking-wider"
+            >
+              HOW IT WORKS
+            </a>
+            <span className="text-paper/30">·</span>
             <Link
-              to="/privacy"
-              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider whitespace-nowrap"
+              to="/calculator"
+              className="text-mustard hover:brightness-125 transition-all tracking-wider font-bold"
             >
-              PRIVACY POLICY
+              CALCULATOR ⚡
             </Link>
-            <span className="text-paper/30">|</span>
+            <span className="text-paper/30">·</span>
             <Link
               to="/terms"
-              className="hover:text-mustard hover:underline transition-colors font-bold tracking-wider whitespace-nowrap"
+              className="text-paper hover:text-mustard transition-colors tracking-wider"
             >
-              TERMS &amp; CONDITIONS
+              TERMS
             </Link>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-paper/50 text-[10px] sm:text-[11px]">
-            <span className="whitespace-nowrap">© 2026 Spidy Calculator</span>
             <span className="text-paper/30">·</span>
-            <span className="whitespace-nowrap">Zero ads · Zero tracking</span>
-            <span className="text-paper/30 hidden sm:inline">·</span>
-            <span className="whitespace-nowrap hidden sm:inline">Classic vintage comic homage</span>
-          </div>
+            <Link
+              to="/privacy"
+              className="text-paper hover:text-mustard transition-colors tracking-wider"
+            >
+              PRIVACY
+            </Link>
+          </nav>
+        </div>
+
+        {/* Clean Copyright & Ethics Strip */}
+        <div className="mx-auto max-w-6xl mt-4 pt-3.5 border-t border-paper/10 text-center font-mono text-[11px] sm:text-xs text-paper/60">
+          <p>
+            © 2026 Spidy Calculator · Zero ads · Zero tracking · Vintage comic book homage.
+          </p>
         </div>
       </div>
     </footer>
