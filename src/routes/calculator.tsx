@@ -1,6 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Calculator } from "@/components/Calculator";
 import { Starburst, Web } from "@/components/comic";
+import { hasAcceptedTerms } from "@/lib/terms";
 
 export const Route = createFileRoute("/calculator")({
   head: () => ({
@@ -24,6 +26,81 @@ export const Route = createFileRoute("/calculator")({
 });
 
 function CalculatorPage() {
+  const navigate = useNavigate();
+  // Start with null to prevent flash during SSR / hydration
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    // Check acceptance in browser storage on mount (handles direct URL & page refresh)
+    if (!hasAcceptedTerms()) {
+      setIsAuthorized(false);
+      navigate({ to: "/terms", replace: true });
+    } else {
+      setIsAuthorized(true);
+    }
+  }, [navigate]);
+
+  // Loading guard screen during clearance check (guarantees zero flash of calculator)
+  if (!isAuthorized) {
+    return (
+      <main className="relative flex min-h-[100dvh] items-center justify-center bg-navy p-4 text-paper overflow-x-hidden">
+        <Web className="pointer-events-none absolute -top-1 -left-1 h-20 w-20 text-paper/20 sm:top-0 sm:left-0 sm:h-48 sm:w-48" />
+        <Web className="pointer-events-none absolute -right-1 -bottom-1 h-20 w-20 rotate-180 text-paper/15 sm:right-0 sm:bottom-0 sm:h-48 sm:w-48" />
+
+        <div className="relative z-10 w-full max-w-md px-2 sm:px-4">
+          <div className="panel relative rounded-2xl p-6 sm:p-8 text-center text-ink border-4 border-ink shadow-[8px_8px_0_0_var(--ink)] bg-paper">
+            {/* Starburst Spider Logo */}
+            <div className="relative mx-auto mb-3 flex h-14 w-14 items-center justify-center">
+              <Starburst className="animate-wobble absolute -inset-2 opacity-95 text-mustard" />
+              <img
+                src="/logo.png"
+                alt="Spider logo"
+                className="relative z-10 h-10 w-10 object-contain drop-shadow-[2px_2px_0_rgba(15,23,42,0.95)]"
+              />
+            </div>
+
+            {/* Comic clearance badge */}
+            <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-ink bg-mustard px-3 py-0.5 text-xs font-mono font-bold text-ink shadow-[2px_2px_0_var(--ink)] mb-2">
+              <span>⚠️ CLEARANCE REQUIRED</span>
+            </div>
+
+            <h2 className="font-comic text-2xl sm:text-3xl text-ink leading-tight">
+              SECURITY CLEARANCE CHECK...
+            </h2>
+
+            <p className="mt-2 font-mono text-xs sm:text-sm text-ink/80 leading-relaxed">
+              Access to Spidy Calculator requires explicit acceptance of our Terms &amp; Conditions.
+            </p>
+
+            {/* Action Buttons: Direct redirect to Terms & Conditions */}
+            <div className="mt-6 flex flex-col gap-2.5">
+              <Link
+                to="/terms"
+                className="comic-btn btn-red w-full px-5 py-3 text-base sm:text-lg font-comic tracking-wider flex items-center justify-center gap-2 shadow-[4px_4px_0_var(--ink)] cursor-pointer"
+              >
+                <span>📜</span>
+                <span>GO TO TERMS &amp; CONDITIONS</span>
+                <span aria-hidden>➔</span>
+              </Link>
+
+              <Link
+                to="/"
+                className="comic-btn btn-blue w-full px-4 py-2.5 text-xs sm:text-sm font-comic tracking-wider flex items-center justify-center gap-1.5 shadow-[3px_3px_0_var(--ink)]"
+              >
+                <span aria-hidden>◀</span>
+                <span>BACK TO HOME</span>
+              </Link>
+            </div>
+
+            <p className="mt-4 font-mono text-[11px] text-ink/50 animate-pulse">
+              Redirecting you to Terms &amp; Conditions...
+            </p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="relative flex min-h-[100dvh] flex-col justify-start overflow-x-clip p-2 pt-[max(env(safe-area-inset-top),0.5rem)] pb-[max(env(safe-area-inset-bottom),0.5rem)] sm:p-3 md:p-4 lg:h-screen lg:justify-center lg:overflow-hidden">
       <Web className="pointer-events-none absolute -top-1 -left-1 h-20 w-20 text-paper/20 min-[400px]:h-28 min-[400px]:w-28 sm:top-0 sm:left-0 sm:h-48 sm:w-48 will-change-transform transform-gpu" />
