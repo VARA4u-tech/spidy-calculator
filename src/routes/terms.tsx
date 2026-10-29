@@ -3,11 +3,13 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Starburst, Web } from "@/components/comic";
 import { Footer } from "@/components/Footer";
 import { useTermsStatus } from "@/lib/terms";
+import { getCanonicalUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
       { title: "Terms & Conditions — Spidy Calculator" },
+      { name: "robots", content: "noindex, follow" },
       {
         name: "description",
         content:
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/terms")({
           "Terms of service for using Spidy Calculator. Review our terms and accept to access the calculator.",
       },
     ],
+    links: [{ rel: "canonical", href: getCanonicalUrl("/terms") }],
   }),
   component: TermsPage,
 });
