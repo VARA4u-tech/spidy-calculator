@@ -26,7 +26,7 @@ export function Footer() {
               <Starburst className="animate-wobble absolute -inset-1 opacity-90" />
               <img
                 src="/logo.png"
-                alt="Spider mask"
+                alt="Spidy Calculator emblem"
                 className="relative z-10 h-4 w-4 sm:h-4.5 sm:w-4.5 object-contain"
               />
             </div>
@@ -63,7 +63,7 @@ export function Footer() {
                 <Starburst className="animate-wobble absolute -inset-2 opacity-95" />
                 <img
                   src="/logo.png"
-                  alt="Spider logo"
+                  alt="Spidy Calculator emblem"
                   className="relative z-10 h-12 w-12 object-contain drop-shadow-[2px_2px_0_rgba(15,23,42,0.9)]"
                 />
               </div>
@@ -90,7 +90,7 @@ export function Footer() {
         <div className="relative mx-auto w-full max-w-[460px] sm:max-w-[540px] md:max-w-[600px] aspect-[3/4] rounded-2xl overflow-hidden border-4 border-ink shadow-[10px_10px_0_0_#0f172a] sm:shadow-[14px_14px_0_0_#0f172a] bg-[#be2629]">
           <img
             src="/footer-image.jpg"
-            alt="Spider-Man: Brand New Day - Comic art featuring Spider-Man in action"
+            alt="Retro superhero comic-book artwork"
             className="h-full w-full object-cover object-top select-none pointer-events-none"
             loading="lazy"
             decoding="async"
