@@ -10,12 +10,15 @@ import {
   ScrollRestoration,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
+import { LazyMotion } from "framer-motion";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "@/components/Navbar";
 import { BackToTop } from "@/components/BackToTop";
+
+const loadMotionFeatures = () => import("framer-motion").then(({ domAnimation }) => domAnimation);
 
 function NotFoundComponent() {
   return (
@@ -116,7 +119,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body suppressHydrationWarning>
-        {children}
+        <LazyMotion features={loadMotionFeatures}>{children}</LazyMotion>
         <Scripts />
       </body>
     </html>
