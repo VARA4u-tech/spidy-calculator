@@ -1,11 +1,12 @@
-import { useRef } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion, MotionConfig } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Web, Starburst } from "@/components/comic";
 import { Footer } from "@/components/Footer";
+import { getTermsStatus } from "@/lib/terms";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -90,6 +91,17 @@ const STATS = [
 ] as const;
 
 function Home() {
+  const navigate = useNavigate();
+  const [isFirstTime, setIsFirstTime] = useState(false);
+
+  useEffect(() => {
+    // Automatically redirect first-time visitors to /terms
+    if (getTermsStatus() === "unseen") {
+      setIsFirstTime(true);
+      navigate({ to: "/terms", replace: true });
+    }
+  }, [navigate]);
+
   const reduce = useReducedMotion();
   const marqueeRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
@@ -99,6 +111,7 @@ function Home() {
   const webY2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
 
   useGSAP(() => {
+    if (isFirstTime) return;
     // Prevent address bar resize jitter on mobile devices (e.g. Android Chrome on Samsung M11)
     ScrollTrigger.config({ ignoreMobileResize: true });
 
@@ -146,6 +159,10 @@ function Home() {
       gsap.set(".step-panel", { autoAlpha: 1, y: 0, rotate: 0 });
     });
   });
+
+  if (isFirstTime) {
+    return null;
+  }
 
   return (
     <MotionConfig reducedMotion="user">
