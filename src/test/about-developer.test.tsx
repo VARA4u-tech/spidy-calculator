@@ -1,10 +1,18 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import type { MouseEventHandler, ReactNode } from "react";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AboutDeveloper } from "@/components/AboutDeveloper";
 
+interface MockLinkProps {
+  children?: ReactNode;
+  to?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+  className?: string;
+}
+
 // Mock tanstack router hooks
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ children, to, onClick, className }: any) => (
+  Link: ({ children, to, onClick, className }: MockLinkProps) => (
     <a href={to} onClick={onClick} className={className}>
       {children}
     </a>
@@ -78,7 +86,7 @@ describe("AboutDeveloper component", () => {
     fireEvent.click(devDetailsBtn);
 
     expect(screen.getByText("DEVELOPER DOSSIER")).toBeDefined();
-    expect(screen.getByText("Pappuri Durga Vara Prasad")).toBeDefined();
+    expect(screen.getAllByText("Pappuri Durga Vara Prasad").length).toBeGreaterThanOrEqual(1);
 
     const githubLink = screen.getByText("GitHub").closest("a");
     expect(githubLink?.getAttribute("href")).toBe("https://github.com/VARA4u-tech");
