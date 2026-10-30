@@ -65,7 +65,7 @@ describe("AboutDeveloper component", () => {
     fireEvent.click(submitBtn);
     expect(fetchMock).toHaveBeenCalledWith(
       "https://formsubmit.co/ajax/durgavaraprasadpappuri13@gmail.com",
-      expect.objectContaining({ method: "POST" })
+      expect.objectContaining({ method: "POST" }),
     );
   });
 
@@ -103,4 +103,3 @@ describe("AboutDeveloper component", () => {
     expect(screen.getByText("Clear Case History")).toBeDefined();
   });
 });
-

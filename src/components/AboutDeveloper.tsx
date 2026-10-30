@@ -186,7 +186,7 @@ export function AboutDeveloper() {
     // 1. Persist local backup in localStorage
     try {
       const existing = JSON.parse(
-        window.localStorage.getItem(FEEDBACK_STORAGE_KEY) || "[]"
+        window.localStorage.getItem(FEEDBACK_STORAGE_KEY) || "[]",
       ) as FeedbackSubmission[];
       const newEntry: FeedbackSubmission = {
         message: feedback.trim(),
@@ -351,7 +351,9 @@ export function AboutDeveloper() {
                       <User className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="font-comic text-base text-ink leading-tight">Developer Details</p>
+                      <p className="font-comic text-base text-ink leading-tight">
+                        Developer Details
+                      </p>
                       <p className="font-mono text-[11px] text-ink/70">
                         Portfolio, GitHub, LinkedIn &amp; Email
                       </p>
@@ -401,7 +403,9 @@ export function AboutDeveloper() {
                       <ImageIcon className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="font-comic text-base text-ink leading-tight">Comic Art Preview</p>
+                      <p className="font-comic text-base text-ink leading-tight">
+                        Comic Art Preview
+                      </p>
                       <p className="font-mono text-[11px] text-ink/70">
                         Inspect the Brand New Day retro poster
                       </p>
@@ -428,7 +432,8 @@ export function AboutDeveloper() {
                       TRANSMISSION RECEIVED!
                     </h4>
                     <p className="mt-1 font-mono text-xs text-ink/80 leading-relaxed">
-                      Thank you, hero! Your feedback has been dispatched straight to the developer's email.
+                      Thank you, hero! Your feedback has been dispatched straight to the developer's
+                      email.
                     </p>
                     <span className="mt-3 inline-block font-mono text-[10px] text-ink/60 bg-paper px-2 py-0.5 rounded border border-ink/20">
                       Redirecting to menu...
@@ -555,7 +560,9 @@ export function AboutDeveloper() {
                       <Github className="h-4 w-4 text-ink" />
                       <div>
                         <span className="font-bold text-ink">GitHub</span>
-                        <span className="text-[10px] text-ink/60 block">github.com/VARA4u-tech</span>
+                        <span className="text-[10px] text-ink/60 block">
+                          github.com/VARA4u-tech
+                        </span>
                       </div>
                     </div>
                     <ExternalLink className="h-3.5 w-3.5 text-ink/50" />
@@ -672,7 +679,9 @@ export function AboutDeveloper() {
                     <div>
                       <p className="font-comic text-sm text-ink leading-tight">Launch Calculator</p>
                       <p className="font-mono text-[10px] text-ink/70">
-                        {pathname === "/calculator" ? "Already on calculator screen" : "Jump straight into calculations"}
+                        {pathname === "/calculator"
+                          ? "Already on calculator screen"
+                          : "Jump straight into calculations"}
                       </p>
                     </div>
                   </div>
@@ -694,7 +703,9 @@ export function AboutDeveloper() {
                       )}
                     </span>
                     <div>
-                      <p className="font-comic text-sm text-ink leading-tight">Sound Effects (SFX)</p>
+                      <p className="font-comic text-sm text-ink leading-tight">
+                        Sound Effects (SFX)
+                      </p>
                       <p className="font-mono text-[10px] text-ink/70">
                         Status:{" "}
                         <strong className={soundEnabled ? "text-emerald-700" : "text-hero-red"}>
@@ -723,7 +734,9 @@ export function AboutDeveloper() {
                         Clear Case History
                       </p>
                       <p className="font-mono text-[10px] text-ink/70">
-                        {historyCleared ? "✓ History Cleared!" : "Wipe saved calculations from local storage"}
+                        {historyCleared
+                          ? "✓ History Cleared!"
+                          : "Wipe saved calculations from local storage"}
                       </p>
                     </div>
                   </div>
@@ -746,7 +759,9 @@ export function AboutDeveloper() {
                       <Sparkles className="h-4 w-4" />
                     </span>
                     <div>
-                      <p className="font-comic text-sm text-ink leading-tight">Terms &amp; Clearance</p>
+                      <p className="font-comic text-sm text-ink leading-tight">
+                        Terms &amp; Clearance
+                      </p>
                       <p className="font-mono text-[10px] text-ink/70">
                         Review code of conduct &amp; permissions
                       </p>

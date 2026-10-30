@@ -233,7 +233,9 @@ export function Footer() {
             aria-label="Scroll back to top of page"
             title="Swing back to top"
           >
-            <span aria-hidden className="text-xs">▲</span>
+            <span aria-hidden className="text-xs">
+              ▲
+            </span>
             <span>SWING TO TOP</span>
           </button>
         </div>
