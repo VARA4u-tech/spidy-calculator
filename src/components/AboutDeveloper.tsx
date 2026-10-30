@@ -794,46 +794,188 @@ export function AboutDeveloper() {
       </AnimatePresence>
 
       {/* =================================================================== */}
-      {/* TRIGGER: COMPACT FLOATING "ABOUT THE DEVELOPER" PILL BUTTON         */}
+      {/* TRIGGER: PREMIUM CUSTOM-DESIGNED SPIDER FLOATING BUTTON             */}
       {/* =================================================================== */}
-      <button
-        type="button"
-        onClick={handleToggleOpen}
-        aria-expanded={isOpen}
-        aria-haspopup="dialog"
-        title="About the Developer & Quick Menu"
-        className={`group relative inline-flex items-center gap-2 rounded-full border-3 border-ink px-3 py-2 sm:px-4 sm:py-2.5 font-comic text-xs sm:text-sm font-bold tracking-wide shadow-[4px_4px_0_var(--ink)] transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0_var(--ink)] focus-visible:outline-4 focus-visible:outline-mustard cursor-pointer select-none ${
-          isOpen
-            ? "bg-mustard text-ink shadow-[2px_2px_0_var(--ink)] translate-y-0.5"
-            : "bg-paper text-ink hover:bg-mustard/40"
-        }`}
-      >
-        {/* Pulsating online beacon dot */}
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-hero-red opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-hero-red" />
-        </span>
-
-        {/* Developer Initials / Spider Badge */}
-        <span className="grid h-5 w-5 place-items-center rounded-full border border-ink bg-hero-blue text-[10px] font-bold text-paper">
-          VP
-        </span>
-
-        {/* Button Label */}
-        <span>
-          <span className="hidden sm:inline">About the </span>Developer
-        </span>
-
-        {/* Little indicator chevron / star */}
-        <span
-          aria-hidden
-          className={`font-comic text-[10px] text-hero-red transition-transform duration-200 ${
-            isOpen ? "rotate-180" : "group-hover:scale-125"
+      <div className="relative flex items-center gap-2">
+        <button
+          type="button"
+          onClick={handleToggleOpen}
+          aria-expanded={isOpen}
+          aria-haspopup="dialog"
+          aria-label="About the Developer"
+          title="About the Developer — Click to open creator desk"
+          className={`group relative flex items-center gap-2 sm:gap-2.5 rounded-full border-3 border-ink p-1 sm:p-1.5 pr-3 sm:pr-4 shadow-[4px_4px_0_var(--ink)] sm:shadow-[5px_5px_0_var(--ink)] transition-all duration-200 hover:-translate-y-1 active:translate-y-0.5 focus-visible:outline-4 focus-visible:outline-mustard cursor-pointer select-none ${
+            isOpen
+              ? "bg-mustard text-ink shadow-[2px_2px_0_var(--ink)] translate-y-0.5 ring-2 ring-mustard/60"
+              : "bg-paper text-ink hover:bg-mustard/30"
           }`}
         >
-          {isOpen ? "▲" : "✦"}
-        </span>
-      </button>
+          {/* Custom Spider Medallion Shield */}
+          <div className="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 border-ink bg-[#be2629] shadow-[2px_2px_0_var(--ink)] overflow-hidden shrink-0 transition-transform duration-300 group-hover:scale-105">
+            {/* Background Starburst / Halftone Aura */}
+            <Starburst className="animate-wobble absolute -inset-2 opacity-85 text-mustard group-hover:scale-125 transition-transform duration-300" />
+
+            {/* Interactive Spider Graphic Vector */}
+            <div className="relative z-10 h-7 w-7 sm:h-9 sm:w-9 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110">
+              <SpiderGraphic isOpen={isOpen} />
+            </div>
+
+            {/* Pulsating Spider-Sense Radar Beacon */}
+            <span className="absolute top-1 right-1 flex h-2 w-2 sm:h-2.5 sm:w-2.5 z-20">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-paper opacity-80" />
+              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-paper" />
+            </span>
+          </div>
+
+          {/* Typography Label & Status Indicator */}
+          <div className="flex flex-col text-left pr-0.5">
+            <div className="flex items-center gap-1.5">
+              <span className="font-comic text-xs sm:text-sm tracking-wide font-bold leading-tight text-ink">
+                <span className="hidden sm:inline">ABOUT THE </span>DEVELOPER
+              </span>
+              <span
+                aria-hidden
+                className={`font-comic text-[11px] text-hero-red transition-transform duration-200 ${
+                  isOpen ? "rotate-180" : "group-hover:scale-125"
+                }`}
+              >
+                {isOpen ? "▲" : "✦"}
+              </span>
+            </div>
+            <span className="font-mono text-[9px] text-ink/75 tracking-widest uppercase font-semibold leading-none hidden sm:block">
+              VP · CREATOR DESK
+            </span>
+          </div>
+        </button>
+      </div>
     </div>
+  );
+}
+
+/**
+ * Custom-designed comic Spider Vector Graphic
+ * Features articulated legs, expressive spider lenses, chest emblem, and radiating spider-sense ripples.
+ */
+function SpiderGraphic({ isOpen }: { isOpen: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className="h-full w-full select-none pointer-events-none drop-shadow-[1px_2px_0_rgba(15,23,42,0.95)]"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Spider-sense radiating energy ring on hover/active */}
+      <circle
+        cx="50"
+        cy="50"
+        r="44"
+        className={`stroke-mustard stroke-2 transition-all duration-300 ${
+          isOpen ? "opacity-100 animate-spin" : "opacity-0 group-hover:opacity-100"
+        }`}
+        strokeDasharray="4 4"
+        style={{ animationDuration: "10s" }}
+      />
+
+      {/* Spider Articulated Legs */}
+      <g className="transition-transform duration-300 group-hover:scale-105 origin-center">
+        {/* Left Legs */}
+        {/* Leg L1 (Upper-Front) */}
+        <path
+          d="M 45 32 C 34 16, 22 10, 13 18 C 10 21, 13 26, 17 24 C 23 20, 33 24, 43 36"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+        {/* Leg L2 (Upper-Mid) */}
+        <path
+          d="M 43 38 C 28 26, 14 24, 7 34 C 5 37, 9 40, 12 38 C 17 32, 27 34, 41 42"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+        {/* Leg L3 (Lower-Mid) */}
+        <path
+          d="M 43 46 C 26 46, 12 54, 7 68 C 6 72, 11 73, 13 69 C 17 58, 27 54, 41 49"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+        {/* Leg L4 (Rear) */}
+        <path
+          d="M 45 52 C 30 62, 20 74, 17 90 C 17 94, 21 94, 23 89 C 25 77, 33 68, 45 56"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+
+        {/* Right Legs (Mirrored) */}
+        {/* Leg R1 (Upper-Front) */}
+        <path
+          d="M 55 32 C 66 16, 78 10, 87 18 C 90 21, 87 26, 83 24 C 77 20, 67 24, 57 36"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+        {/* Leg R2 (Upper-Mid) */}
+        <path
+          d="M 57 38 C 72 26, 86 24, 93 34 C 95 37, 91 40, 88 38 C 83 32, 73 34, 59 42"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+        {/* Leg R3 (Lower-Mid) */}
+        <path
+          d="M 57 46 C 74 46, 88 54, 93 68 C 94 72, 89 73, 87 69 C 83 58, 73 54, 59 49"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+        {/* Leg R4 (Rear) */}
+        <path
+          d="M 55 52 C 70 62, 80 74, 83 90 C 83 94, 79 94, 77 89 C 75 77, 67 68, 55 56"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+
+        {/* Dynamic Dual-Tone Crimson Leg Highlights */}
+        <path
+          d="M 42 34 C 32 21, 23 15, 16 20 M 40 39 C 27 29, 15 29, 10 35 M 40 46 C 26 47, 15 56, 11 66 M 43 53 C 31 63, 22 74, 20 86"
+          className="stroke-hero-red stroke-[1.5] stroke-linecap-round"
+        />
+        <path
+          d="M 58 34 C 68 21, 77 15, 84 20 M 60 39 C 73 29, 85 29, 90 35 M 60 46 C 74 47, 85 56, 89 66 M 57 53 C 69 63, 78 74, 80 86"
+          className="stroke-hero-red stroke-[1.5] stroke-linecap-round"
+        />
+
+        {/* Head */}
+        <polygon
+          points="46,24 50,18 54,24 53,30 47,30"
+          className="fill-ink stroke-ink stroke-[2]"
+        />
+
+        {/* Expressive Spider Eyes (Glows on Hover / Open) */}
+        <polygon
+          points="47,23 49,26 47,27"
+          className={`fill-paper transition-all duration-200 ${
+            isOpen ? "drop-shadow-[0_0_3px_#fde047]" : "group-hover:drop-shadow-[0_0_2px_#fff]"
+          }`}
+        />
+        <polygon
+          points="53,23 51,26 53,27"
+          className={`fill-paper transition-all duration-200 ${
+            isOpen ? "drop-shadow-[0_0_3px_#fde047]" : "group-hover:drop-shadow-[0_0_2px_#fff]"
+          }`}
+        />
+
+        {/* Cephalothorax (Mid Body) */}
+        <path
+          d="M 46 30 C 43 36, 43 43, 47 46 C 50 47, 50 47, 53 46 C 57 43, 57 36, 54 30 Z"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+
+        {/* Abdomen (Lower Armor Body) */}
+        <path
+          d="M 47 46 C 43 54, 43 68, 50 82 C 57 68, 57 54, 53 46 Z"
+          className="fill-ink stroke-ink stroke-[1.5]"
+        />
+
+        {/* Center Hourglass Insignia */}
+        <path
+          d="M 48 48 C 45 54, 45 64, 50 74 C 55 64, 55 54, 52 48 Z"
+          className={`transition-colors duration-200 ${isOpen ? "fill-mustard" : "fill-hero-red"}`}
+        />
+        <circle
+          cx="50"
+          cy="38"
+          r="2.5"
+          className={`transition-colors duration-200 ${isOpen ? "fill-paper" : "fill-mustard"}`}
+        />
+      </g>
+    </svg>
   );
 }

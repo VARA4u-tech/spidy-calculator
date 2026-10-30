@@ -345,7 +345,7 @@ d:/spidy-calculator/
 │   └── logo.png                # Transparent Spider insignia badge
 ├── src/
 │   ├── components/             # Reusable UI component modules
-│   │   ├── AboutDeveloper.tsx  # Interactive About the Developer floating popover & creator desk
+│   │   ├── AboutDeveloper.tsx  # Custom-designed Spider floating button & creator dispatch popover
 │   │   ├── Calculator.tsx      # Desktop/tablet calculator & Case Files manager
 │   │   ├── comic.tsx           # Scalable vector Starburst and Web primitives
 │   │   ├── Footer.tsx          # Consolidated footer with navigation, creator link & Back to Top
