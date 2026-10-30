@@ -285,7 +285,7 @@ export function AboutDeveloper() {
                   <p className="font-mono text-[9px] sm:text-[10px] text-ink/70 uppercase tracking-widest mt-0.5">
                     {view === "menu" && "ISSUE #1 · SPECIAL DISPATCH"}
                     {view === "feedback" && "SEND A MESSAGE TO THE CREATOR"}
-                    {view === "developer" && "PAPPURI DURGA VARA PRASAD"}
+                    {view === "developer" && "DURGA VARA PRASAD PAPPURI"}
                     {view === "quick-actions" && "SPIDY UTILITY SHORTCUTS"}
                     {view === "preview" && "BRAND NEW DAY ARCHIVE COVER"}
                   </p>
@@ -536,7 +536,7 @@ export function AboutDeveloper() {
                   </div>
                   <div>
                     <h4 className="font-comic text-lg text-ink leading-tight">
-                      Pappuri Durga Vara Prasad
+                      Durga Vara Prasad Pappuri
                     </h4>
                     <p className="font-mono text-[11px] font-bold text-hero-blue">
                       Full-Stack &amp; AI Engineer · @VARA4u-tech
@@ -628,7 +628,7 @@ export function AboutDeveloper() {
                       <div>
                         <span className="font-bold text-ink">LinkedIn Network</span>
                         <span className="text-[10px] text-ink/60 block">
-                          Pappuri Durga Vara Prasad
+                          Durga Vara Prasad Pappuri
                         </span>
                       </div>
                     </div>

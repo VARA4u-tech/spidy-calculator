@@ -86,7 +86,7 @@ describe("AboutDeveloper component", () => {
     fireEvent.click(devDetailsBtn);
 
     expect(screen.getByText("DEVELOPER DOSSIER")).toBeDefined();
-    expect(screen.getAllByText("Pappuri Durga Vara Prasad").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Durga Vara Prasad Pappuri").length).toBeGreaterThanOrEqual(1);
 
     const githubLink = screen.getByText("GitHub").closest("a");
     expect(githubLink?.getAttribute("href")).toBe("https://github.com/VARA4u-tech");

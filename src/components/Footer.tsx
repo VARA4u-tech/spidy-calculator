@@ -250,7 +250,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="text-mustard hover:underline font-bold"
             >
-              Pappuri Durga Vara Prasad
+              Durga Vara Prasad Pappuri
             </a>{" "}
             · Zero ads · Zero tracking · Vintage comic book homage.
           </p>
