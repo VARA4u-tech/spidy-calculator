@@ -172,7 +172,7 @@ export function AboutDeveloper() {
     }
   };
 
-  const handleSubmitFeedback = (e: React.FormEvent) => {
+  const handleSubmitFeedback = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!feedback.trim()) {
       setFeedbackError("Hold on, hero! Please enter your message first.");
@@ -183,7 +183,7 @@ export function AboutDeveloper() {
     setIsSubmitting(true);
     sfxClick();
 
-    // Persist to localStorage
+    // 1. Persist local backup in localStorage
     try {
       const existing = JSON.parse(
         window.localStorage.getItem(FEEDBACK_STORAGE_KEY) || "[]"
@@ -199,8 +199,26 @@ export function AboutDeveloper() {
       // Storage unavailable
     }
 
-    // Simulated network transmission feedback
-    window.setTimeout(() => {
+    // 2. Transmit directly to developer's email inbox
+    try {
+      await fetch("https://formsubmit.co/ajax/durgavaraprasadpappuri13@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: `🕷️ Spidy Calculator Feedback [${feedbackCategory}]`,
+          _template: "table",
+          Category: feedbackCategory,
+          FeedbackMessage: feedback.trim(),
+          SubmittedAt: new Date().toLocaleString(),
+          Application: "Spidy Calculator (spidy-calculator.lovable.app)",
+        }),
+      });
+    } catch {
+      // Graceful fallback if offline; local backup already stored
+    } finally {
       setIsSubmitting(false);
       setFeedbackSubmitted(true);
       sfxToggle();
@@ -209,7 +227,7 @@ export function AboutDeveloper() {
         setFeedbackSubmitted(false);
         setView("menu");
       }, 2600);
-    }, 900);
+    }
   };
 
   return (
@@ -410,7 +428,7 @@ export function AboutDeveloper() {
                       TRANSMISSION RECEIVED!
                     </h4>
                     <p className="mt-1 font-mono text-xs text-ink/80 leading-relaxed">
-                      Thank you, hero! Your feedback has been safely logged for the developer.
+                      Thank you, hero! Your feedback has been dispatched straight to the developer's email.
                     </p>
                     <span className="mt-3 inline-block font-mono text-[10px] text-ink/60 bg-paper px-2 py-0.5 rounded border border-ink/20">
                       Redirecting to menu...

@@ -55,9 +55,18 @@ describe("AboutDeveloper component", () => {
     fireEvent.click(submitBtn);
     expect(screen.getByText(/hold on, hero!/i)).toBeDefined();
 
-    // Type valid feedback
+    // Type valid feedback and submit
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) });
+    global.fetch = fetchMock;
+
     fireEvent.change(textarea, { target: { value: "Great retro styling on the calculator!" } });
     expect(textarea.value).toBe("Great retro styling on the calculator!");
+
+    fireEvent.click(submitBtn);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://formsubmit.co/ajax/durgavaraprasadpappuri13@gmail.com",
+      expect.objectContaining({ method: "POST" })
+    );
   });
 
   it("navigates to Developer Details and renders verified external profile links", () => {
