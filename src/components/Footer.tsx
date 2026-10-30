@@ -197,12 +197,37 @@ export function Footer() {
             >
               PRIVACY
             </Link>
+            <span className="text-paper/30">·</span>
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("spidy-open-developer"));
+                }
+              }}
+              className="text-paper hover:text-mustard transition-colors tracking-wider font-comic cursor-pointer flex items-center gap-1"
+              title="About the Developer & Contact"
+            >
+              <span>CREATOR</span>
+              <span className="text-hero-red">★</span>
+            </button>
           </nav>
         </div>
 
         {/* Clean Copyright & Ethics Strip */}
         <div className="mx-auto max-w-6xl mt-4 pt-3.5 border-t border-paper/10 text-center font-mono text-[11px] sm:text-xs text-paper/60">
-          <p>© 2026 Spidy Calculator · Zero ads · Zero tracking · Vintage comic book homage.</p>
+          <p>
+            © 2026 Spidy Calculator · Crafted by{" "}
+            <a
+              href="https://vara-s-portfolio.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-mustard hover:underline font-bold"
+            >
+              Pappuri Durga Vara Prasad
+            </a>{" "}
+            · Zero ads · Zero tracking · Vintage comic book homage.
+          </p>
         </div>
       </div>
     </footer>

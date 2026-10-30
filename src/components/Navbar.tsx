@@ -303,6 +303,21 @@ export function Navbar() {
                   >
                     <span>🛡️ PRIVACY</span>
                   </Link>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sfxToggle();
+                      setMenuOpen(false);
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(new CustomEvent("spidy-open-developer"));
+                      }
+                    }}
+                    className="col-span-2 flex items-center justify-center gap-1.5 rounded-lg border-2 border-ink px-2 py-1.5 font-comic text-xs tracking-wider shadow-[2px_2px_0_var(--ink)] bg-mustard/30 hover:bg-mustard text-ink font-bold cursor-pointer transition-colors"
+                  >
+                    <span>👨‍💻 ABOUT THE DEVELOPER</span>
+                    <span className="text-hero-red">★</span>
+                  </button>
                 </div>
               </div>
 

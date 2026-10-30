@@ -17,6 +17,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "@/components/Navbar";
 import { BackToTop } from "@/components/BackToTop";
+import { AboutDeveloper } from "@/components/AboutDeveloper";
 
 const loadMotionFeatures = () => import("framer-motion").then(({ domAnimation }) => domAnimation);
 
@@ -138,6 +139,7 @@ function RootComponent() {
       {!isCalculator && <BackToTop />}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <AboutDeveloper />
     </QueryClientProvider>
   );
 }

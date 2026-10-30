@@ -345,6 +345,7 @@ d:/spidy-calculator/
 │   └── logo.png                # Transparent Spider insignia badge
 ├── src/
 │   ├── components/             # Reusable UI component modules
+│   │   ├── AboutDeveloper.tsx  # Interactive About the Developer floating popover & creator desk
 │   │   ├── BackToTop.tsx       # Contextual floating action button (scrollY > 350px)
 │   │   ├── Calculator.tsx      # Desktop/tablet calculator & Case Files manager
 │   │   ├── comic.tsx           # Scalable vector Starburst and Web primitives
@@ -364,6 +365,7 @@ d:/spidy-calculator/
 │   │   ├── terms.tsx           # Terms & Conditions review, acceptance, & decline portal
 │   │   └── privacy.tsx         # Privacy Policy & zero-tracking declaration
 │   ├── test/                   # Comprehensive automated test suites
+│   │   ├── about-developer.test.tsx # Unit tests for Developer popover & actions
 │   │   ├── app-routing.test.tsx# Route matching and 404 fallback validation
 │   │   └── calculator.test.ts  # Precision math unit tests & edge case coverage
 │   ├── routeTree.gen.ts        # Auto-generated TanStack router route tree
