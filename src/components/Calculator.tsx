@@ -6,6 +6,7 @@ import {
   loadSoundPref,
   isMuted,
   toggleMuted,
+  SOUND_CHANGE_EVENT,
   sfxKey,
   sfxBackspace,
   sfxOperator,
@@ -56,6 +57,25 @@ export function Calculator() {
     loadSoundPref();
     setMuted(isMuted());
     setHistory(loadInitialHistory());
+
+    const handleSoundChange = (e: Event) => {
+      const ce = e as CustomEvent<{ muted: boolean }>;
+      if (typeof ce.detail?.muted === "boolean") {
+        setMuted(ce.detail.muted);
+      } else {
+        setMuted(isMuted());
+      }
+    };
+    window.addEventListener(SOUND_CHANGE_EVENT, handleSoundChange);
+    return () => window.removeEventListener(SOUND_CHANGE_EVENT, handleSoundChange);
+  }, []);
+
+  const handleToggleSound = useCallback(() => {
+    const next = toggleMuted();
+    setMuted(next);
+    if (!next) {
+      sfxToggle();
+    }
   }, []);
 
   useEffect(() => {
@@ -376,7 +396,7 @@ export function Calculator() {
             showHistory={showHistory}
             setShowHistory={setShowHistory}
             muted={muted}
-            setMuted={setMuted}
+            onToggleSound={handleToggleSound}
             copied={copied}
             copyResult={copyResult}
             toggleAngle={toggleAngle}
@@ -612,16 +632,22 @@ export function Calculator() {
               type="button"
               aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
               aria-pressed={!muted}
-              onClick={() => {
-                const next = toggleMuted();
-                setMuted(next);
-                if (!next) sfxToggle();
-              }}
-              className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
-              title={muted ? "Sound off" : "Sound on"}
+              onClick={handleToggleSound}
+              className={`comic-btn ${
+                muted
+                  ? "btn-blue opacity-85"
+                  : "btn-equals ring-2 ring-mustard shadow-[2px_2px_0_var(--ink)]"
+              } flex items-center justify-center gap-1.5 py-1.5 sm:py-2 text-xs min-[400px]:text-sm sm:text-base cursor-pointer transition-all active:scale-95`}
+              title={
+                muted
+                  ? "Sound effects currently MUTED (click to enable)"
+                  : "Sound effects currently ON (click to mute)"
+              }
             >
-              <span>{muted ? "🔇" : "🔊"}</span>
-              <span>{muted ? "SFX OFF" : "SFX ON"}</span>
+              <span aria-hidden>{muted ? "🔇" : "🔊"}</span>
+              <span className="font-comic font-bold tracking-wide">
+                {muted ? "SFX: MUTED" : "SFX: ACTIVE"}
+              </span>
             </button>
           </div>
 

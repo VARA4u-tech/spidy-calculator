@@ -23,7 +23,14 @@ import {
   BookOpen,
 } from "lucide-react";
 import { Starburst, Web } from "@/components/comic";
-import { sfxClick, sfxToggle, toggleMuted, isMuted, loadSoundPref } from "@/lib/sounds";
+import {
+  sfxClick,
+  sfxToggle,
+  toggleMuted,
+  isMuted,
+  loadSoundPref,
+  SOUND_CHANGE_EVENT,
+} from "@/lib/sounds";
 
 type ActiveView = "menu" | "feedback" | "developer" | "quick-actions" | "preview";
 
@@ -53,10 +60,20 @@ export function AboutDeveloper() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  // Initialize sound state
+  // Initialize sound state & listen for cross-component sound changes
   useEffect(() => {
     loadSoundPref();
     setSoundEnabled(!isMuted());
+    const onSoundChange = (e: Event) => {
+      const ce = e as CustomEvent<{ muted: boolean }>;
+      if (typeof ce.detail?.muted === "boolean") {
+        setSoundEnabled(!ce.detail.muted);
+      } else {
+        setSoundEnabled(!isMuted());
+      }
+    };
+    window.addEventListener(SOUND_CHANGE_EVENT, onSoundChange);
+    return () => window.removeEventListener(SOUND_CHANGE_EVENT, onSoundChange);
   }, []);
 
   // Close when clicking outside

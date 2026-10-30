@@ -4,6 +4,7 @@
 let ctx: AudioContext | null = null;
 let muted = false;
 const MUTED_KEY = "webslinger-sound-muted";
+export const SOUND_CHANGE_EVENT = "spidy-sound-change";
 
 export function loadSoundPref(): void {
   if (typeof window === "undefined") return;
@@ -23,14 +24,22 @@ export function setMuted(value: boolean): void {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(MUTED_KEY, value ? "1" : "0");
+    window.dispatchEvent(new CustomEvent(SOUND_CHANGE_EVENT, { detail: { muted: value } }));
   } catch {
     // storage unavailable — session-only preference
   }
 }
 
 export function toggleMuted(): boolean {
-  setMuted(!muted);
-  return muted;
+  const next = !muted;
+  setMuted(next);
+  if (!next) {
+    const ac = audio();
+    if (ac && ac.state === "suspended") {
+      void ac.resume();
+    }
+  }
+  return next;
 }
 
 function audio(): AudioContext | null {
@@ -40,7 +49,6 @@ function audio(): AudioContext | null {
     (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!AC) return null;
   if (!ctx) ctx = new AC();
-  if (ctx.state === "suspended") void ctx.resume();
   return ctx;
 }
 
@@ -54,6 +62,31 @@ function haptic(ms = 10): void {
   }
 }
 
+function playTone(
+  ac: AudioContext,
+  freq: number,
+  duration: number,
+  type: OscillatorType,
+  volume: number,
+  slideTo?: number,
+): void {
+  try {
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    const t = ac.currentTime;
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + duration);
+    gain.gain.setValueAtTime(volume, t);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+    osc.connect(gain).connect(ac.destination);
+    osc.start(t);
+    osc.stop(t + duration + 0.02);
+  } catch {
+    // Audio playback error guard
+  }
+}
+
 function blip(
   freq: number,
   duration = 0.07,
@@ -62,19 +95,18 @@ function blip(
   slideTo?: number,
 ): void {
   haptic(8);
+  if (muted || typeof window === "undefined") return;
   const ac = audio();
   if (!ac) return;
-  const osc = ac.createOscillator();
-  const gain = ac.createGain();
-  const t = ac.currentTime;
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, t);
-  if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + duration);
-  gain.gain.setValueAtTime(volume, t);
-  gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
-  osc.connect(gain).connect(ac.destination);
-  osc.start(t);
-  osc.stop(t + duration + 0.02);
+  if (ac.state === "suspended") {
+    void ac.resume().then(() => {
+      if (!muted) {
+        playTone(ac, freq, duration, type, volume, slideTo);
+      }
+    });
+    return;
+  }
+  playTone(ac, freq, duration, type, volume, slideTo);
 }
 
 /** Light tap for digits and decimal point. */

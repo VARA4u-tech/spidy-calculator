@@ -20,7 +20,7 @@ interface MobileSciCalculatorProps {
   showHistory: boolean;
   setShowHistory: React.Dispatch<React.SetStateAction<boolean>>;
   muted: boolean;
-  setMuted: React.Dispatch<React.SetStateAction<boolean>>;
+  onToggleSound: () => void;
   copied: boolean;
   copyResult: () => Promise<void>;
   toggleAngle: () => void;
@@ -41,7 +41,7 @@ export function MobileSciCalculator({
   showHistory,
   setShowHistory,
   muted,
-  setMuted,
+  onToggleSound,
   copied,
   copyResult,
   toggleAngle,
@@ -135,15 +135,20 @@ export function MobileSciCalculator({
             {/* Sound FX Toggle */}
             <button
               type="button"
-              onClick={() => {
-                sfxToggle();
-                setMuted(!muted);
-              }}
-              className="comic-header-btn btn-blue inline-flex items-center justify-center w-7 sm:w-8 px-1 py-0.5 text-xs font-bold"
-              title={muted ? "Sound effects off (tap to enable)" : "Sound effects on (tap to mute)"}
+              onClick={onToggleSound}
+              className={`comic-header-btn ${
+                muted ? "btn-blue opacity-85" : "btn-equals shadow-[2px_2px_0_var(--ink)]"
+              } inline-flex items-center justify-center w-7 sm:w-8 px-1 py-0.5 text-xs font-bold cursor-pointer transition-transform active:scale-95`}
+              title={
+                muted
+                  ? "Sound effects currently MUTED (tap to enable)"
+                  : "Sound effects currently ON (tap to mute)"
+              }
+              aria-label={muted ? "Turn sound effects on" : "Turn sound effects off"}
+              aria-pressed={!muted}
             >
               <span aria-hidden>{muted ? "🔇" : "🔊"}</span>
-              <span className="sr-only">{muted ? "SFX Off" : "SFX On"}</span>
+              <span className="sr-only">{muted ? "Sound Muted" : "Sound Active"}</span>
             </button>
 
             {/* Upright vs Horizontal View Toggle */}
