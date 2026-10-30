@@ -78,7 +78,7 @@ describe("AboutDeveloper component", () => {
     expect(portfolioLink?.getAttribute("href")).toBe("https://vara-s-portfolio.vercel.app");
 
     const emailLink = screen.getByText("Direct Email").closest("a");
-    expect(emailLink?.getAttribute("href")).toBe("mailto:pappuridurgavaraprasad4pl@gmail.com");
+    expect(emailLink?.getAttribute("href")).toBe("mailto:durgavaraprasadpappuri13@gmail.com");
   });
 
   it("navigates to Quick Actions and allows sound toggle", () => {

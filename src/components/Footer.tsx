@@ -1,7 +1,19 @@
 import { Link } from "@tanstack/react-router";
+import { useReducedMotion } from "framer-motion";
 import { Starburst, Web } from "@/components/comic";
+import { sfxClick } from "@/lib/sounds";
 
 export function Footer() {
+  const reduce = useReducedMotion();
+
+  const scrollToTop = () => {
+    sfxClick();
+    window.scrollTo({
+      top: 0,
+      behavior: reduce ? "auto" : "smooth",
+    });
+  };
+
   return (
     <footer className="relative mt-20 w-full overflow-hidden border-t-4 border-ink bg-[#be2629] text-paper select-none">
       {/* Decorative comic halftone pattern over red background */}
@@ -212,6 +224,18 @@ export function Footer() {
               <span className="text-hero-red">★</span>
             </button>
           </nav>
+
+          {/* Dedicated In-Footer Scroll to Top Button */}
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="comic-btn btn-blue inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-comic tracking-wider cursor-pointer shadow-[3px_3px_0_var(--ink)] hover:brightness-110 active:translate-y-0.5 shrink-0"
+            aria-label="Scroll back to top of page"
+            title="Swing back to top"
+          >
+            <span aria-hidden className="text-xs">▲</span>
+            <span>SWING TO TOP</span>
+          </button>
         </div>
 
         {/* Clean Copyright & Ethics Strip */}

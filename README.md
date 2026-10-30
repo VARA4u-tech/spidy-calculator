@@ -299,7 +299,7 @@ gantt
 ### 7. Art-Directed Comic UX & Unified Navigation
 
 - **Collapsible Masthead**: Sticky retro issue strip that smoothly folds away on downward scroll.
-- **Contextual Floating Action Button (`BackToTop.tsx`)**: Appears smoothly only after 350px of vertical scroll on long pages (`/`, `/terms`, `/privacy`) and remains omitted on contained viewports (`/calculator`).
+- **In-Footer Scroll to Top Button**: Integrated `▲ SWING TO TOP` comic button positioned right inside the footer bar, respecting reduced motion and audio feedback.
 - **Consolidated Navigation Strip**: Single-source footer row without duplicate buttons or wrapping clutter.
 
 ---
@@ -346,10 +346,9 @@ d:/spidy-calculator/
 ├── src/
 │   ├── components/             # Reusable UI component modules
 │   │   ├── AboutDeveloper.tsx  # Interactive About the Developer floating popover & creator desk
-│   │   ├── BackToTop.tsx       # Contextual floating action button (scrollY > 350px)
 │   │   ├── Calculator.tsx      # Desktop/tablet calculator & Case Files manager
 │   │   ├── comic.tsx           # Scalable vector Starburst and Web primitives
-│   │   ├── Footer.tsx          # Consolidated single-source navigation footer
+│   │   ├── Footer.tsx          # Consolidated footer with navigation, creator link & Back to Top
 │   │   ├── MobileSciCalculator.tsx # Mobile scientific calculator with dual orientation
 │   │   └── Navbar.tsx          # Sticky masthead, desktop tabs, and mobile drawer
 │   ├── lib/                    # Decoupled business logic & utility modules

@@ -565,7 +565,7 @@ export function AboutDeveloper() {
                   {/* Direct Email with One-Click Copy */}
                   <div className="flex items-center justify-between rounded-lg border-2 border-ink bg-paper p-2 text-xs font-mono shadow-[2px_2px_0_var(--ink)]">
                     <a
-                      href="mailto:pappuridurgavaraprasad4pl@gmail.com"
+                      href="mailto:durgavaraprasadpappuri13@gmail.com"
                       className="flex items-center gap-2 hover:underline min-w-0 flex-1 pr-2"
                       title="Send email via mailto:"
                     >
@@ -573,13 +573,13 @@ export function AboutDeveloper() {
                       <div className="truncate">
                         <span className="font-bold text-ink block">Direct Email</span>
                         <span className="text-[10px] text-ink/70 truncate block">
-                          pappuridurgavaraprasad4pl@gmail.com
+                          durgavaraprasadpappuri13@gmail.com
                         </span>
                       </div>
                     </a>
                     <button
                       type="button"
-                      onClick={() => handleCopyEmail("pappuridurgavaraprasad4pl@gmail.com")}
+                      onClick={() => handleCopyEmail("durgavaraprasadpappuri13@gmail.com")}
                       className="shrink-0 rounded border border-ink bg-paper-dark/30 hover:bg-mustard p-1.5 transition-colors cursor-pointer"
                       title="Copy email address"
                     >
