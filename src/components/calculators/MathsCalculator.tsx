@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   calculateFractions,
   calculateRatio,
@@ -10,10 +10,20 @@ import {
 import { playClickSound } from "@/lib/sounds";
 import { Divide, Ratio, Hash, ShieldCheck, Variable } from "lucide-react";
 
-export function MathsCalculator() {
-  const [activeTab, setActiveTab] = useState<
-    "fractions" | "ratios" | "lcmgcd" | "primes" | "algebra"
-  >("fractions");
+export type MathsTabMode = "fractions" | "ratios" | "lcmgcd" | "primes" | "algebra";
+
+export interface MathsCalculatorProps {
+  activeMode?: MathsTabMode | undefined;
+}
+
+export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
+  const [activeTab, setActiveTab] = useState<MathsTabMode>(activeMode ?? "fractions");
+
+  useEffect(() => {
+    if (activeMode) {
+      setActiveTab(activeMode);
+    }
+  }, [activeMode]);
 
   // Fractions state
   const [f1Num, setF1Num] = useState<string>("3");
