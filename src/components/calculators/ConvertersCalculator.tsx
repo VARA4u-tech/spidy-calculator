@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { convertUnits, CATEGORY_MAP, type UnitCategory } from "@/lib/conversions";
 import { playClickSound } from "@/lib/sounds";
 import { Ruler, Scale, Box, Thermometer, Gauge, Clock, ArrowLeftRight } from "lucide-react";
 
-interface ConvertersCalculatorProps {
-  initialTab?: UnitCategory;
+export interface ConvertersCalculatorProps {
+  initialTab?: UnitCategory | undefined;
+  activeMode?: UnitCategory | undefined;
 }
 
 const TABS: { id: UnitCategory; label: string; icon: typeof Ruler }[] = [
@@ -16,8 +17,11 @@ const TABS: { id: UnitCategory; label: string; icon: typeof Ruler }[] = [
   { id: "time", label: "TIME", icon: Clock },
 ];
 
-export function ConvertersCalculator({ initialTab = "length" }: ConvertersCalculatorProps) {
-  const [activeTab, setActiveTab] = useState<UnitCategory>(initialTab);
+export function ConvertersCalculator({
+  initialTab = "length",
+  activeMode,
+}: ConvertersCalculatorProps) {
+  const [activeTab, setActiveTab] = useState<UnitCategory>(activeMode ?? initialTab);
   const [inputValue, setInputValue] = useState<string>("10");
 
   const categoryConfig = CATEGORY_MAP[activeTab];
@@ -33,6 +37,12 @@ export function ConvertersCalculator({ initialTab = "length" }: ConvertersCalcul
     setFromUnit(newUnits[0]?.id ?? "");
     setToUnit(newUnits[1]?.id ?? newUnits[0]?.id ?? "");
   };
+
+  useEffect(() => {
+    if (activeMode && activeMode !== activeTab) {
+      handleTabChange(activeMode);
+    }
+  }, [activeMode, activeTab]);
 
   const handleSwap = () => {
     playClickSound();
