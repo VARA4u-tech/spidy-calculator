@@ -113,6 +113,21 @@ function blip(
 export const sfxKey = (): void => blip(440, 0.05, "square", 0.06);
 /** Generic UI click. */
 export const sfxClick = (): void => blip(440, 0.05, "square", 0.06);
+export const playClickSound = sfxClick;
+
+let spidermanAudio: HTMLAudioElement | null = null;
+export function playSpiderManSound(): void {
+  if (muted || typeof window === "undefined") return;
+  try {
+    if (!spidermanAudio) {
+      spidermanAudio = new Audio("/spidermansound.mp3");
+    }
+    spidermanAudio.currentTime = 0;
+    void spidermanAudio.play().catch(() => {});
+  } catch {
+    // audio fallback
+  }
+}
 /** Low "thup" for backspace. */
 export const sfxBackspace = (): void => blip(220, 0.08, "triangle", 0.08, 160);
 /** Rising zap for operators. */
