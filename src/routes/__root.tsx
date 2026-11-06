@@ -7,7 +7,6 @@ import {
   useRouterState,
   HeadContent,
   Scripts,
-  ScrollRestoration,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { LazyMotion } from "framer-motion";
@@ -133,7 +132,6 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ScrollRestoration />
       {!isCalculator && <Navbar />}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
