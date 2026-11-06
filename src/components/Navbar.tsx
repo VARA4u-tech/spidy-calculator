@@ -8,7 +8,7 @@ import {
   useScroll,
 } from "framer-motion";
 import { Starburst, Web } from "@/components/comic";
-import { sfxToggle } from "@/lib/sounds";
+import { sfxToggle, playSpiderManSound } from "@/lib/sounds";
 
 export function Navbar() {
   const location = useRouterState({ select: (s) => s.location });
@@ -160,7 +160,10 @@ export function Navbar() {
             {/* Primary Action Hero Button */}
             <Link
               to="/calculator"
-              onClick={() => sfxToggle()}
+              onClick={() => {
+                sfxToggle();
+                playSpiderManSound();
+              }}
               className="comic-btn btn-red inline-flex items-center gap-1.5 px-4 py-1.5 text-sm lg:px-5 lg:py-2 lg:text-base font-comic font-bold tracking-wider shadow-[4px_4px_0_var(--ink)] cursor-pointer"
             >
               <span>⚡</span>
@@ -208,6 +211,7 @@ export function Navbar() {
                   to="/calculator"
                   onClick={() => {
                     sfxToggle();
+                    playSpiderManSound();
                     setMenuOpen(false);
                   }}
                   className="flex items-center justify-between rounded-lg border-3 border-ink bg-hero-red text-paper px-4 py-3 font-comic text-xl font-bold tracking-wider shadow-[4px_4px_0_var(--ink)] hover:brightness-110 active:scale-[0.98] transition-transform cursor-pointer"
