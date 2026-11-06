@@ -213,27 +213,32 @@ export function SpiderWebRail({
 
                   {/* Subcategories Micro Pills */}
                   {subcategories && subcategories.length > 0 && (
-                    <div className="mt-1.5 pt-1.5 border-t border-ink/15 flex flex-wrap gap-1">
-                      {subcategories.map((sub) => {
-                        const isSubActive = activeSubId === sub.id;
-                        return (
-                          <button
-                            key={sub.id}
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleSubCategoryClick(index, sub);
-                            }}
-                            className={`font-comic text-[9.5px] px-1.5 py-0.5 rounded border border-ink/40 transition-colors cursor-pointer ${
-                              isSubActive
-                                ? "bg-hero-red text-paper font-bold shadow-[1px_1px_0_var(--ink)]"
-                                : "bg-paper/80 text-ink/80 hover:bg-mustard hover:text-ink"
-                            }`}
-                          >
-                            {sub.label}
-                          </button>
-                        );
-                      })}
+                    <div className="mt-2 pt-1.5 border-t border-ink/15 space-y-1">
+                      <span className="font-mono text-[8.5px] font-bold text-ink/60 uppercase tracking-wider block">
+                        MODES:
+                      </span>
+                      <div className="flex flex-wrap gap-1">
+                        {subcategories.map((sub) => {
+                          const isSubActive = activeSubId === sub.id;
+                          return (
+                            <button
+                              key={sub.id}
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSubCategoryClick(index, sub);
+                              }}
+                              className={`font-comic text-[10.5px] font-bold px-2 py-0.5 rounded-lg border-2 border-ink transition-all cursor-pointer ${
+                                isSubActive
+                                  ? "bg-hero-red text-paper font-black shadow-[2px_2px_0_var(--ink)] -translate-y-0.5"
+                                  : "bg-paper text-ink hover:bg-mustard hover:text-ink shadow-[1px_1px_0_var(--ink)] active:translate-y-0"
+                              }`}
+                            >
+                              {sub.label}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>

@@ -56,8 +56,8 @@ export function ConvertersCalculator({
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6">
-      {/* Category Navigation Pills */}
-      <div className="flex flex-wrap gap-2 border-b-4 border-ink pb-4">
+      {/* Category Navigation Pills (< lg on mobile only; desktop controls modes via Spider-Rail) */}
+      <div className="flex flex-wrap gap-2 border-b-4 border-ink pb-4 lg:hidden">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;

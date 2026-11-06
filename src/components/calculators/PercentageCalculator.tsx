@@ -51,8 +51,8 @@ export function PercentageCalculator({ activeMode }: PercentageCalculatorProps =
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6">
-      {/* Comic Mode Selector Tabs */}
-      <div className="flex flex-wrap gap-2 border-b-4 border-ink pb-4">
+      {/* Comic Mode Selector Tabs (< lg on mobile only; desktop controls modes via Spider-Rail) */}
+      <div className="flex flex-wrap gap-2 border-b-4 border-ink pb-4 lg:hidden">
         {[
           { id: "percentOf", label: "P% OF X", icon: Percent },
           { id: "whatPercent", label: "X IS WHAT % OF Y", icon: Sparkles },

@@ -62,8 +62,8 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6">
-      {/* Tab Selector */}
-      <div className="flex flex-wrap gap-2 border-b-4 border-ink pb-4">
+      {/* Tab Selector (< lg on mobile only; desktop controls modes via Spider-Rail) */}
+      <div className="flex flex-wrap gap-2 border-b-4 border-ink pb-4 lg:hidden">
         {[
           { id: "fractions", label: "FRACTIONS", icon: Divide },
           { id: "ratios", label: "RATIOS", icon: Ratio },
