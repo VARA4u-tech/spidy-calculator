@@ -120,19 +120,21 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
 
               <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 py-4">
                 {/* Fraction 1 */}
-                <div className="flex flex-col items-center gap-1 w-24">
+                <div className="flex flex-col items-center gap-1.5 w-24 sm:w-28">
                   <input
                     type="number"
                     value={f1Num}
                     onChange={(e) => setF1Num(e.target.value)}
-                    className="w-full text-center rounded-lg border-2 border-ink bg-parchment py-1.5 font-mono text-lg font-bold"
+                    className="w-full text-center rounded-xl border-3 border-ink bg-paper text-ink py-2 font-mono text-xl sm:text-2xl font-black shadow-[3px_3px_0_0_var(--ink)] focus:outline-none focus:bg-white focus:ring-2 focus:ring-mustard"
+                    aria-label="Fraction 1 Numerator"
                   />
-                  <div className="w-full h-1 bg-ink rounded-full" />
+                  <div className="w-full h-1.5 bg-ink rounded-full" />
                   <input
                     type="number"
                     value={f1Den}
                     onChange={(e) => setF1Den(e.target.value)}
-                    className="w-full text-center rounded-lg border-2 border-ink bg-parchment py-1.5 font-mono text-lg font-bold"
+                    className="w-full text-center rounded-xl border-3 border-ink bg-paper text-ink py-2 font-mono text-xl sm:text-2xl font-black shadow-[3px_3px_0_0_var(--ink)] focus:outline-none focus:bg-white focus:ring-2 focus:ring-mustard"
+                    aria-label="Fraction 1 Denominator"
                   />
                 </div>
 
@@ -158,19 +160,21 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                 </div>
 
                 {/* Fraction 2 */}
-                <div className="flex flex-col items-center gap-1 w-24">
+                <div className="flex flex-col items-center gap-1.5 w-24 sm:w-28">
                   <input
                     type="number"
                     value={f2Num}
                     onChange={(e) => setF2Num(e.target.value)}
-                    className="w-full text-center rounded-lg border-2 border-ink bg-parchment py-1.5 font-mono text-lg font-bold"
+                    className="w-full text-center rounded-xl border-3 border-ink bg-paper text-ink py-2 font-mono text-xl sm:text-2xl font-black shadow-[3px_3px_0_0_var(--ink)] focus:outline-none focus:bg-white focus:ring-2 focus:ring-mustard"
+                    aria-label="Fraction 2 Numerator"
                   />
-                  <div className="w-full h-1 bg-ink rounded-full" />
+                  <div className="w-full h-1.5 bg-ink rounded-full" />
                   <input
                     type="number"
                     value={f2Den}
                     onChange={(e) => setF2Den(e.target.value)}
-                    className="w-full text-center rounded-lg border-2 border-ink bg-parchment py-1.5 font-mono text-lg font-bold"
+                    className="w-full text-center rounded-xl border-3 border-ink bg-paper text-ink py-2 font-mono text-xl sm:text-2xl font-black shadow-[3px_3px_0_0_var(--ink)] focus:outline-none focus:bg-white focus:ring-2 focus:ring-mustard"
+                    aria-label="Fraction 2 Denominator"
                   />
                 </div>
               </div>
@@ -514,7 +518,7 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                           type="number"
                           value={linA}
                           onChange={(e) => setLinA(e.target.value)}
-                          className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono text-center font-bold"
+                          className="w-full rounded-xl border-3 border-ink bg-paper p-2.5 font-mono text-center font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] focus:outline-none focus:bg-white"
                         />
                       </label>
                       <label className="block space-y-1">
@@ -523,7 +527,7 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                           type="number"
                           value={linB}
                           onChange={(e) => setLinB(e.target.value)}
-                          className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono text-center font-bold"
+                          className="w-full rounded-xl border-3 border-ink bg-paper p-2.5 font-mono text-center font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] focus:outline-none focus:bg-white"
                         />
                       </label>
                       <label className="block space-y-1">
@@ -532,7 +536,7 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                           type="number"
                           value={linC}
                           onChange={(e) => setLinC(e.target.value)}
-                          className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono text-center font-bold"
+                          className="w-full rounded-xl border-3 border-ink bg-paper p-2.5 font-mono text-center font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] focus:outline-none focus:bg-white"
                         />
                       </label>
                     </div>
@@ -578,7 +582,7 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                           type="number"
                           value={quadA}
                           onChange={(e) => setQuadA(e.target.value)}
-                          className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono text-center font-bold"
+                          className="w-full rounded-xl border-3 border-ink bg-paper p-2.5 font-mono text-center font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] focus:outline-none focus:bg-white"
                         />
                       </label>
                       <label className="block space-y-1">
@@ -587,7 +591,7 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                           type="number"
                           value={quadB}
                           onChange={(e) => setQuadB(e.target.value)}
-                          className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono text-center font-bold"
+                          className="w-full rounded-xl border-3 border-ink bg-paper p-2.5 font-mono text-center font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] focus:outline-none focus:bg-white"
                         />
                       </label>
                       <label className="block space-y-1">
@@ -596,7 +600,7 @@ export function MathsCalculator({ activeMode }: MathsCalculatorProps = {}) {
                           type="number"
                           value={quadC}
                           onChange={(e) => setQuadC(e.target.value)}
-                          className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono text-center font-bold"
+                          className="w-full rounded-xl border-3 border-ink bg-paper p-2.5 font-mono text-center font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] focus:outline-none focus:bg-white"
                         />
                       </label>
                     </div>

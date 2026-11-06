@@ -152,7 +152,7 @@ export function PatioCalculator() {
                 type="number"
                 value={lMainLen}
                 onChange={(e) => setLMainLen(e.target.value)}
-                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
             <label className="block space-y-1">
@@ -161,7 +161,7 @@ export function PatioCalculator() {
                 type="number"
                 value={lMainWid}
                 onChange={(e) => setLMainWid(e.target.value)}
-                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
             <label className="block space-y-1">
@@ -172,7 +172,7 @@ export function PatioCalculator() {
                 type="number"
                 value={lWingLen}
                 onChange={(e) => setLWingLen(e.target.value)}
-                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
             <label className="block space-y-1">
@@ -181,7 +181,7 @@ export function PatioCalculator() {
                 type="number"
                 value={lWingWid}
                 onChange={(e) => setLWingWid(e.target.value)}
-                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-3 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
           </div>
@@ -200,7 +200,7 @@ export function PatioCalculator() {
                 type="number"
                 value={paverLenIn}
                 onChange={(e) => setPaverLenIn(e.target.value)}
-                className="w-full rounded-xl border-2 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-2 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
 
@@ -210,7 +210,7 @@ export function PatioCalculator() {
                 type="number"
                 value={paverWidIn}
                 onChange={(e) => setPaverWidIn(e.target.value)}
-                className="w-full rounded-xl border-2 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-2 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
 
@@ -223,7 +223,7 @@ export function PatioCalculator() {
                 step="0.05"
                 value={costPerPaver}
                 onChange={(e) => setCostPerPaver(e.target.value)}
-                className="w-full rounded-xl border-2 border-ink bg-parchment p-2.5 font-mono font-bold"
+                className="w-full rounded-xl border-2 border-ink bg-parchment p-2.5 font-mono font-bold text-ink"
               />
             </label>
           </div>

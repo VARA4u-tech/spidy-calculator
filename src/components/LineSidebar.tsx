@@ -351,9 +351,7 @@ export function LineSidebar({
                     {Icon ? (
                       <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     ) : (
-                      <span className="font-mono text-[10px] font-bold">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
+                      <Sparkles className="h-3 w-3" />
                     )}
                   </div>
 
@@ -405,8 +403,8 @@ export function LineSidebar({
                             ? "rotate-90 text-ink"
                             : "text-ink/80 group-hover:translate-x-0.5"
                           : isExpanded
-                          ? "rotate-90 text-mustard"
-                          : "text-paper/50 group-hover:text-mustard group-hover:translate-x-0.5"
+                            ? "rotate-90 text-mustard"
+                            : "text-paper/50 group-hover:text-mustard group-hover:translate-x-0.5"
                       }`}
                     />
                   )}
