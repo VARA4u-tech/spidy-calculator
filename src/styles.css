@@ -31,6 +31,7 @@
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-paper-dark: var(--paper-dark);
+  --color-parchment: var(--paper);
   --color-hero-red: var(--hero-red);
   --color-hero-blue: var(--hero-blue);
   --color-mustard: var(--mustard);
