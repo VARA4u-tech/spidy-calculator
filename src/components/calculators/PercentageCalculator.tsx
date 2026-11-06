@@ -105,9 +105,9 @@ export function PercentageCalculator({ activeMode }: PercentageCalculatorProps =
                       type="number"
                       value={m1Percent}
                       onChange={(e) => setM1Percent(e.target.value)}
-                      className="w-full rounded-xl border-3 border-ink bg-parchment px-4 py-3 font-mono text-lg font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none focus:bg-white"
+                      className="w-full rounded-xl border-3 border-ink bg-parchment pl-4 pr-10 py-3 font-mono text-lg font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none focus:bg-white"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-comic font-bold text-ink">
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-comic font-black text-ink select-none text-base">
                       %
                     </span>
                   </div>
@@ -333,9 +333,9 @@ export function PercentageCalculator({ activeMode }: PercentageCalculatorProps =
                       type="number"
                       value={m4Discount}
                       onChange={(e) => setM4Discount(e.target.value)}
-                      className="w-full rounded-xl border-3 border-ink bg-parchment px-4 py-3 font-mono text-lg font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none focus:bg-white"
+                      className="w-full rounded-xl border-3 border-ink bg-parchment pl-4 pr-10 py-3 font-mono text-lg font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none focus:bg-white"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-comic font-bold text-ink">
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-comic font-black text-ink select-none text-base">
                       %
                     </span>
                   </div>

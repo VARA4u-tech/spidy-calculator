@@ -99,9 +99,9 @@ export function RingSizeCalculator() {
                   max="30"
                   value={diameterVal}
                   onChange={(e) => handleDiameterChange(e.target.value)}
-                  className="w-full rounded-xl border-3 border-ink bg-parchment px-4 py-3 font-mono text-xl font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none"
+                  className="w-full rounded-xl border-3 border-ink bg-parchment pl-4 pr-12 py-3 font-mono text-xl font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-comic text-xs font-bold text-ink">
+                <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-comic text-xs font-black text-ink select-none">
                   MM
                 </span>
               </div>
@@ -119,9 +119,9 @@ export function RingSizeCalculator() {
                   max="90"
                   value={circumferenceVal}
                   onChange={(e) => handleCircumferenceChange(e.target.value)}
-                  className="w-full rounded-xl border-3 border-ink bg-parchment px-4 py-3 font-mono text-xl font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none"
+                  className="w-full rounded-xl border-3 border-ink bg-parchment pl-4 pr-12 py-3 font-mono text-xl font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-comic text-xs font-bold text-ink">
+                <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-comic text-xs font-black text-ink select-none">
                   MM
                 </span>
               </div>
