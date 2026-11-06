@@ -130,12 +130,11 @@ export function AboutDeveloper() {
 
   // Focus textarea when entering feedback view
   useEffect(() => {
-    if (view === "feedback" && textareaRef.current) {
-      const timer = window.setTimeout(() => {
-        textareaRef.current?.focus();
-      }, 150);
-      return () => window.clearTimeout(timer);
-    }
+    if (view !== "feedback" || !textareaRef.current) return;
+    const timer = window.setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 150);
+    return () => window.clearTimeout(timer);
   }, [view]);
 
   const handleToggleOpen = () => {
