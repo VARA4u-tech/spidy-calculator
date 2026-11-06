@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   createDartsGame,
   parseDart,
@@ -10,13 +10,28 @@ import {
 import { playClickSound } from "@/lib/sounds";
 import { Target, Trophy, RotateCcw, AlertTriangle, Users } from "lucide-react";
 
-export function DartsCalculator() {
+export interface DartsCalculatorProps {
+  activeMode?: "501" | "301" | undefined;
+}
+
+export function DartsCalculator({ activeMode }: DartsCalculatorProps = {}) {
+  const targetScore = activeMode === "301" ? 301 : 501;
   const [game, setGame] = useState<DartsGameState>(() =>
-    createDartsGame(501, ["Spidy", "Goblin"], 3),
+    createDartsGame(targetScore, ["Spidy", "Goblin"], 3),
   );
   const [selectedMultiplier, setSelectedMultiplier] = useState<1 | 2 | 3>(1);
   const [currentTurnDarts, setCurrentTurnDarts] = useState<DartThrow[]>([]);
   const [directPointsInput, setDirectPointsInput] = useState<string>("");
+
+  useEffect(() => {
+    if (activeMode && (activeMode === "301" || activeMode === "501")) {
+      const newTarget = Number(activeMode) as 301 | 501;
+      if (game.gameMode !== newTarget) {
+        setGame(createDartsGame(newTarget, ["Spidy", "Goblin"], 3));
+        setCurrentTurnDarts([]);
+      }
+    }
+  }, [activeMode, game.gameMode]);
 
   const activePlayer = game.players[game.activePlayerIndex] ?? game.players[0];
   const checkoutTips = activePlayer ? getCheckoutSuggestion(activePlayer.scoreRemaining) : null;
