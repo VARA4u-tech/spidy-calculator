@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BMICalculator } from "./BMICalculator";
 import { RingSizeCalculator } from "./RingSizeCalculator";
 import { PatioCalculator } from "./PatioCalculator";
 import { playClickSound } from "@/lib/sounds";
 import { Activity, CircleDot, Compass } from "lucide-react";
 
-export function EverydayCalculators() {
-  const [subTab, setSubTab] = useState<"bmi" | "ring" | "patio">("bmi");
+export type EverydayTabMode = "bmi" | "ring" | "patio";
+
+export interface EverydayCalculatorsProps {
+  activeMode?: EverydayTabMode | undefined;
+}
+
+export function EverydayCalculators({ activeMode }: EverydayCalculatorsProps = {}) {
+  const [subTab, setSubTab] = useState<EverydayTabMode>(activeMode ?? "bmi");
+
+  useEffect(() => {
+    if (activeMode) {
+      setSubTab(activeMode);
+    }
+  }, [activeMode]);
 
   return (
     <div className="space-y-6">
