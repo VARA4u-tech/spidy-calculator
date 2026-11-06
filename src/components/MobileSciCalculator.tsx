@@ -137,8 +137,8 @@ export function MobileSciCalculator({
               type="button"
               onClick={onToggleSound}
               className={`comic-header-btn ${
-                muted ? "btn-blue opacity-85" : "btn-equals shadow-[2px_2px_0_var(--ink)]"
-              } inline-flex items-center justify-center w-7 sm:w-8 px-1 py-0.5 text-xs font-bold cursor-pointer transition-transform active:scale-95`}
+                muted ? "btn-blue opacity-85" : "btn-equals"
+              } inline-flex items-center justify-center w-7 sm:w-8 px-1 py-0.5 text-xs font-bold cursor-pointer`}
               title={
                 muted
                   ? "Sound effects currently MUTED (tap to enable)"

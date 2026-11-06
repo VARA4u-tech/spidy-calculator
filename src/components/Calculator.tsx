@@ -644,10 +644,8 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
               aria-pressed={!muted}
               onClick={handleToggleSound}
               className={`comic-btn ${
-                muted
-                  ? "btn-blue opacity-85"
-                  : "btn-equals ring-2 ring-mustard shadow-[2px_2px_0_var(--ink)]"
-              } flex items-center justify-center gap-1.5 py-1.5 sm:py-2 text-xs min-[400px]:text-sm sm:text-base cursor-pointer transition-all active:scale-95`}
+                muted ? "btn-blue opacity-85" : "btn-equals"
+              } flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base cursor-pointer`}
               title={
                 muted
                   ? "Sound effects currently MUTED (click to enable)"
