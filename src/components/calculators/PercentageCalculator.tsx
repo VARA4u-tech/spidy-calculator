@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   calcPercentOf,
   calcWhatPercent,
@@ -9,10 +9,20 @@ import {
 import { playClickSound } from "@/lib/sounds";
 import { Percent, Sparkles, ArrowRight, Tag, TrendingUp } from "lucide-react";
 
-export function PercentageCalculator() {
-  const [activeTab, setActiveTab] = useState<
-    "percentOf" | "whatPercent" | "change" | "discount" | "diff"
-  >("percentOf");
+export type PercentageMode = "percentOf" | "whatPercent" | "change" | "discount" | "diff";
+
+export interface PercentageCalculatorProps {
+  activeMode?: PercentageMode | undefined;
+}
+
+export function PercentageCalculator({ activeMode }: PercentageCalculatorProps = {}) {
+  const [activeTab, setActiveTab] = useState<PercentageMode>(activeMode ?? "percentOf");
+
+  useEffect(() => {
+    if (activeMode) {
+      setActiveTab(activeMode);
+    }
+  }, [activeMode]);
 
   // State for Mode 1: What is P% of X?
   const [m1Percent, setM1Percent] = useState<string>("20");
