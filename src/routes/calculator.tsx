@@ -24,7 +24,15 @@ import { hasAcceptedTerms } from "@/lib/terms";
 import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
 import { sfxClick } from "@/lib/sounds";
 import type { UnitCategory } from "@/lib/conversions";
-import { Sparkles } from "lucide-react";
+import {
+  Calculator as CalcIcon,
+  Percent,
+  ArrowLeftRight,
+  Divide,
+  Layers,
+  Target,
+  Sparkles,
+} from "lucide-react";
 
 interface CalculatorSearch {
   category?: string | undefined;
@@ -40,6 +48,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Basic & Scientific",
     shortLabel: "Keypad",
     badge: "123/Sci",
+    icon: CalcIcon,
     subcategories: [
       { id: "basic", label: "Basic Arithmetic", badge: "123" },
       { id: "sci", label: "Scientific Trig & Log", badge: "Sci" },
@@ -50,6 +59,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Percentage Calculator",
     shortLabel: "Percent",
     badge: "5 Tools",
+    icon: Percent,
     subcategories: [
       { id: "percentOf", label: "P% of Total", badge: "% Of" },
       { id: "whatPercent", label: "Part as % of Total", badge: "Ratio" },
@@ -63,6 +73,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Unit Converters",
     shortLabel: "Converter",
     badge: "6 Types",
+    icon: ArrowLeftRight,
     subcategories: [
       { id: "length", label: "Length & Distance", badge: "m/ft" },
       { id: "weight", label: "Weight & Mass", badge: "kg/lb" },
@@ -77,6 +88,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Maths & Fractions",
     shortLabel: "Maths",
     badge: "Algebra",
+    icon: Divide,
     subcategories: [
       { id: "fractions", label: "Fractions (+ - × ÷)", badge: "A/B" },
       { id: "ratios", label: "Ratios & Dividers", badge: "A:B" },
@@ -90,6 +102,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Soroban Abacus",
     shortLabel: "Abacus",
     badge: "Tactile",
+    icon: Layers,
     subcategories: [
       { id: "tactile", label: "7-Rod Counting Frame", badge: "Frame" },
       { id: "guide", label: "Abacus Guide & Bead Math", badge: "Rules" },
@@ -100,6 +113,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Darts Scorer",
     shortLabel: "Darts",
     badge: "501/301",
+    icon: Target,
     subcategories: [
       { id: "501", label: "501 Championship", badge: "501" },
       { id: "301", label: "301 Quick Game", badge: "301" },
@@ -110,6 +124,7 @@ export const CALCULATOR_CATEGORIES: LineSidebarItem[] = [
     label: "Everyday Estimators",
     shortLabel: "Everyday",
     badge: "3 Gauges",
+    icon: Sparkles,
     subcategories: [
       { id: "bmi", label: "BMI Health Gauge", badge: "BMI" },
       { id: "ring", label: "Ring Size Converter", badge: "Ring" },
@@ -332,7 +347,7 @@ function CalculatorPage() {
         </header>
 
         {/* Mobile & Tablet Category Navigation (< lg) */}
-        <div className="lg:hidden space-y-1.5">
+        <div className="lg:hidden">
           {/* Main Categories Scrollable Strip */}
           <nav
             aria-label="Calculator Categories"
@@ -340,17 +355,27 @@ function CalculatorPage() {
           >
             {CALCULATOR_CATEGORIES.map((tab) => {
               const isActive = activeCategory === tab.id;
+              const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   type="button"
                   onClick={() => handleSelectCategory(tab.id as SuiteCategory)}
-                  className={`group flex items-center gap-1 shrink-0 rounded-xl border-2 sm:border-3 border-ink px-2.5 py-1.5 font-comic text-xs sm:text-sm font-bold tracking-wide transition-all ${
+                  className={`group flex items-center gap-1.5 shrink-0 rounded-xl border-2 border-ink px-2.5 py-1.5 font-comic text-xs sm:text-sm font-bold tracking-wide transition-all ${
                     isActive
-                      ? "bg-mustard text-ink shadow-[2px_2px_0_0_var(--ink)] -translate-y-0.5"
+                      ? "bg-mustard text-ink shadow-[2px_2px_0_0_var(--ink)] -translate-y-0.5 font-black"
                       : "bg-paper text-ink shadow-[1px_1px_0_0_var(--ink)] hover:bg-mustard/40"
                   }`}
                 >
+                  {Icon && (
+                    <span
+                      className={`flex h-4 w-4 items-center justify-center rounded transition-colors ${
+                        isActive ? "text-ink" : "text-hero-red"
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                    </span>
+                  )}
                   <span className="whitespace-nowrap">{tab.shortLabel ?? tab.label}</span>
                   {tab.badge && (
                     <span
@@ -408,48 +433,55 @@ function CalculatorPage() {
           {/* Right-Side LineSidebar Navigation Deck (Desktop lg+) */}
           <aside
             aria-label="Right-Side Category Navigation"
-            className="hidden lg:flex flex-col shrink-0 w-72 xl:w-80 sticky top-4 rounded-2xl border-4 border-ink bg-ink/95 backdrop-blur-md p-4 shadow-[6px_6px_0_0_var(--ink)] text-paper select-none"
+            className="hidden lg:flex flex-col shrink-0 w-72 xl:w-80 sticky top-4 rounded-2xl border-4 border-ink bg-ink/95 backdrop-blur-md p-3.5 shadow-[6px_6px_0_0_var(--ink)] text-paper select-none relative overflow-hidden"
           >
+            {/* Spider-Web Corner Watermark */}
+            <Web className="pointer-events-none absolute -top-4 -right-4 h-28 w-28 text-paper/[0.07] rotate-90 will-change-transform transform-gpu" />
+
             {/* Panel Header */}
-            <div className="flex items-center justify-between border-b-2 border-paper/20 pb-2.5 mb-3">
-              <div className="flex items-center gap-2">
-                <div className="relative flex h-6 w-6 items-center justify-center">
-                  <Starburst className="animate-wobble absolute -inset-1 opacity-95 text-mustard" />
-                  <Sparkles className="relative z-10 h-3.5 w-3.5 text-ink" />
+            <div className="relative z-10 flex flex-col border-b-2 border-paper/15 pb-2.5 mb-2.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="relative flex h-6 w-6 items-center justify-center">
+                    <Starburst className="animate-wobble absolute -inset-1 opacity-95 text-mustard" />
+                    <Sparkles className="relative z-10 h-3.5 w-3.5 text-ink" />
+                  </div>
+                  <div>
+                    <h2 className="font-comic text-base text-paper tracking-wide leading-none">
+                      CATEGORIES
+                    </h2>
+                    <p className="font-mono text-[9px] text-paper/60 uppercase tracking-widest mt-0.5">
+                      SPIDY NAV DECK
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="font-comic text-base text-paper tracking-wide leading-none">
-                    CATEGORIES
-                  </h2>
-                  <p className="font-mono text-[9px] text-paper/60 uppercase tracking-widest mt-0.5">
-                    LINE-SIDEBAR DECK
-                  </p>
-                </div>
+                <span className="font-mono text-[9px] font-bold text-mustard px-2 py-0.5 rounded border border-mustard/40 bg-mustard/15 uppercase">
+                  {CALCULATOR_CATEGORIES.length} SUITES
+                </span>
               </div>
-              <span className="font-mono text-[9px] font-bold text-mustard px-2 py-0.5 rounded border border-mustard/40 bg-mustard/15 uppercase">
-                {CALCULATOR_CATEGORIES.length} SUITES
-              </span>
+              {/* Comic Action Accent Line */}
+              <div className="mt-2 h-0.5 w-full rounded-full bg-gradient-to-r from-hero-red via-mustard to-hero-blue opacity-85" />
             </div>
 
             {/* React Bits LineSidebar Component */}
-            <div className="max-h-[calc(100vh-170px)] overflow-y-auto pr-1 scrollbar-none">
+            <div className="relative z-10 max-h-[calc(100vh-170px)] overflow-y-auto pr-0.5 scrollbar-none">
               <LineSidebar
                 items={CALCULATOR_CATEGORIES}
                 accentColor="#f6be3c"
                 textColor="#fdfbf7"
-                markerColor="rgba(253, 251, 247, 0.4)"
+                markerColor="rgba(253, 251, 247, 0.35)"
                 showIndex
                 showMarker
-                proximityRadius={100}
-                maxShift={24}
+                proximityRadius={80}
+                maxShift={12}
                 falloff="smooth"
-                markerLength={46}
+                markerLength={38}
                 markerGap={4}
                 tickScale={0.5}
                 scaleTick
-                itemGap={16}
-                fontSize={1.05}
-                smoothing={100}
+                itemGap={7}
+                fontSize={0.95}
+                smoothing={90}
                 defaultActive={activeCategoryIndex >= 0 ? activeCategoryIndex : 0}
                 activeIndex={activeCategoryIndex >= 0 ? activeCategoryIndex : 0}
                 activeSubId={activeSubMode}
@@ -460,12 +492,12 @@ function CalculatorPage() {
             </div>
 
             {/* Panel Radar Footer */}
-            <div className="mt-3 pt-2.5 border-t border-paper/15 flex items-center justify-between font-mono text-[9px] text-paper/60 uppercase tracking-wider">
-              <span className="flex items-center gap-1">
+            <div className="relative z-10 mt-2.5 pt-2 border-t border-paper/15 flex items-center justify-between font-mono text-[9px] text-paper/60 uppercase tracking-wider">
+              <span className="flex items-center gap-1.5">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>PROXIMITY RADAR</span>
+                <span>THWIP! RADAR</span>
               </span>
-              <span className="text-mustard font-bold">THWIP!</span>
+              <span className="text-paper/40">↑ ↓ [ENTER]</span>
             </div>
           </aside>
         </div>

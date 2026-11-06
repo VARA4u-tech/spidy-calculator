@@ -23,6 +23,7 @@ export interface LineSidebarItem {
   label: string;
   shortLabel?: string | undefined;
   badge?: string | undefined;
+  icon?: React.ComponentType<{ className?: string }> | undefined;
   subcategories?: LineSidebarSubItem[] | undefined;
 }
 
@@ -270,7 +271,7 @@ export function LineSidebar({
     <nav
       aria-label="Calculator Categories"
       className={`relative flex flex-col justify-start select-none ${
-        showMarker ? "pl-[calc(var(--marker-length)+var(--marker-gap)+8px)]" : "pl-2"
+        showMarker ? "pl-[calc(var(--marker-length)+var(--marker-gap)+4px)]" : "pl-1"
       } ${className}`}
       style={{
         ["--accent-color" as string]: accentColor,
@@ -289,12 +290,13 @@ export function LineSidebar({
         ref={listRef}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="m-0 flex list-none flex-col py-2 [gap:var(--item-gap)]"
+        className="m-0 flex list-none flex-col py-1 [gap:var(--item-gap)]"
       >
         {items.map((item, index) => {
           const isObject = typeof item !== "string";
           const label = isObject ? item.label : item;
           const badge = isObject ? item.badge : undefined;
+          const Icon = isObject ? item.icon : undefined;
           const subcategories = isObject ? item.subcategories : undefined;
           const hasSubcategories = Boolean(subcategories && subcategories.length > 0);
           const isCategoryActive = activeIndex === index;
@@ -312,65 +314,99 @@ export function LineSidebar({
               aria-expanded={hasSubcategories ? isExpanded : undefined}
               onClick={() => handleCategoryClick(index, item)}
               onKeyDown={(e) => handleKeyDown(e, index, item)}
-              className={`group relative cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-mustard rounded-lg transition-colors ${tickClass}`}
+              className={`group relative cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-mustard rounded-xl transition-all ${tickClass}`}
             >
               {/* Proximity Marker Line */}
               {showMarker && (
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-[calc(-1*var(--marker-length)-var(--marker-gap))] top-[1.1rem] h-[2px] w-[length:var(--marker-length)] origin-left rounded-full [background-color:color-mix(in_srgb,var(--accent-color)_calc(var(--effect,0)*100%),var(--marker-color))] [transform:translateY(-50%)_scaleX(calc(0.7+var(--effect,0)*0.5))] transition-transform"
+                  className={`pointer-events-none absolute left-[calc(-1*var(--marker-length)-var(--marker-gap))] top-[1.2rem] h-[2.5px] w-[length:var(--marker-length)] origin-left rounded-full transition-all duration-100 ${
+                    isCategoryActive
+                      ? "bg-mustard shadow-[0_0_8px_rgba(246,190,60,0.8)] [transform:translateY(-50%)_scaleX(1.1)]"
+                      : "[background-color:color-mix(in_srgb,var(--accent-color)_calc(var(--effect,0)*100%),var(--marker-color))] [transform:translateY(-50%)_scaleX(calc(0.7+var(--effect,0)*0.5))]"
+                  }`}
                 />
               )}
 
-              {/* Main Category Row */}
+              {/* 3D Pop-Art Category Card */}
               <div
-                className="relative flex items-center justify-between gap-2 py-1 pr-2 transition-transform duration-75"
+                className={`relative flex items-center justify-between gap-2 px-2.5 py-1.5 sm:py-2 rounded-xl border-2 transition-all duration-150 ${
+                  isCategoryActive
+                    ? "bg-gradient-to-r from-mustard via-[#fed866] to-mustard text-ink border-ink shadow-[3px_3px_0_0_var(--ink)] -translate-y-0.5"
+                    : "bg-paper/[0.04] text-paper border-transparent hover:bg-paper/[0.08] hover:border-paper/20 hover:shadow-[2px_2px_0_0_rgba(15,23,42,0.8)] hover:-translate-y-0.5"
+                }`}
                 style={{
                   transform: "translateX(calc(var(--effect, 0) * var(--max-shift)))",
                 }}
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  {/* Zero-padded Index */}
-                  {showIndex && (
-                    <span className="font-mono text-[11px] font-bold tracking-wider text-paper/50 transition-colors [color:color-mix(in_srgb,var(--accent-color)_calc(var(--effect,0)*100%),var(--text-color))]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  )}
-
-                  {/* Category Title */}
-                  <span
-                    className={`font-comic tracking-wide leading-tight text-base sm:text-lg transition-colors ${
-                      isCategoryActive ? "font-bold text-mustard" : "text-paper"
+                  {/* Thematic 3D Icon Chip */}
+                  <div
+                    className={`relative flex h-7 w-7 sm:h-7.5 sm:w-7.5 shrink-0 items-center justify-center rounded-lg border-2 border-ink transition-all ${
+                      isCategoryActive
+                        ? "bg-ink text-mustard shadow-[1px_1px_0_0_var(--ink)]"
+                        : "bg-paper/10 text-paper/80 group-hover:bg-mustard group-hover:text-ink group-hover:border-ink shadow-[1px_1px_0_0_rgba(0,0,0,0.3)]"
                     }`}
-                    style={{
-                      color: isCategoryActive
-                        ? accentColor
-                        : "color-mix(in srgb, var(--accent-color) calc(var(--effect, 0) * 100%), var(--text-color))",
-                    }}
                   >
-                    {label}
-                  </span>
+                    {Icon ? (
+                      <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    ) : (
+                      <span className="font-mono text-[10px] font-bold">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Index + Title Column */}
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    {showIndex && (
+                      <span
+                        className={`font-mono text-[10px] font-bold tracking-wider shrink-0 transition-colors ${
+                          isCategoryActive
+                            ? "text-ink/70"
+                            : "text-paper/40 group-hover:text-mustard"
+                        }`}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    )}
+                    <span
+                      className={`font-comic tracking-wide leading-tight text-xs sm:text-[13px] truncate transition-colors ${
+                        isCategoryActive
+                          ? "font-black text-ink"
+                          : "font-bold text-paper group-hover:text-mustard"
+                      }`}
+                    >
+                      {label}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 shrink-0">
-                  {/* Optional Badge */}
+                <div className="flex items-center gap-1 shrink-0">
+                  {/* Badge */}
                   {badge && (
                     <span
-                      className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border border-ink/40 uppercase tracking-wider ${
+                      className={`font-mono text-[8px] sm:text-[8.5px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider ${
                         isCategoryActive
-                          ? "bg-mustard text-ink shadow-[1px_1px_0_var(--ink)]"
-                          : "bg-paper/10 text-paper/80"
+                          ? "bg-ink text-paper border-ink"
+                          : "bg-paper/10 text-paper/70 border-paper/15 group-hover:border-mustard/40 group-hover:text-paper"
                       }`}
                     >
                       {badge}
                     </span>
                   )}
 
-                  {/* Expand Chevron for categories with subcategories */}
+                  {/* Expand Chevron */}
                   {hasSubcategories && (
                     <ChevronRight
-                      className={`h-3.5 w-3.5 text-paper/60 transition-transform duration-200 ${
-                        isExpanded ? "rotate-90 text-mustard" : "group-hover:translate-x-0.5"
+                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                        isCategoryActive
+                          ? isExpanded
+                            ? "rotate-90 text-ink"
+                            : "text-ink/80 group-hover:translate-x-0.5"
+                          : isExpanded
+                          ? "rotate-90 text-mustard"
+                          : "text-paper/50 group-hover:text-mustard group-hover:translate-x-0.5"
                       }`}
                     />
                   )}
@@ -384,8 +420,8 @@ export function LineSidebar({
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.22, ease: "easeOut" }}
-                    className="overflow-hidden pl-6 pt-1.5 pb-1 space-y-1 list-none border-l-2 border-mustard/30 ml-2 mt-1"
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className="overflow-hidden pl-5 pt-1 pb-0.5 space-y-1 list-none border-l-2 border-mustard/40 ml-3.5 mt-1"
                   >
                     {subcategories.map((sub, subIdx) => {
                       const isSubActive = activeSubId === sub.id;
@@ -399,9 +435,9 @@ export function LineSidebar({
                               e.stopPropagation();
                               handleSubCategoryClick(index, sub);
                             }}
-                            className={`w-full group/sub flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-md text-left text-xs font-comic tracking-wide transition-all ${
+                            className={`w-full group/sub flex items-center justify-between gap-2 px-2 py-1 rounded-lg text-left text-[11px] font-comic tracking-wide transition-all ${
                               isSubActive
-                                ? "bg-mustard text-ink font-bold shadow-[2px_2px_0_var(--ink)] -translate-y-0.5"
+                                ? "bg-hero-red text-paper font-black border border-ink shadow-[2px_2px_0_var(--ink)] -translate-y-0.5"
                                 : "text-paper/75 hover:text-paper hover:bg-paper/15 active:translate-y-0.5"
                             }`}
                           >
@@ -414,7 +450,7 @@ export function LineSidebar({
 
                             {sub.badge && (
                               <span
-                                className={`font-mono text-[8px] font-bold px-1 py-0.2 rounded shrink-0 ${
+                                className={`font-mono text-[7.5px] font-bold px-1 py-0.2 rounded shrink-0 ${
                                   isSubActive
                                     ? "bg-ink text-paper"
                                     : "bg-paper/15 text-paper/70 group-hover/sub:bg-paper/25"
