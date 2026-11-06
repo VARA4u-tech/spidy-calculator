@@ -14,11 +14,11 @@ import {
   type EverydayTabMode,
 } from "@/components/calculators/EverydayCalculators";
 import {
-  LineSidebar,
-  type LineSidebarItem,
-  type LineSidebarSubItem,
-  type LineSidebarItemInput,
-} from "@/components/LineSidebar";
+  SpiderWebRail,
+  type WebRailItem as LineSidebarItem,
+  type WebRailSubItem as LineSidebarSubItem,
+  type WebRailItemInput as LineSidebarItemInput,
+} from "@/components/SpiderWebRail";
 import { Starburst, Web } from "@/components/comic";
 import { hasAcceptedTerms } from "@/lib/terms";
 import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
@@ -430,75 +430,18 @@ function CalculatorPage() {
             )}
           </section>
 
-          {/* Right-Side LineSidebar Navigation Deck (Desktop lg+) */}
+          {/* Right-Side Floating Spider Web-Rail Navigation (Desktop lg+) */}
           <aside
-            aria-label="Right-Side Category Navigation"
-            className="hidden lg:flex flex-col shrink-0 w-72 xl:w-80 sticky top-4 rounded-2xl border-4 border-ink bg-ink/95 backdrop-blur-md p-3.5 shadow-[6px_6px_0_0_var(--ink)] text-paper select-none relative overflow-hidden"
+            aria-label="Floating Spider Web-Rail Navigation"
+            className="hidden lg:flex flex-col shrink-0 sticky top-6 z-30"
           >
-            {/* Spider-Web Corner Watermark */}
-            <Web className="pointer-events-none absolute -top-4 -right-4 h-28 w-28 text-paper/[0.07] rotate-90 will-change-transform transform-gpu" />
-
-            {/* Panel Header */}
-            <div className="relative z-10 flex flex-col border-b-2 border-paper/15 pb-2.5 mb-2.5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="relative flex h-6 w-6 items-center justify-center">
-                    <Starburst className="animate-wobble absolute -inset-1 opacity-95 text-mustard" />
-                    <Sparkles className="relative z-10 h-3.5 w-3.5 text-ink" />
-                  </div>
-                  <div>
-                    <h2 className="font-comic text-base text-paper tracking-wide leading-none">
-                      CATEGORIES
-                    </h2>
-                    <p className="font-mono text-[9px] text-paper/60 uppercase tracking-widest mt-0.5">
-                      SPIDY NAV DECK
-                    </p>
-                  </div>
-                </div>
-                <span className="font-mono text-[9px] font-bold text-mustard px-2 py-0.5 rounded border border-mustard/40 bg-mustard/15 uppercase">
-                  {CALCULATOR_CATEGORIES.length} SUITES
-                </span>
-              </div>
-              {/* Comic Action Accent Line */}
-              <div className="mt-2 h-0.5 w-full rounded-full bg-gradient-to-r from-hero-red via-mustard to-hero-blue opacity-85" />
-            </div>
-
-            {/* React Bits LineSidebar Component */}
-            <div className="relative z-10 max-h-[calc(100vh-170px)] overflow-y-auto pr-0.5 scrollbar-none">
-              <LineSidebar
-                items={CALCULATOR_CATEGORIES}
-                accentColor="#f6be3c"
-                textColor="#fdfbf7"
-                markerColor="rgba(253, 251, 247, 0.35)"
-                showIndex
-                showMarker
-                proximityRadius={80}
-                maxShift={12}
-                falloff="smooth"
-                markerLength={38}
-                markerGap={4}
-                tickScale={0.5}
-                scaleTick
-                itemGap={7}
-                fontSize={0.95}
-                smoothing={90}
-                defaultActive={activeCategoryIndex >= 0 ? activeCategoryIndex : 0}
-                activeIndex={activeCategoryIndex >= 0 ? activeCategoryIndex : 0}
-                activeSubId={activeSubMode}
-                onItemClick={handleCategorySelection}
-                onSubItemClick={handleSubCategorySelection}
-                side="right"
-              />
-            </div>
-
-            {/* Panel Radar Footer */}
-            <div className="relative z-10 mt-2.5 pt-2 border-t border-paper/15 flex items-center justify-between font-mono text-[9px] text-paper/60 uppercase tracking-wider">
-              <span className="flex items-center gap-1.5">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>THWIP! RADAR</span>
-              </span>
-              <span className="text-paper/40">↑ ↓ [ENTER]</span>
-            </div>
+            <SpiderWebRail
+              items={CALCULATOR_CATEGORIES}
+              activeIndex={activeCategoryIndex >= 0 ? activeCategoryIndex : 0}
+              activeSubId={activeSubMode}
+              onItemClick={handleCategorySelection}
+              onSubItemClick={handleSubCategorySelection}
+            />
           </aside>
         </div>
       </div>
