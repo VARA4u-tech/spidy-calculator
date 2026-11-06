@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   m as motion,
@@ -10,21 +10,22 @@ import {
 import { Web, Starburst } from "@/components/comic";
 import { Footer } from "@/components/Footer";
 import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
+import { playSpiderManSound, sfxToggle } from "@/lib/sounds";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Free Online Calculator | Spidy Calculator" },
+      { title: "Spidy Calculator — Retro Comic Math Platform" },
       {
         name: "description",
         content:
-          "Use a free online math calculator for arithmetic, percentages, and scientific functions. No download or account needed; works on desktop and mobile.",
+          "Use Spidy Calculator for arithmetic, percentages, trigonometry, unit conversions, fractions, Soroban abacus, and darts scoring. Free, instant, zero ads.",
       },
-      { property: "og:title", content: "Free Online Calculator | Spidy Calculator" },
+      { property: "og:title", content: "Spidy Calculator — Retro Comic Math Platform" },
       {
         property: "og:description",
         content:
-          "A free online calculator for everyday arithmetic and scientific functions, with keyboard support and private on-device history.",
+          "A free online math platform with basic, scientific, percentage, converter, and everyday categories with on-device history.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -33,7 +34,8 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Spidy Calculator",
-          description: "A free online calculator for everyday arithmetic and scientific functions.",
+          description:
+            "A free retro comic-styled online math platform with multi-category calculators.",
           ...(getAbsoluteSiteUrl("/") ? { url: getAbsoluteSiteUrl("/") } : {}),
         },
       },
@@ -61,8 +63,8 @@ const POWERS = [
   },
   {
     badge: "WHAM",
-    title: "Foolproof Logic",
-    text: "No eval tricks, no divide-by-zero zaps — math that never lies to a hero.",
+    title: "Multi-Tool Utility Belt",
+    text: "Seamlessly switch between core keypad, percentages, unit converters, fractions, abacus, and darts scoring.",
   },
 ] as const;
 
@@ -70,17 +72,17 @@ const STEPS = [
   {
     n: "01",
     title: "INPUT THE MISSION",
-    text: "Type or tap the digits of your next big problem. Long numbers? Bring them on — 16 digits of precision.",
+    text: "Type or tap the digits of your problem. Long numbers? Bring them on — 16 digits of precision.",
   },
   {
     n: "02",
-    title: "PICK YOUR POWER",
-    text: "Add, subtract, multiply or divide. Percent and sign-flip are in the utility belt too.",
+    title: "PICK YOUR TOOL",
+    text: "Switch seamlessly across arithmetic, percentages, unit converters, fractions, or sports scoring.",
   },
   {
     n: "03",
     title: "THWIP! THE ANSWER",
-    text: "Hit equals and the result lands in the panel — and in your case-file history for later.",
+    text: "Hit equals and the result lands in the panel — complete with full formulas and calculation steps.",
   },
 ] as const;
 
@@ -90,9 +92,9 @@ const MARQUEE = [
   "NO ADS",
   "KEYBOARD READY",
   "CASE FILE HISTORY",
+  "MULTI-CATEGORY SUITE",
   "DIVIDE-BY-ZERO PROOF",
-  "PAPER-CUT PRECISION",
-  "100% HAND-DRAWN VIBES",
+  "100% RETRO POP-ART",
 ] as const;
 
 const STATS = [
@@ -190,8 +192,8 @@ function Home() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <main className="relative overflow-x-clip">
-        {/* Comic progress bar (Framer Motion scroll effect) */}
+      <main className="relative overflow-x-clip bg-navy text-paper">
+        {/* Comic progress bar */}
         <motion.div
           aria-hidden
           className="fixed inset-x-0 top-0 z-50 h-1.5 origin-left bg-mustard will-change-transform transform-gpu"
@@ -219,64 +221,49 @@ function Home() {
             initial={{ opacity: 0, y: -16, rotate: -4 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
             transition={{ duration: 0.5 }}
-            className="font-comic mb-6 inline-block border-4 border-ink bg-mustard px-4 py-1 text-base sm:text-lg text-ink shadow-[4px_4px_0_var(--ink)]"
+            className="font-comic mb-6 inline-block border-4 border-ink bg-mustard px-4 py-1.5 text-base sm:text-lg font-bold text-ink shadow-[4px_4px_0_var(--ink)]"
           >
-            Issue #1 · Spidy Calculator
+            ★ ISSUE #1 · SPIDY CALCULATOR ★
           </motion.div>
 
-          <h1 className="font-comic print-shadow-text max-w-4xl text-5xl leading-[0.95] text-paper min-[420px]:text-6xl sm:text-8xl">
-            {"SPIDY".split(" ").map((w, i) => (
-              <motion.span
-                key={w}
-                initial={{ opacity: 0, y: 40, rotate: 4 }}
-                animate={{ opacity: 1, y: 0, rotate: 0 }}
-                transition={{ delay: 0.15 + i * 0.12, type: "spring", stiffness: 260, damping: 16 }}
-                className="mr-[0.35em] inline-block"
-              >
-                {w}
-              </motion.span>
-            ))}
-            <span className="block text-mustard">
-              {"CALCULATOR.".split(" ").map((w, i) => (
-                <motion.span
-                  key={w}
-                  initial={{ opacity: 0, y: 40, rotate: -4 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  transition={{
-                    delay: 0.35 + i * 0.12,
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 16,
-                  }}
-                  className="mr-[0.35em] inline-block"
-                >
-                  {w}
-                </motion.span>
-              ))}
-            </span>
+          <h1 className="font-comic print-shadow-text max-w-5xl text-5xl leading-[0.95] text-paper min-[420px]:text-6xl sm:text-7xl md:text-8xl">
+            <span className="text-hero-red">THWIP!</span> <span>LET'S DO</span>{" "}
+            <span className="block text-mustard">THE MATH.</span>
           </h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-5 max-w-xl font-mono text-sm sm:text-base text-paper/80"
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="mt-6 max-w-xl font-mono text-sm sm:text-base md:text-lg text-paper/85 leading-relaxed"
           >
-            A retro comic-book calculator with punchy 3D buttons, a history case-file and full
-            keyboard control. Your friendly neighborhood math sidekick.
+            A vintage 1960s pop-art calculator with punchy 3D buttons, case-file history, keyboard
+            controls, and multi-category tools. Your friendly neighborhood math sidekick.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.5 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
             className="mt-8 flex flex-wrap items-center justify-center gap-4"
           >
-            <Link to="/calculator" className="comic-btn btn-equals px-6 py-3.5 text-xl sm:text-2xl">
-              OPEN THE CALCULATOR
+            <Link
+              to="/calculator"
+              onClick={() => {
+                sfxToggle();
+                playSpiderManSound();
+              }}
+              className="comic-btn btn-equals px-8 py-4 text-xl sm:text-2xl font-bold flex items-center gap-2 cursor-pointer shadow-[5px_5px_0_var(--ink)]"
+            >
+              <span>⚡</span>
+              <span>OPEN THE CALCULATOR</span>
             </Link>
-            <a href="#powers" className="comic-btn btn-blue px-6 py-3.5 text-xl sm:text-2xl">
-              SEE THE POWERS
+            <a
+              href="#powers"
+              onClick={() => sfxToggle()}
+              className="comic-btn btn-blue px-8 py-4 text-xl sm:text-2xl font-bold cursor-pointer shadow-[5px_5px_0_var(--ink)]"
+            >
+              <span>SEE THE POWERS</span>
             </a>
           </motion.div>
 
@@ -321,7 +308,7 @@ function Home() {
             {[0, 1].map((copy) => (
               <div key={copy} className="flex items-center gap-6 sm:gap-8" aria-hidden={copy === 1}>
                 {MARQUEE.map((t) => (
-                  <span key={t} className="font-comic text-lg sm:text-2xl">
+                  <span key={t} className="font-comic text-lg sm:text-2xl font-bold">
                     {t} <span className="text-mustard">✦</span>
                   </span>
                 ))}
@@ -330,7 +317,7 @@ function Home() {
           </div>
         </div>
 
-        {/* Powers grid (Framer Motion scroll reveals) */}
+        {/* Powers grid */}
         <section id="powers" className="relative mx-auto max-w-5xl scroll-mt-10 px-4 py-20">
           <h2 className="font-comic print-shadow-text mb-10 text-center text-4xl text-paper sm:text-6xl">
             THE HERO'S <span className="text-mustard">POWERS</span>
@@ -365,13 +352,15 @@ function Home() {
                     scale: 1.02,
                     transition: { duration: 0.2 },
                   }}
-                  className="panel relative h-full rounded-xl p-6 sm:p-8 cursor-default will-change-transform transform-gpu shadow-[8px_8px_0_0_#0f172a]"
+                  className="panel relative h-full rounded-xl p-6 sm:p-8 cursor-default will-change-transform transform-gpu shadow-[8px_8px_0_0_#0f172a] text-ink"
                 >
                   <Starburst
                     label={p.badge}
                     className="absolute -top-4 -right-3 h-12 w-12 -rotate-12 text-sm shadow-md"
                   />
-                  <h3 className="font-comic mb-2 text-2xl text-hero-blue sm:text-3xl">{p.title}</h3>
+                  <h3 className="font-comic mb-2 text-2xl text-hero-blue sm:text-3xl font-bold">
+                    {p.title}
+                  </h3>
                   <p className="font-mono text-sm text-ink/80">{p.text}</p>
                 </motion.article>
               </motion.div>
@@ -389,13 +378,15 @@ function Home() {
               {STEPS.map((s, i) => (
                 <article
                   key={s.n}
-                  className={`step-panel panel absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-xl p-8 text-center ${i === 0 ? "" : "opacity-0"}`}
+                  className={`step-panel panel absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-xl p-8 text-center text-ink ${i === 0 ? "" : "opacity-0"}`}
                   style={i === 0 ? undefined : { visibility: "hidden" }}
                 >
-                  <span className="font-comic halftone-red grid h-16 w-16 place-items-center rounded-full border-4 border-ink text-2xl text-paper">
+                  <span className="font-comic halftone-red grid h-16 w-16 place-items-center rounded-full border-4 border-ink text-2xl text-paper font-bold">
                     {s.n}
                   </span>
-                  <h3 className="font-comic text-3xl text-hero-red sm:text-4xl">{s.title}</h3>
+                  <h3 className="font-comic text-3xl text-hero-red sm:text-4xl font-bold">
+                    {s.title}
+                  </h3>
                   <p className="max-w-md font-mono text-sm text-ink/80 sm:text-base">{s.text}</p>
                 </article>
               ))}
@@ -425,13 +416,16 @@ function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.45 }}
               >
-                <p className="font-comic text-3xl text-mustard sm:text-4xl">{s.v}</p>
-                <p className="mt-1 font-mono text-xs tracking-widest text-paper/80">{s.k}</p>
+                <p className="font-comic text-3xl text-mustard sm:text-4xl font-black">{s.v}</p>
+                <p className="mt-1 font-mono text-xs tracking-widest text-paper/80 font-bold">
+                  {s.k}
+                </p>
               </motion.div>
             ))}
           </div>
         </section>
 
+        {/* SEO Guide Section */}
         <section
           id="calculator-guide"
           className="relative mx-auto max-w-5xl scroll-mt-10 px-4 py-16 sm:py-20"
@@ -441,108 +435,13 @@ function Home() {
               A FREE ONLINE <span className="text-mustard">MATH CALCULATOR</span>
             </h2>
             <p className="mt-4 font-mono text-sm leading-relaxed text-paper/80 sm:text-base">
-              Solve everyday arithmetic in your browser with a free calculator that needs no
-              download or account. Enter calculations with the keypad or keyboard, then reopen
-              recent results from your private case-file history.
+              Solve arithmetic, trigonometric formulas, percentages, unit conversions, and everyday
+              math directly in your browser with zero ads or tracking.
             </p>
-          </div>
-
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            <article className="panel rounded-xl p-5 sm:p-6">
-              <h3 className="font-comic text-2xl text-hero-blue sm:text-3xl">
-                Standard calculator operations
-              </h3>
-              <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
-                Add, subtract, multiply, and divide decimal numbers; chain operations; clear or
-                correct an entry; change its sign; or calculate a percentage. For example, enter{" "}
-                <code className="rounded bg-paper-dark px-1">200 + 10%</code> to find 10% of 200
-                added to 200, giving 220.
-              </p>
-            </article>
-            <article className="panel rounded-xl p-5 sm:p-6">
-              <h3 className="font-comic text-2xl text-hero-blue sm:text-3xl">
-                Scientific calculator mode
-              </h3>
-              <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
-                Switch to Scientific Mode for trigonometry, inverse and hyperbolic functions,
-                logarithms, powers, roots, factorials, constants π and e, reciprocals, and absolute
-                values. Choose degrees or radians for angle-based calculations.
-              </p>
-            </article>
-          </div>
-
-          <div className="mx-auto mt-12 max-w-3xl">
-            <h2 className="font-comic print-shadow-text text-center text-4xl text-paper sm:text-5xl">
-              CALCULATOR <span className="text-mustard">FAQ</span>
-            </h2>
-            <div className="mt-6 space-y-3">
-              <details className="panel rounded-lg p-4">
-                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
-                  Is this calculator free, and do I need to download anything?
-                </summary>
-                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
-                  Yes. Spidy Calculator is free to use in a modern web browser. There is no
-                  installation, account, or sign-up; calculations run on your device.
-                </p>
-              </details>
-              <details className="panel rounded-lg p-4">
-                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
-                  Which scientific functions are available?
-                </summary>
-                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
-                  Scientific Mode includes sine, cosine, tangent and their inverses, hyperbolic
-                  functions, base-10 and natural logarithms, powers, square and cube roots,
-                  factorial, reciprocal, absolute value, π, and e. Trigonometric angles can use
-                  degrees or radians.
-                </p>
-              </details>
-              <details className="panel rounded-lg p-4">
-                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
-                  Can I use the calculator with a keyboard?
-                </summary>
-                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
-                  Yes. Type digits and arithmetic operators, press Enter or = for the result, use
-                  Backspace to edit, and press Escape to clear. The visible keypad also supports
-                  touch and mouse input.
-                </p>
-              </details>
-              <details className="panel rounded-lg p-4">
-                <summary className="cursor-pointer font-comic text-xl text-hero-blue">
-                  Where is my calculation history stored?
-                </summary>
-                <p className="mt-2 font-mono text-sm leading-relaxed text-ink/80">
-                  Recent results are stored in your browser on this device. They are not sent to a
-                  calculator server, and you can clear the history from the calculator.
-                </p>
-              </details>
-            </div>
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="relative mx-auto max-w-3xl px-4 py-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.5 }}
-            className="panel -rotate-1 rounded-xl p-8 sm:p-12"
-          >
-            <h2 className="font-comic print-shadow-text text-4xl text-ink sm:text-6xl">
-              READY TO SWING <span className="text-hero-red">INTO ACTION?</span>
-            </h2>
-            <p className="mx-auto mt-4 max-w-md font-mono text-sm text-ink/80">
-              Spidy Calculator is warmed up and waiting. Zero ads, zero sign-ups — pure math.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/calculator" className="comic-btn btn-red px-6 py-3 text-xl sm:text-2xl">
-                THWIP! OPEN CALCULATOR
-              </Link>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Comic Footer with Progressive Blur Poster */}
+        {/* Footer */}
         <Footer />
       </main>
     </MotionConfig>
