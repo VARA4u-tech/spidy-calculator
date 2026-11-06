@@ -44,14 +44,24 @@ type Key = {
   wide?: boolean;
 };
 
-export function Calculator() {
+export interface CalculatorProps {
+  scientificMode?: boolean | undefined;
+}
+
+export function Calculator({ scientificMode }: CalculatorProps = {}) {
   const [state, setState] = useState<C.CalcState>(C.initialState);
   const [history, setHistory] = useState<C.HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [pressed, setPressed] = useState<string | null>(null);
   const [muted, setMuted] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [isScientific, setIsScientific] = useState(false);
+  const [isScientific, setIsScientific] = useState(Boolean(scientificMode));
+
+  useEffect(() => {
+    if (typeof scientificMode === "boolean") {
+      setIsScientific(scientificMode);
+    }
+  }, [scientificMode]);
 
   useEffect(() => {
     loadSoundPref();
