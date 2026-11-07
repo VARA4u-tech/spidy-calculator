@@ -189,24 +189,29 @@ export function RingSizeCalculator() {
 
         {/* Full Size Comparison Table */}
         <div className="border-t-2 border-dashed border-ink/20 pt-4">
-          <h3 className="font-comic text-sm font-bold uppercase tracking-wider text-ink mb-3">
-            COMPLETE INTERNATIONAL RING SIZES MATRIX
-          </h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-comic text-sm font-bold uppercase tracking-wider text-ink">
+              COMPLETE INTERNATIONAL RING SIZES MATRIX
+            </h3>
+            <span className="font-mono text-xs font-bold text-ink/70">
+              TAP ANY ROW TO LOAD SIZE
+            </span>
+          </div>
 
-          <div className="max-h-72 overflow-y-auto rounded-xl border-2 border-ink">
-            <table className="w-full text-left font-mono text-xs">
-              <thead className="sticky top-0 border-b-2 border-ink bg-mustard font-comic text-ink">
+          <div className="max-h-80 overflow-y-auto rounded-xl border-3 border-ink bg-paper shadow-[3px_3px_0_0_var(--ink)] no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <table className="w-full text-left font-mono text-xs text-ink">
+              <thead className="sticky top-0 z-10 border-b-3 border-ink bg-mustard font-comic text-xs uppercase tracking-wider text-ink shadow-[0_2px_0_var(--ink)]">
                 <tr>
-                  <th className="p-2.5">US / CA</th>
-                  <th className="p-2.5">UK / AU</th>
-                  <th className="p-2.5">EU</th>
-                  <th className="p-2.5">JP</th>
-                  <th className="p-2.5">DIAMETER</th>
-                  <th className="p-2.5">CIRCUMFERENCE</th>
-                  <th className="p-2.5 text-right">SELECT</th>
+                  <th className="p-3">US / CA</th>
+                  <th className="p-3">UK / AU</th>
+                  <th className="p-3">EU</th>
+                  <th className="p-3">JP</th>
+                  <th className="p-3">DIAMETER</th>
+                  <th className="p-3">CIRCUMFERENCE</th>
+                  <th className="p-3 text-right">SELECT</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-ink/20 bg-paper">
+              <tbody className="divide-y-2 divide-ink/15 bg-paper text-ink">
                 {RING_SIZE_CHART.map((row) => {
                   const isCur = row.us === selectedRow.us;
                   return (
@@ -214,17 +219,28 @@ export function RingSizeCalculator() {
                       key={row.us}
                       onClick={() => handleSelectRow(row)}
                       className={`cursor-pointer transition-colors ${
-                        isCur ? "bg-hero-blue/20 font-bold" : "hover:bg-mustard/20"
+                        isCur
+                          ? "bg-mustard/40 font-bold text-ink border-l-4 border-hero-red"
+                          : "hover:bg-mustard/15 text-ink"
                       }`}
                     >
-                      <td className="p-2.5 font-bold">{row.us}</td>
-                      <td className="p-2.5">{row.uk}</td>
-                      <td className="p-2.5">{row.eu}</td>
-                      <td className="p-2.5">{row.jp}</td>
-                      <td className="p-2.5">{row.diameterMm} mm</td>
-                      <td className="p-2.5">{row.circumferenceMm} mm</td>
-                      <td className="p-2.5 text-right">
-                        {isCur && <Check className="inline h-4 w-4 text-hero-blue" />}
+                      <td className="p-3 font-bold text-ink text-sm">{row.us}</td>
+                      <td className="p-3 font-semibold text-ink">{row.uk}</td>
+                      <td className="p-3 font-semibold text-ink">{row.eu}</td>
+                      <td className="p-3 font-semibold text-ink">{row.jp}</td>
+                      <td className="p-3 font-semibold text-ink">{row.diameterMm} mm</td>
+                      <td className="p-3 font-semibold text-ink">{row.circumferenceMm} mm</td>
+                      <td className="p-3 text-right">
+                        {isCur ? (
+                          <span className="inline-flex items-center gap-1 rounded bg-hero-red px-2 py-0.5 text-[10px] font-comic font-black text-paper uppercase shadow-[1px_1px_0_var(--ink)]">
+                            <Check className="h-3 w-3 stroke-[3]" />
+                            ACTIVE
+                          </span>
+                        ) : (
+                          <span className="font-comic text-[11px] font-bold text-hero-blue hover:underline">
+                            SELECT
+                          </span>
+                        )}
                       </td>
                     </tr>
                   );

@@ -180,14 +180,10 @@ export function SpiderWebRail({
                 )}
               </div>
 
-              {/* High-Impact Comic Dialogue Tooltip (Pops out to the left towards the calculator) */}
+              {/* High-Impact Comic Dialogue Tooltip (Pops out to the left towards the calculator on hover/focus only) */}
               <div
                 role="tooltip"
-                className={`absolute right-[calc(100%+14px)] top-1/2 -translate-y-1/2 z-50 flex items-center transition-all duration-150 transform ${
-                  isCategoryActive
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 group-hover/rail-item:opacity-100 group-focus-within/rail-item:opacity-100 translate-x-2 group-hover/rail-item:translate-x-0 pointer-events-none group-hover/rail-item:pointer-events-auto"
-                }`}
+                className="pointer-events-none absolute right-[calc(100%+14px)] top-1/2 -translate-y-1/2 z-50 flex items-center opacity-0 translate-x-2 transition-all duration-150 transform group-hover/rail-item:pointer-events-auto group-hover/rail-item:opacity-100 group-hover/rail-item:translate-x-0 group-focus-within/rail-item:pointer-events-auto group-focus-within/rail-item:opacity-100 group-focus-within/rail-item:translate-x-0"
               >
                 <div className="relative rounded-xl border-3 border-ink bg-paper p-2.5 shadow-[5px_5px_0_0_var(--ink)] text-ink min-w-[170px] max-w-[230px]">
                   {/* Comic Speech Bubble Pointer Tip */}

@@ -15,17 +15,17 @@ import { playSpiderManSound, sfxToggle } from "@/lib/sounds";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Spidy Calculator — Retro Comic Math Platform" },
+      { title: "Spidy Calculator — 7-in-1 Retro Comic Math Platform" },
       {
         name: "description",
         content:
-          "Use Spidy Calculator for arithmetic, percentages, trigonometry, unit conversions, fractions, Soroban abacus, and darts scoring. Free, instant, zero ads.",
+          "Spidy Calculator is a free 7-in-1 retro comic math platform: Scientific Keypad, 5 Percentage Tools, 6 Unit Converters, Maths & Fractions, Soroban Abacus, Darts Match Scorer, and Everyday Utilities. Instant, 100% private, zero ads.",
       },
-      { property: "og:title", content: "Spidy Calculator — Retro Comic Math Platform" },
+      { property: "og:title", content: "Spidy Calculator — 7-in-1 Retro Comic Math Platform" },
       {
         property: "og:description",
         content:
-          "A free online math platform with basic, scientific, percentage, converter, and everyday categories with on-device history.",
+          "A free online math platform featuring 7 power suites, floating spider navigation, 16-digit pure calculation engine, and on-device Case Files history.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
           "@type": "WebSite",
           name: "Spidy Calculator",
           description:
-            "A free retro comic-styled online math platform with multi-category calculators.",
+            "A free retro comic-styled online math platform with 7 specialized calculator suites.",
           ...(getAbsoluteSiteUrl("/") ? { url: getAbsoluteSiteUrl("/") } : {}),
         },
       },
@@ -48,59 +48,77 @@ export const Route = createFileRoute("/")({
 const POWERS = [
   {
     badge: "POW",
-    title: "Rapid-Fire Results",
-    text: "Tap a key or type — the answer snaps back before the web dissolves.",
+    title: "Rapid-Fire Pure Math Engine",
+    text: "16-digit IEEE-754 precision with zero eval() vulnerabilities. Calculations resolve instantaneously with zero server lag.",
+  },
+  {
+    badge: "THWIP!",
+    title: "Floating Spider Web-Rail",
+    text: "Engineered desktop rail navigation with tactile 3D badges, glowing Spider-Halos, animated sub-mode tooltips, and keyboard shortcuts.",
   },
   {
     badge: "ZAP",
-    title: "Case File History",
-    text: "Every solved mystery is logged. Tap a case to reuse its result instantly.",
+    title: "Case File History Archive",
+    text: "Every solved mystery is logged in your on-device 20-entry forensic case files. Tap any case to reuse its result on the spot.",
   },
   {
     badge: "BAM",
-    title: "Keyboard Combat",
-    text: "Full keyboard control: digits, operators, Enter for equals, Esc to clear.",
+    title: "Tactile Pop-Art & Audio",
+    text: "3D mechanical keycaps with realistic press depth, pure Web Audio API synthesizer waveforms, and Spider-Man audio effects.",
   },
   {
     badge: "WHAM",
-    title: "Multi-Tool Utility Belt",
-    text: "Seamlessly switch between core keypad, percentages, unit converters, fractions, abacus, and darts scoring.",
+    title: "Supersonic Keyboard Combat",
+    text: "Full desktop keyboard mastery across all modules: digits, operators, Enter for equals, Esc to clear, Backspace, and shortcuts.",
+  },
+  {
+    badge: "BOOM",
+    title: "100% On-Device Privacy",
+    text: "Zero tracking cookies, zero third-party telemetry, zero banner ads, and complete offline capability. Your math stays yours.",
   },
 ] as const;
 
 const STEPS = [
   {
     n: "01",
-    title: "INPUT THE MISSION",
-    text: "Type or tap the digits of your problem. Long numbers? Bring them on — 16 digits of precision.",
+    title: "PICK YOUR SUITE",
+    text: "Select from the 7 specialized suites — Keypad, Percentages, Converters, Fractions, Soroban Abacus, Darts Scorer, or Everyday Tools via the Web-Rail.",
   },
   {
     n: "02",
-    title: "PICK YOUR TOOL",
-    text: "Switch seamlessly across arithmetic, percentages, unit converters, fractions, or sports scoring.",
+    title: "INPUT THE MISSION",
+    text: "Type digits, drag sliders, flick Soroban beads, or enter match scores. 16 digits of pure precision without drift or rounding errors.",
   },
   {
     n: "03",
     title: "THWIP! THE ANSWER",
-    text: "Hit equals and the result lands in the panel — complete with full formulas and calculation steps.",
+    text: "Hit equals and the result lands instantly — complete with formulas, step-by-step breakdowns, and automatic Case File logging.",
   },
 ] as const;
 
 const MARQUEE = [
   "SPIDY CALCULATOR",
   "THWIP!",
-  "NO ADS",
-  "KEYBOARD READY",
+  "7 POWER SUITES",
+  "FLOATING SPIDER WEB-RAIL",
+  "PRECISION SCIENTIFIC",
+  "5 PERCENTAGE TOOLS",
+  "6 UNIT CONVERTERS",
+  "MATHS & FRACTIONS",
+  "SOROBAN ABACUS",
+  "DARTS 501 SCORER",
+  "EVERYDAY UTILITIES",
+  "ZERO EVAL",
   "CASE FILE HISTORY",
-  "MULTI-CATEGORY SUITE",
-  "DIVIDE-BY-ZERO PROOF",
+  "NO ADS EVER",
   "100% RETRO POP-ART",
 ] as const;
 
 const STATS = [
+  { k: "POWER SUITES", v: "7 COMPLETE" },
   { k: "PRECISION", v: "16 DIGITS" },
   { k: "CASE FILES", v: "20 SAVED" },
-  { k: "ADS SERVED", v: "NONE EVER" },
+  { k: "ADS OR TRACKERS", v: "ZERO EVER" },
 ] as const;
 
 function Home() {
@@ -237,8 +255,8 @@ function Home() {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="mt-6 max-w-xl font-mono text-sm sm:text-base md:text-lg text-paper/85 leading-relaxed"
           >
-            A vintage 1960s pop-art calculator with punchy 3D buttons, case-file history, keyboard
-            controls, and multi-category tools. Your friendly neighborhood math sidekick.
+            A vintage 1960s pop-art math platform with tactile 3D buttons, 7 specialized calculation
+            suites, case-file history, keyboard controls, and floating spider rail navigation.
           </motion.p>
 
           <motion.div
@@ -319,17 +337,22 @@ function Home() {
 
         {/* Powers grid */}
         <section id="powers" className="relative mx-auto max-w-5xl scroll-mt-10 px-4 py-20">
-          <h2 className="font-comic print-shadow-text mb-10 text-center text-4xl text-paper sm:text-6xl">
-            THE HERO'S <span className="text-mustard">POWERS</span>
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="text-center mb-10">
+            <h2 className="font-comic print-shadow-text text-4xl text-paper sm:text-6xl">
+              THE HERO'S <span className="text-mustard">POWERS</span>
+            </h2>
+            <p className="mt-2 font-mono text-sm sm:text-base text-paper/80">
+              Engineered with modern frontend standards and zero compromises.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {POWERS.map((p, i) => (
               <motion.div
                 key={p.title}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="h-full"
               >
                 <motion.article
@@ -337,22 +360,22 @@ function Home() {
                     ? {}
                     : {
                         animate: {
-                          y: [0, -10, 0],
-                          rotate: i % 2 ? [0.8, 2.2, 0.8] : [-0.8, -2.2, -0.8],
+                          y: [0, -8, 0],
+                          rotate: i % 2 ? [0.6, 1.8, 0.6] : [-0.6, -1.8, -0.6],
                         },
                       })}
                   transition={{
                     duration: 3.8 + (i % 2) * 0.8,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: i * 0.45,
+                    delay: i * 0.35,
                   }}
                   whileHover={{
-                    y: -14,
+                    y: -12,
                     scale: 1.02,
                     transition: { duration: 0.2 },
                   }}
-                  className="panel relative h-full rounded-xl p-6 sm:p-8 cursor-default will-change-transform transform-gpu shadow-[8px_8px_0_0_#0f172a] text-ink"
+                  className="panel relative h-full rounded-xl p-6 cursor-default will-change-transform transform-gpu shadow-[6px_6px_0_0_#0f172a] text-ink"
                 >
                   <Starburst
                     label={p.badge}
@@ -361,7 +384,7 @@ function Home() {
                   <h3 className="font-comic mb-2 text-2xl text-hero-blue sm:text-3xl font-bold">
                     {p.title}
                   </h3>
-                  <p className="font-mono text-sm text-ink/80">{p.text}</p>
+                  <p className="font-mono text-sm text-ink/80 leading-relaxed">{p.text}</p>
                 </motion.article>
               </motion.div>
             ))}
@@ -387,7 +410,9 @@ function Home() {
                   <h3 className="font-comic text-3xl text-hero-red sm:text-4xl font-bold">
                     {s.title}
                   </h3>
-                  <p className="max-w-md font-mono text-sm text-ink/80 sm:text-base">{s.text}</p>
+                  <p className="max-w-md font-mono text-sm text-ink/80 sm:text-base leading-relaxed">
+                    {s.text}
+                  </p>
                 </article>
               ))}
             </div>
@@ -407,7 +432,7 @@ function Home() {
             aria-hidden
             className="parallax-blob halftone-red absolute -bottom-10 right-16 h-32 w-32 -rotate-6 opacity-50"
           />
-          <div className="relative mx-auto grid max-w-4xl gap-8 px-4 text-center sm:grid-cols-3">
+          <div className="relative mx-auto grid max-w-5xl gap-8 px-4 text-center sm:grid-cols-2 lg:grid-cols-4">
             {STATS.map((s, i) => (
               <motion.div
                 key={s.k}
@@ -432,11 +457,13 @@ function Home() {
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="font-comic print-shadow-text text-4xl text-paper sm:text-6xl">
-              A FREE ONLINE <span className="text-mustard">MATH CALCULATOR</span>
+              A COMPLETE RETRO <span className="text-mustard">MATH PLATFORM</span>
             </h2>
-            <p className="mt-4 font-mono text-sm leading-relaxed text-paper/80 sm:text-base">
-              Solve arithmetic, trigonometric formulas, percentages, unit conversions, and everyday
-              math directly in your browser with zero ads or tracking.
+            <p className="mt-4 font-mono text-sm leading-relaxed text-paper/85 sm:text-base">
+              Solve arithmetic, trigonometric formulas, percentages, unit conversions, fractions,
+              abacus bead math, darts matches, and everyday calculations directly in your browser.
+              Built with pure mathematical state machines, zero tracking, zero advertising, and
+              instant on-device execution.
             </p>
           </div>
         </section>
