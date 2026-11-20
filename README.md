@@ -1,3 +1,5 @@
+<a id="top"></a>
+
 # 🕷️ Spidy Calculator
 
 <div align="center">
@@ -530,3 +532,13 @@ npm test
 Distributed under the **MIT License**. See `LICENSE` for more information.
 
 Developed with ❤️ as a showcase of modern frontend engineering, tactile pop-art design, and mathematically rigorous web architecture.
+
+<br />
+
+<div align="center">
+  <a href="#top">
+    <img src="https://img.shields.io/badge/▲_SCROLL_TO_TOP-E23636?style=for-the-badge&logoColor=white" alt="Scroll to Top" />
+  </a>
+  <br /><br />
+  <a href="#top"><b>▲ Back to Top</b></a>
+</div>
