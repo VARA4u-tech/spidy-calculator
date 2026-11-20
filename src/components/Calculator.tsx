@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import * as C from "@/lib/calculator";
 import { MobileSciCalculator } from "@/components/MobileSciCalculator";
+import { KeyboardShortcutsModal } from "@/components/KeyboardShortcutsModal";
 import {
   loadSoundPref,
   isMuted,
@@ -46,12 +47,14 @@ type Key = {
 
 export interface CalculatorProps {
   scientificMode?: boolean | undefined;
+  onOpenShortcuts?: () => void;
 }
 
-export function Calculator({ scientificMode }: CalculatorProps = {}) {
+export function Calculator({ scientificMode, onOpenShortcuts }: CalculatorProps = {}) {
   const [state, setState] = useState<C.CalcState>(C.initialState);
   const [history, setHistory] = useState<C.HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
   const [pressed, setPressed] = useState<string | null>(null);
   const [muted, setMuted] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -329,6 +332,8 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
   keysRef.current = allKeys;
   const copyRef = useRef(copyResult);
   copyRef.current = copyResult;
+  const onOpenShortcutsRef = useRef(onOpenShortcuts);
+  onOpenShortcutsRef.current = onOpenShortcuts;
 
   useEffect(() => {
     const map: Record<string, string> = {
@@ -359,6 +364,19 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
         e.preventDefault();
         copyRef.current();
         return;
+      }
+      if (e.key === "?" || (e.shiftKey && e.key === "/")) {
+        const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+        if (tag !== "input" && tag !== "textarea") {
+          e.preventDefault();
+          sfxToggle();
+          if (onOpenShortcutsRef.current) {
+            onOpenShortcutsRef.current();
+          } else {
+            setShowShortcuts((v) => !v);
+          }
+          return;
+        }
       }
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const id = map[e.key] ?? e.key;
@@ -621,7 +639,7 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
           )}
 
           {/* Bottom Utility Actions */}
-          <div className="mt-3.5 grid grid-cols-2 gap-2.5 sm:gap-3">
+          <div className="mt-3.5 grid grid-cols-3 gap-1.5 sm:gap-2.5">
             <button
               type="button"
               aria-expanded={showHistory}
@@ -630,12 +648,37 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
                 sfxToggle();
                 setShowHistory((v) => !v);
               }}
-              className="comic-btn btn-blue flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base"
+              className="comic-btn btn-blue flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-xs min-[400px]:text-sm sm:text-base"
             >
-              <span>{showHistory ? "HIDE LOG" : "CASE FILES"}</span>
+              <span className="hidden min-[400px]:inline">
+                {showHistory ? "HIDE LOG" : "CASE FILES"}
+              </span>
+              <span className="min-[400px]:hidden">{showHistory ? "LOG" : "FILES"}</span>
               <span className="halftone-red rounded border border-ink px-1.5 py-0.5 text-[10px] sm:text-xs font-mono text-paper">
                 {history.length}
               </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                sfxToggle();
+                if (onOpenShortcuts) {
+                  onOpenShortcuts();
+                } else {
+                  setShowShortcuts(true);
+                }
+              }}
+              className="comic-btn btn-yellow flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-xs min-[400px]:text-sm sm:text-base cursor-pointer"
+              title="Keyboard Shortcuts Cheat Sheet (Press ?)"
+            >
+              <span className="font-mono text-[10px] sm:text-xs font-black bg-ink text-mustard px-1 py-0.2 rounded">
+                ?
+              </span>
+              <span className="font-comic font-bold tracking-wide hidden min-[360px]:inline">
+                SHORTCUTS
+              </span>
+              <span className="font-comic font-bold tracking-wide min-[360px]:hidden">KEYS</span>
             </button>
 
             <button
@@ -645,7 +688,7 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
               onClick={handleToggleSound}
               className={`comic-btn ${
                 muted ? "btn-blue opacity-85" : "btn-equals"
-              } flex items-center justify-center gap-1.5 py-2 text-xs min-[400px]:text-sm sm:text-base cursor-pointer`}
+              } flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-xs min-[400px]:text-sm sm:text-base cursor-pointer`}
               title={
                 muted
                   ? "Sound effects currently MUTED (click to enable)"
@@ -653,14 +696,21 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
               }
             >
               <span aria-hidden>{muted ? "🔇" : "🔊"}</span>
-              <span className="font-comic font-bold tracking-wide">
+              <span className="font-comic font-bold tracking-wide hidden min-[400px]:inline">
                 {muted ? "SFX: MUTED" : "SFX: ACTIVE"}
+              </span>
+              <span className="font-comic font-bold tracking-wide min-[400px]:hidden">
+                {muted ? "MUTED" : "SFX"}
               </span>
             </button>
           </div>
 
           <p className="mt-2 text-center font-mono text-[10px] sm:text-[11px] text-ink/70 hidden sm:block">
-            ⌨️ Keyboard ready · Enter for =, Esc for AC, ^ for power, ! for n!, Ctrl+C to copy
+            ⌨️ Keyboard ready · Press{" "}
+            <kbd className="font-bold bg-paper border border-ink/40 px-1 rounded shadow-[1px_1px_0_var(--ink)] text-ink">
+              ?
+            </kbd>{" "}
+            for shortcuts cheat sheet
           </p>
           <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
             💡 Tap any key · Switch to SCI for advanced functions
@@ -721,6 +771,10 @@ export function Calculator({ scientificMode }: CalculatorProps = {}) {
           )}
         </aside>
       </div>
+
+      {!onOpenShortcuts && (
+        <KeyboardShortcutsModal isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+      )}
     </>
   );
 }
