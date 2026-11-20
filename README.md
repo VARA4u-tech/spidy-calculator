@@ -290,8 +290,7 @@ Spidy Calculator combines two distinct audio technologies:
    - `sfxToggle`: 987 Hz sine wave for mode changes.
 
 2. **Spider-Man Web-Slinger Sound Effect**:
-   - High-definition `spidermansound.mp3` triggered on major hero actions (launching the calculator, switching suites).
-   - Loaded on-demand via `playSpiderManSound()` with volume normalization and mute safety.
+   - High-definition `spidermansound.mp3` web-slinger audio triggered exclusively when launching the calculator from the homepage Hero section button, with volume normalization and mute safety.
 
 3. **Global Mute Persistence & Haptics**:
    - User sound preference preserved in `localStorage`.
