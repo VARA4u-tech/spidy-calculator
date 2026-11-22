@@ -3,10 +3,11 @@ import {
   RING_SIZE_CHART,
   findClosestRingSizeByDiameter,
   findClosestRingSizeByCircumference,
+  formatRingSizeSummary,
   type RingSizeRow,
 } from "@/lib/everyday";
 import { playClickSound } from "@/lib/sounds";
-import { CircleDot, Ruler, Check } from "lucide-react";
+import { CircleDot, Ruler, Check, Copy } from "lucide-react";
 
 export function RingSizeCalculator() {
   const [inputMode, setInputMode] = useState<"diameter" | "circumference" | "us">("diameter");
@@ -15,6 +16,32 @@ export function RingSizeCalculator() {
   const [selectedRow, setSelectedRow] = useState<RingSizeRow>(
     () => RING_SIZE_CHART[8] ?? (RING_SIZE_CHART[0] as RingSizeRow),
   ); // US 7
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleCopyConversion = async () => {
+    playClickSound();
+    const summary = formatRingSizeSummary(selectedRow);
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(summary);
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = summary;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    }
+  };
 
   const handleDiameterChange = (valStr: string) => {
     setDiameterVal(valStr);
@@ -130,33 +157,76 @@ export function RingSizeCalculator() {
         </div>
 
         {/* International Conversions Banner */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="rounded-xl border-3 border-ink bg-hero-red p-4 text-paper shadow-[3px_3px_0_0_var(--ink)] text-center">
-            <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
-              US & CANADA
-            </span>
-            <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">{selectedRow.us}</div>
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <span className="font-comic text-xs font-bold uppercase tracking-wider text-ink/80">
+                ACTIVE CONVERSION STANDARDS
+              </span>
+              <p className="font-mono text-[11px] text-ink/70">
+                US {selectedRow.us} | UK {selectedRow.uk} | EU {selectedRow.eu} | JP{" "}
+                {selectedRow.jp} | {selectedRow.diameterMm} mm
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleCopyConversion}
+              className={`comic-btn ${
+                copied ? "btn-equals bg-emerald-600 text-paper" : "btn-yellow text-ink"
+              } inline-flex items-center gap-2 px-3.5 py-1.5 font-comic text-xs sm:text-sm font-bold tracking-wider shadow-[3px_3px_0_0_var(--ink)] cursor-pointer transition-all active:translate-y-0.5`}
+              title="Copy complete multi-standard ring size to clipboard"
+            >
+              {copied ? (
+                <>
+                  <Check className="h-4 w-4 stroke-[3]" />
+                  <span>SIZE COPIED!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4" />
+                  <span>COPY SIZE SUMMARY</span>
+                </>
+              )}
+            </button>
           </div>
 
-          <div className="rounded-xl border-3 border-ink bg-hero-blue p-4 text-paper shadow-[3px_3px_0_0_var(--ink)] text-center">
-            <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
-              UK & AUSTRALIA
-            </span>
-            <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">{selectedRow.uk}</div>
-          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="rounded-xl border-3 border-ink bg-hero-red p-4 text-paper shadow-[3px_3px_0_0_var(--ink)] text-center">
+              <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
+                US & CANADA
+              </span>
+              <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
+                {selectedRow.us}
+              </div>
+            </div>
 
-          <div className="rounded-xl border-3 border-ink bg-emerald-600 p-4 text-paper shadow-[3px_3px_0_0_var(--ink)] text-center">
-            <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
-              EUROPE / ISO
-            </span>
-            <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">{selectedRow.eu}</div>
-          </div>
+            <div className="rounded-xl border-3 border-ink bg-hero-blue p-4 text-paper shadow-[3px_3px_0_0_var(--ink)] text-center">
+              <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
+                UK & AUSTRALIA
+              </span>
+              <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
+                {selectedRow.uk}
+              </div>
+            </div>
 
-          <div className="rounded-xl border-3 border-ink bg-mustard p-4 text-ink shadow-[3px_3px_0_0_var(--ink)] text-center">
-            <span className="font-comic text-xs font-bold uppercase tracking-wider text-ink/80">
-              JAPAN
-            </span>
-            <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">{selectedRow.jp}</div>
+            <div className="rounded-xl border-3 border-ink bg-emerald-600 p-4 text-paper shadow-[3px_3px_0_0_var(--ink)] text-center">
+              <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
+                EUROPE / ISO
+              </span>
+              <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
+                {selectedRow.eu}
+              </div>
+            </div>
+
+            <div className="rounded-xl border-3 border-ink bg-mustard p-4 text-ink shadow-[3px_3px_0_0_var(--ink)] text-center">
+              <span className="font-comic text-xs font-bold uppercase tracking-wider text-ink/80">
+                JAPAN
+              </span>
+              <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
+                {selectedRow.jp}
+              </div>
+            </div>
           </div>
         </div>
 
