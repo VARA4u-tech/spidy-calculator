@@ -30,6 +30,9 @@ import {
   calculateBmiImperial,
   findClosestRingSizeByDiameter,
   calculatePatioMaterials,
+  formatPatioMaterialsSummary,
+  formatRingSizeSummary,
+  RING_SIZE_CHART,
 } from "../lib/everyday";
 
 describe("Spidy Calculator Suite Math Engines", () => {
@@ -239,6 +242,35 @@ describe("Spidy Calculator Suite Math Engines", () => {
       expect(result.gravelCubicYards).toBeGreaterThan(0);
       expect(result.sandCubicYards).toBeGreaterThan(0);
       expect(result.paverCostTotal).toBe(385);
+    });
+
+    it("formats a complete bill of materials takeoff for patio estimator", () => {
+      const dims = { shape: "rectangle" as const, lengthFt: 15, widthFt: 12 };
+      const paver = { lengthInches: 12, widthInches: 12, costPerPaver: 3.5 };
+      const result = calculatePatioMaterials(dims, paver, 10, 4, 1, {
+        gravelCostPerTon: 45,
+        sandCostPerTon: 50,
+      });
+      const summary = formatPatioMaterialsSummary(dims, paver, result, 10);
+
+      expect(summary).toContain("PATIO MATERIALS ESTIMATE SUMMARY");
+      expect(summary).toContain("Total Area: 180 sq ft");
+      expect(summary).toContain("Pavers Required: 198 units");
+      expect(summary).toContain('Gravel Sub-Base (4" depth): ~');
+      expect(summary).toContain('Bedding Sand Layer (1" depth): ~');
+      expect(summary).toContain("Estimated Total Cost: $");
+    });
+
+    it("formats a multi-standard conversion summary for ring sizer", () => {
+      const row7 = RING_SIZE_CHART.find((r) => r.us === "7") ?? RING_SIZE_CHART[8]!;
+      const summary = formatRingSizeSummary(row7);
+
+      expect(summary).toContain("RING SIZE CONVERSION");
+      expect(summary).toContain("Multi-Standard: US 7 | UK N | EU 54 | JP 14 | 17.3 mm");
+      expect(summary).toContain("US & Canada: Size 7");
+      expect(summary).toContain("UK & Australia: Size N");
+      expect(summary).toContain("Inside Diameter: 17.3 mm");
+      expect(summary).toContain("Inside Circumference: 54.4 mm");
     });
   });
 });
