@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { calculatePatioMaterials, type PatioShape } from "@/lib/everyday";
+import {
+  calculatePatioMaterials,
+  formatPatioMaterialsSummary,
+  type PatioShape,
+} from "@/lib/everyday";
 import { playClickSound } from "@/lib/sounds";
-import { Compass, Square, Circle, LayoutGrid, DollarSign } from "lucide-react";
+import { Compass, Square, Circle, LayoutGrid, DollarSign, Copy, Check } from "lucide-react";
 
 export function PatioCalculator() {
   const [shape, setShape] = useState<PatioShape>("rectangle");
@@ -29,6 +33,8 @@ export function PatioCalculator() {
   const [gravelPriceTon, setGravelPriceTon] = useState<string>("45");
   const [sandPriceTon, setSandPriceTon] = useState<string>("50");
 
+  const [copied, setCopied] = useState<boolean>(false);
+
   const switchShape = (newShape: PatioShape) => {
     playClickSound();
     setShape(newShape);
@@ -55,6 +61,31 @@ export function PatioCalculator() {
     gravelCostPerTon: parseFloat(gravelPriceTon) || 0,
     sandCostPerTon: parseFloat(sandPriceTon) || 0,
   });
+
+  const handleCopyTakeoff = async () => {
+    playClickSound();
+    const summary = formatPatioMaterialsSummary(dims, paverSpec, materialResults, wastagePct);
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(summary);
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = summary;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    }
+  };
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6">
@@ -277,6 +308,38 @@ export function PatioCalculator() {
 
         {/* RESULTS CARDS */}
         <div className="space-y-4 border-t-2 border-dashed border-ink/20 pt-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <span className="font-comic text-xs font-bold uppercase tracking-wider text-ink/80">
+                MATERIALS TAKEOFF &amp; COST ESTIMATE
+              </span>
+              <p className="font-mono text-[11px] text-ink/70">
+                Complete bill of materials, base &amp; bedding aggregate volumes
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleCopyTakeoff}
+              className={`comic-btn ${
+                copied ? "btn-equals bg-emerald-600 text-paper" : "btn-yellow text-ink"
+              } inline-flex items-center gap-2 px-4 py-2 font-comic text-xs sm:text-sm font-bold tracking-wider shadow-[3px_3px_0_0_var(--ink)] cursor-pointer transition-all active:translate-y-0.5`}
+              title="Copy complete materials takeoff to clipboard"
+            >
+              {copied ? (
+                <>
+                  <Check className="h-4 w-4 stroke-[3]" />
+                  <span>ESTIMATE COPIED!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4" />
+                  <span>COPY ESTIMATE SUMMARY</span>
+                </>
+              )}
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* Total Area */}
             <div className="rounded-xl border-4 border-ink bg-hero-blue p-5 text-paper shadow-[4px_4px_0_0_var(--ink)]">
