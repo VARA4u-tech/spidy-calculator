@@ -347,3 +347,56 @@ export function calculatePatioMaterials(
     steps,
   };
 }
+
+/**
+ * Generates a clean text bill of materials / takeoff summary for Patio & Pavers calculations.
+ */
+export function formatPatioMaterialsSummary(
+  dims: PatioDimensions,
+  paver: PaverSpecification,
+  results: PatioMaterialResult,
+  wastagePercent: number,
+): string {
+  let shapeDesc = "";
+  if (dims.shape === "rectangle") {
+    shapeDesc = `Rectangular (${dims.lengthFt || 0}' × ${dims.widthFt || 0}')`;
+  } else if (dims.shape === "circle") {
+    shapeDesc = `Circular (${dims.diameterFt || 0}' Diameter)`;
+  } else {
+    shapeDesc = `L-Shaped (Main: ${dims.mainLengthFt || 0}' × ${dims.mainWidthFt || 0}', Wing: ${dims.wingLengthFt || 0}' × ${dims.wingWidthFt || 0}')`;
+  }
+
+  return [
+    `📋 PATIO MATERIALS ESTIMATE SUMMARY (Spidy Calculator)`,
+    `==================================================`,
+    `• Patio Shape: ${shapeDesc}`,
+    `• Total Area: ${results.totalAreaSqFt} sq ft (${results.totalAreaSqM} m²)`,
+    `• Paver Dimensions: ${paver.lengthInches}" × ${paver.widthInches}"`,
+    `• Pavers Required: ${results.totalPaversWithWastage} units (includes ${wastagePercent}% cutting wastage; base: ${results.rawPaversNeeded})`,
+    `• Compacted Gravel Sub-Base (4" depth): ~${results.gravelTons} tons (${results.gravelCubicYards} cu yds / ${results.gravelCubicFeet} cu ft)`,
+    `• Bedding Sand Layer (1" depth): ~${results.sandTons} tons (${results.sandCubicYards} cu yds / ${results.sandCubicFeet} cu ft)`,
+    `• Estimated Total Cost: $${results.estimatedGrandTotal.toFixed(2)} (Pavers: $${results.paverCostTotal.toFixed(2)})`,
+    `==================================================`,
+    `Generated via Spidy Calculator · https://spidy-calculator.lovable.app`,
+  ].join("\n");
+}
+
+/**
+ * Generates a clean multi-standard ring size conversion summary for sharing with jewelers.
+ */
+export function formatRingSizeSummary(row: RingSizeRow): string {
+  return [
+    `💍 RING SIZE CONVERSION (Spidy Calculator)`,
+    `==================================================`,
+    `Multi-Standard: US ${row.us} | UK ${row.uk} | EU ${row.eu} | JP ${row.jp} | ${row.diameterMm} mm`,
+    `--------------------------------------------------`,
+    `• US & Canada: Size ${row.us}`,
+    `• UK & Australia: Size ${row.uk}`,
+    `• Europe / ISO: Size ${row.eu}`,
+    `• Japan: Size ${row.jp}`,
+    `• Inside Diameter: ${row.diameterMm} mm`,
+    `• Inside Circumference: ${row.circumferenceMm} mm`,
+    `==================================================`,
+    `Generated via Spidy Calculator · https://spidy-calculator.lovable.app`,
+  ].join("\n");
+}
