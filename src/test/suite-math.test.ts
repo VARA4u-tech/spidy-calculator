@@ -266,9 +266,10 @@ describe("Spidy Calculator Suite Math Engines", () => {
       const summary = formatRingSizeSummary(row7);
 
       expect(summary).toContain("RING SIZE CONVERSION");
-      expect(summary).toContain("Multi-Standard: US 7 | UK N | EU 54 | JP 14 | 17.3 mm");
+      expect(summary).toContain("Multi-Standard: US 7 | UK N 1/2 | EU 55 | JP 14 | 17.3 mm");
       expect(summary).toContain("US & Canada: Size 7");
-      expect(summary).toContain("UK & Australia: Size N");
+      expect(summary).toContain("UK & Australia: Size N 1/2");
+      expect(summary).toContain("Europe / ISO: Size 55");
       expect(summary).toContain("Inside Diameter: 17.3 mm");
       expect(summary).toContain("Inside Circumference: 54.4 mm");
     });
