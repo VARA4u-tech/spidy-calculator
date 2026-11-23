@@ -9,7 +9,7 @@ import {
   type SorobanAbacusState,
 } from "@/lib/abacus";
 import { playClickSound } from "@/lib/sounds";
-import { RotateCcw, Plus, Minus, Hash, Dices, HelpCircle, Sparkles } from "lucide-react";
+import { RotateCcw, Plus, Minus, Hash, Dices, HelpCircle, Sparkles, Keyboard } from "lucide-react";
 import { Starburst } from "@/components/comic";
 
 const PLACE_VALUE_LABELS = [
@@ -24,12 +24,16 @@ const PLACE_VALUE_LABELS = [
 
 export function AbacusCalculator() {
   const [abacus, setAbacus] = useState<SorobanAbacusState>(() => createInitialAbacus(7));
-  const [directInput, setDirectInput] = useState<string>("");
+  const [typedValue, setTypedValue] = useState<string>("");
   const [showGuide, setShowGuide] = useState<boolean>(false);
 
   const handleUpperClick = (rodIndex: number) => {
     playClickSound();
-    setAbacus((prev) => toggleUpperBead(prev, rodIndex));
+    setAbacus((prev) => {
+      const next = toggleUpperBead(prev, rodIndex);
+      setTypedValue(next.totalValue > 0 ? next.totalValue.toLocaleString("en-US") : "");
+      return next;
+    });
   };
 
   const handleLowerClick = (rodIndex: number, bIdx: number) => {
@@ -40,36 +44,66 @@ export function AbacusCalculator() {
       const targetCount = bIdx + 1;
       // If clicking already active topmost bead, drop it by 1; otherwise activate up to targetCount
       const nextCount = rod.lowerBeadsUp === targetCount ? targetCount - 1 : targetCount;
-      return setLowerBeads(prev, rodIndex, nextCount);
+      const next = setLowerBeads(prev, rodIndex, nextCount);
+      setTypedValue(next.totalValue > 0 ? next.totalValue.toLocaleString("en-US") : "");
+      return next;
     });
   };
 
   const handleReset = () => {
     playClickSound();
     setAbacus(resetAbacus(abacus));
-    setDirectInput("");
+    setTypedValue("");
   };
 
-  const handleSyncNumber = (e: React.FormEvent) => {
-    e.preventDefault();
-    const val = parseInt(directInput, 10);
-    if (!isNaN(val)) {
+  const handleTypeToAnimate = (inputStr: string) => {
+    // If input cleared
+    if (!inputStr.trim()) {
+      setTypedValue("");
       playClickSound();
-      setAbacus((prev) => setAbacusValue(prev, val));
+      setAbacus(resetAbacus(abacus));
+      return;
     }
+
+    // Strip non-digits
+    const cleanDigits = inputStr.replace(/[^0-9]/g, "");
+    if (!cleanDigits) {
+      setTypedValue("");
+      setAbacus(resetAbacus(abacus));
+      return;
+    }
+
+    const num = parseInt(cleanDigits, 10);
+    const maxVal = Math.pow(10, abacus.rodsCount) - 1; // 9,999,999
+    const clamped = Math.min(num, maxVal);
+
+    playClickSound();
+    setTypedValue(clamped.toLocaleString("en-US"));
+    setAbacus((prev) => setAbacusValue(prev, clamped));
   };
 
   const handleStep = (delta: number) => {
     playClickSound();
-    setAbacus((prev) => setAbacusValue(prev, Math.max(0, prev.totalValue + delta)));
+    setAbacus((prev) => {
+      const target = Math.max(0, Math.min(9999999, prev.totalValue + delta));
+      const next = setAbacusValue(prev, target);
+      setTypedValue(next.totalValue > 0 ? next.totalValue.toLocaleString("en-US") : "");
+      return next;
+    });
+  };
+
+  const handleExampleClick = (val: number) => {
+    playClickSound();
+    setTypedValue(val.toLocaleString("en-US"));
+    setAbacus((prev) => setAbacusValue(prev, val));
   };
 
   const handleRandomChallenge = () => {
     playClickSound();
     const randoms = [7, 24, 69, 108, 365, 1492, 2026, 8888, 142857, 500000, 1234567, 9876543];
     const pick = randoms[Math.floor(Math.random() * randoms.length)] ?? 2026;
+    setTypedValue(pick.toLocaleString("en-US"));
     setAbacus((prev) => setAbacusValue(prev, pick));
-    setDirectInput(pick.toString());
   };
 
   return (
@@ -129,6 +163,86 @@ export function AbacusCalculator() {
           >
             <RotateCcw className="h-3.5 w-3.5" /> RESET
           </button>
+        </div>
+      </div>
+
+      {/* ── INTERACTIVE TYPE-TO-ANIMATE CONSOLE (EDUCATIONAL REAL-TIME SYNC) ── */}
+      <div className="comic-panel rounded-2xl border-4 border-ink bg-paper p-4 sm:p-5 shadow-[6px_6px_0_0_var(--ink)] space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-dashed border-ink/20 pb-2">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-lg border-2 border-ink bg-mustard text-xs font-black shadow-[1px_1px_0_var(--ink)]">
+              ⌨️
+            </span>
+            <span className="font-comic text-xs sm:text-sm font-bold uppercase tracking-wider text-ink">
+              TYPE TO ANIMATE BEADS
+            </span>
+            <span className="hidden sm:inline-flex rounded-full border border-ink bg-hero-red/10 px-2 py-0.5 text-[9px] font-mono font-bold text-hero-red uppercase">
+              LIVE SOROBAN SYNC
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 font-mono text-[10px] sm:text-xs text-ink/70">
+            <span>Range:</span>
+            <span className="font-bold text-ink">0 – 9,999,999</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+          <div className="relative flex-1 min-w-[200px]">
+            <input
+              type="text"
+              inputMode="numeric"
+              placeholder="Type any integer (e.g. 12,345)..."
+              value={typedValue}
+              onChange={(e) => handleTypeToAnimate(e.target.value)}
+              className="w-full rounded-xl border-3 border-ink bg-parchment pl-4 pr-10 py-3 font-mono text-lg sm:text-xl font-bold text-ink shadow-[3px_3px_0_0_var(--ink)] outline-none focus:ring-2 focus:ring-mustard transition-shadow"
+            />
+            {typedValue ? (
+              <button
+                type="button"
+                onClick={() => handleTypeToAnimate("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full border border-ink bg-paper text-ink flex items-center justify-center hover:bg-hero-red hover:text-paper font-bold text-xs cursor-pointer transition-colors shadow-sm"
+                title="Clear input"
+              >
+                ✕
+              </button>
+            ) : (
+              <Hash className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-ink/40 pointer-events-none" />
+            )}
+          </div>
+
+          {/* Quick Challenge / Example Buttons */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="font-mono text-[10px] uppercase font-bold text-ink/60 hidden md:inline">
+              Examples:
+            </span>
+            {[
+              { label: "7", val: 7 },
+              { label: "12,345", val: 12345 },
+              { label: "2,026", val: 2026 },
+              { label: "88,888", val: 88888 },
+            ].map((ex) => (
+              <button
+                key={ex.val}
+                type="button"
+                onClick={() => handleExampleClick(ex.val)}
+                className="rounded-lg border-2 border-ink bg-paper hover:bg-mustard px-2.5 py-1.5 font-mono text-xs font-bold text-ink transition-colors cursor-pointer shadow-[1px_1px_0_var(--ink)] active:translate-y-0.5"
+                title={`Animate beads to ${ex.label}`}
+              >
+                {ex.label}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              onClick={handleRandomChallenge}
+              className="comic-btn btn-blue flex items-center gap-1 px-3 py-1.5 text-xs font-comic font-bold cursor-pointer"
+              title="Generate a random number challenge"
+            >
+              <Dices className="h-3.5 w-3.5" />
+              <span>RANDOM</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -203,7 +317,7 @@ export function AbacusCalculator() {
                           type="button"
                           onClick={() => handleUpperClick(rod.index)}
                           aria-label={`Rod ${rod.index} upper bead (value 5, currently ${isDown ? "active" : "inactive"})`}
-                          className={`relative z-10 w-full max-w-[48px] h-8 sm:h-9 rounded-md border-2 border-ink font-comic text-xs font-bold transition-all duration-200 cursor-pointer ${
+                          className={`relative z-10 w-full max-w-[48px] h-8 sm:h-9 rounded-md border-2 border-ink font-comic text-xs font-bold transition-transform duration-200 ease-out cursor-pointer ${
                             isDown
                               ? "bg-hero-red text-paper shadow-[0_3px_0_0_var(--ink)] ring-2 ring-mustard translate-y-8 sm:translate-y-11" // active down at beam
                               : "bg-hero-blue text-paper/90 shadow-[0_2px_0_0_var(--ink)] hover:brightness-110 translate-y-0" // inactive up at frame
@@ -262,7 +376,7 @@ export function AbacusCalculator() {
                               type="button"
                               onClick={() => handleLowerClick(rod.index, bIdx)}
                               aria-label={`Rod ${rod.index} lower bead ${bIdx + 1} (${isUp ? "active" : "inactive"})`}
-                              className={`relative z-10 w-full max-w-[48px] h-6 sm:h-7.5 rounded-md border-2 border-ink font-comic text-xs font-bold transition-all duration-200 cursor-pointer ${
+                              className={`relative z-10 w-full max-w-[48px] h-6 sm:h-7.5 rounded-md border-2 border-ink font-comic text-xs font-bold transition-transform duration-200 ease-out cursor-pointer ${
                                 isUp
                                   ? "bg-mustard text-ink shadow-[0_3px_0_0_var(--ink)] ring-1.5 ring-ink -translate-y-8 sm:-translate-y-11" // active up against beam
                                   : "bg-amber-600 text-paper shadow-[0_2px_0_0_var(--ink)] hover:brightness-110 translate-y-0" // inactive down
@@ -352,48 +466,19 @@ export function AbacusCalculator() {
         )}
       </div>
 
-      {/* ── DIRECT VALUE SYNC & PRACTICE TOOL ── */}
-      <div className="comic-panel rounded-2xl border-4 border-ink bg-paper p-4 sm:p-6 shadow-[6px_6px_0_0_var(--ink)] space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="font-comic text-base sm:text-lg font-bold text-ink">
-            DIRECT NUMBER SYNC &amp; CHALLENGE
-          </h3>
-          <span className="font-mono text-[10px] font-bold text-ink/60 uppercase">
-            INSTANT BEAD CONVERTER
-          </span>
+      {/* ── EDUCATIONAL SOROBAN MENTAL MATH TIPS ── */}
+      <div className="comic-panel rounded-2xl border-4 border-ink bg-paper p-4 sm:p-5 shadow-[6px_6px_0_0_var(--ink)] space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-base">🧮</span>
+          <h4 className="font-comic text-xs sm:text-sm font-bold uppercase tracking-wider text-ink">
+            SOROBAN MENTAL MATH (ANZAN) PRO-TIPS
+          </h4>
         </div>
-
-        <form onSubmit={handleSyncNumber} className="flex flex-wrap items-center gap-2.5">
-          <div className="relative flex-1 min-w-[180px]">
-            <input
-              type="number"
-              min="0"
-              max="9999999"
-              placeholder="Type any number (0 - 9,999,999)..."
-              value={directInput}
-              onChange={(e) => setDirectInput(e.target.value)}
-              className="w-full rounded-xl border-3 border-ink bg-white px-4 py-2.5 font-mono text-base font-bold text-ink shadow-[2px_2px_0_0_var(--ink)] outline-none focus:ring-2 focus:ring-mustard"
-            />
-            <Hash className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink/40 pointer-events-none" />
-          </div>
-
-          <button
-            type="submit"
-            className="comic-btn btn-yellow px-4 py-2.5 text-xs sm:text-sm font-comic font-bold"
-          >
-            SET ON ABACUS
-          </button>
-
-          <button
-            type="button"
-            onClick={handleRandomChallenge}
-            className="comic-btn btn-blue flex items-center gap-1.5 px-3.5 py-2.5 text-xs sm:text-sm font-comic font-bold"
-            title="Generate a random number challenge"
-          >
-            <Dices className="h-4 w-4" />
-            <span>RANDOM NUMBER</span>
-          </button>
-        </form>
+        <p className="font-mono text-xs text-ink/80 leading-relaxed">
+          As you type digits in the console above, notice how the bi-quinary system works: digits 1
+          to 4 move only Earth beads up; digit 5 pulls Heaven down and clears Earth; and digits 6 to
+          9 combine both (5 + 1..4)!
+        </p>
       </div>
     </div>
   );
