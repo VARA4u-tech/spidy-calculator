@@ -211,6 +211,16 @@ describe("Spidy Calculator Suite Math Engines", () => {
       // Test direct number setter
       abacus = setAbacusValue(abacus, 12345);
       expect(calculateAbacusTotal(abacus.rods)).toBe(12345);
+
+      // Test type to animate values
+      abacus = setAbacusValue(abacus, 2026);
+      expect(calculateAbacusTotal(abacus.rods)).toBe(2026);
+
+      abacus = setAbacusValue(abacus, 9999999);
+      expect(calculateAbacusTotal(abacus.rods)).toBe(9999999);
+
+      abacus = setAbacusValue(abacus, 0);
+      expect(calculateAbacusTotal(abacus.rods)).toBe(0);
     });
   });
 
