@@ -1,0 +1,25 @@
+{
+  "name": "Spidy Calculator",
+  "short_name": "Spidy Calc",
+  "description": "A retro comic-book calculator powered by Spidy.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1a1e2d",
+  "theme_color": "#1a1e2d",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
