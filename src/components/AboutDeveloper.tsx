@@ -229,7 +229,7 @@ export function AboutDeveloper() {
           Category: feedbackCategory,
           FeedbackMessage: feedback.trim(),
           SubmittedAt: new Date().toLocaleString(),
-          Application: "Spidy Calculator (spidy-calculator.lovable.app)",
+          Application: "Spidy Calculator (spidy-calculator.vercel.app)",
         }),
       });
     } catch {
