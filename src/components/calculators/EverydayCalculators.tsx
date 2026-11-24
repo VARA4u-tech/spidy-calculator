@@ -21,7 +21,7 @@ export function EverydayCalculators({ activeMode }: EverydayCalculatorsProps = {
   }, [activeMode]);
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-6 overflow-x-hidden">
       {/* Sub-tab selection (< lg on mobile only; desktop controls modes via Spider-Rail) */}
       <div className="flex flex-wrap items-center justify-center gap-2 border-b-4 border-ink pb-3 lg:hidden">
         <button
