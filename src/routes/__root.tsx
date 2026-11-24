@@ -85,6 +85,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#1a1e2d" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Spidy Calculator" },
       { title: "Spidy Calculator" },
       { name: "description", content: "A retro comic-book calculator powered by Spidy." },
       { property: "og:title", content: "Spidy Calculator" },
@@ -101,7 +104,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@400;600&family=Space+Mono:wght@400;700&display=swap",
       },
       { rel: "icon", href: "/logo.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/logo.png" },
+      { rel: "apple-touch-icon", href: "/icon-192.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "alternate icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -129,6 +133,14 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isCalculator = pathname.startsWith("/calculator");
+
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) return;
+
+    void navigator.serviceWorker.register("/sw.js").catch((error: unknown) => {
+      console.warn("Service worker registration failed", error);
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
