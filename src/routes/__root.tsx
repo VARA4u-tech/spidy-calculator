@@ -137,6 +137,25 @@ function RootComponent() {
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
 
+    if (import.meta.env.DEV) {
+      void navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => {
+          void registration.unregister();
+        });
+      });
+
+      if ("caches" in window) {
+        void caches.keys().then((cacheNames) => {
+          cacheNames
+            .filter((cacheName) => cacheName.startsWith("spidy-calculator-"))
+            .forEach((cacheName) => {
+              void caches.delete(cacheName);
+            });
+        });
+      }
+      return;
+    }
+
     void navigator.serviceWorker.register("/sw.js").catch((error: unknown) => {
       console.warn("Service worker registration failed", error);
     });
