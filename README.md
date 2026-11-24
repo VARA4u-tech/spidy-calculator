@@ -17,7 +17,7 @@
 
 _A production-grade, art-directed retro comic-book math platform built with React 19, TanStack Start, TypeScript, Tailwind CSS v4, and a decoupled pure functional math engine._
 
-[Explore Live Demo](https://spidy-calculator.lovable.app) · [Report Bug](https://github.com/lovable-dev/spidy-calculator/issues) · [Request Feature](https://github.com/lovable-dev/spidy-calculator/issues)
+[Explore Live Demo](https://spidy-calculator.vercel.app) · [Report Bug](https://github.com/lovable-dev/spidy-calculator/issues) · [Request Feature](https://github.com/lovable-dev/spidy-calculator/issues)
 
 </div>
 
