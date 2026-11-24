@@ -71,7 +71,7 @@ export function RingSizeCalculator() {
   };
 
   return (
-    <div className="mx-auto w-full min-w-0 max-w-4xl space-y-4 sm:space-y-6">
+    <div className="mx-auto w-full min-w-0 max-w-4xl overflow-hidden space-y-4 sm:space-y-6">
       {/* Mode Selector */}
       <div className="grid grid-cols-1 gap-2 border-b-4 border-ink pb-4 sm:grid-cols-2">
         {[
@@ -88,21 +88,21 @@ export function RingSizeCalculator() {
                 playClickSound();
                 setInputMode(tab.id as typeof inputMode);
               }}
-              className={`inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border-3 border-ink px-3 py-2 font-comic text-[11px] font-bold tracking-wide transition-all min-[380px]:text-xs sm:px-4 sm:text-sm ${
+              className={`inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-1.5 rounded-xl border-3 border-ink px-3 py-2 text-center font-comic text-[11px] font-bold leading-tight tracking-wide transition-all min-[380px]:text-xs sm:px-4 sm:text-sm ${
                 isActive
                   ? "bg-mustard text-ink shadow-[4px_4px_0_0_var(--ink)] -translate-y-0.5"
                   : "bg-paper text-ink shadow-[2px_2px_0_0_var(--ink)] hover:bg-mustard/30"
               }`}
             >
               <Icon className="h-4 w-4" />
-              <span>{tab.label}</span>
+              <span className="min-w-0 whitespace-normal">{tab.label}</span>
             </button>
           );
         })}
       </div>
 
       {/* Main Measurement Converter Panel */}
-      <div className="comic-panel min-w-0 space-y-5 rounded-2xl border-4 border-ink bg-paper p-3 shadow-[4px_4px_0_0_var(--ink)] sm:space-y-6 sm:p-6 sm:shadow-[6px_6px_0_0_var(--ink)]">
+      <div className="comic-panel w-full min-w-0 max-w-full overflow-hidden space-y-5 rounded-2xl border-4 border-ink bg-paper p-3 shadow-[4px_4px_0_0_var(--ink)] sm:space-y-6 sm:p-6 sm:shadow-[6px_6px_0_0_var(--ink)]">
         <div className="border-b-2 border-dashed border-ink/20 pb-3">
           <h2 className="font-comic text-xl font-bold leading-tight text-ink sm:text-2xl">
             INTERNATIONAL RING SIZING
@@ -114,7 +114,7 @@ export function RingSizeCalculator() {
         </div>
 
         {/* Input */}
-        <div className="max-w-md">
+        <div className="w-full min-w-0 max-w-md">
           {inputMode === "diameter" ? (
             <label className="block space-y-1">
               <span className="font-comic text-xs font-bold uppercase text-ink">
@@ -193,9 +193,9 @@ export function RingSizeCalculator() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
-            <div className="rounded-xl border-3 border-ink bg-hero-red p-2.5 text-center text-paper shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
-              <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
+          <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-2 sm:grid-cols-4 sm:gap-3">
+            <div className="min-w-0 rounded-xl border-3 border-ink bg-hero-red p-2.5 text-center text-paper shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
+              <span className="block break-words font-comic text-[10px] font-bold uppercase leading-tight tracking-wide text-paper/80 sm:text-xs sm:tracking-wider">
                 US & CANADA
               </span>
               <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
@@ -203,8 +203,8 @@ export function RingSizeCalculator() {
               </div>
             </div>
 
-            <div className="rounded-xl border-3 border-ink bg-hero-blue p-2.5 text-center text-paper shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
-              <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
+            <div className="min-w-0 rounded-xl border-3 border-ink bg-hero-blue p-2.5 text-center text-paper shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
+              <span className="block break-words font-comic text-[10px] font-bold uppercase leading-tight tracking-wide text-paper/80 sm:text-xs sm:tracking-wider">
                 UK & AUSTRALIA
               </span>
               <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
@@ -212,8 +212,8 @@ export function RingSizeCalculator() {
               </div>
             </div>
 
-            <div className="rounded-xl border-3 border-ink bg-emerald-600 p-2.5 text-center text-paper shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
-              <span className="font-comic text-xs font-bold uppercase tracking-wider text-paper/80">
+            <div className="min-w-0 rounded-xl border-3 border-ink bg-emerald-600 p-2.5 text-center text-paper shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
+              <span className="block break-words font-comic text-[10px] font-bold uppercase leading-tight tracking-wide text-paper/80 sm:text-xs sm:tracking-wider">
                 EUROPE / ISO
               </span>
               <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
@@ -221,8 +221,8 @@ export function RingSizeCalculator() {
               </div>
             </div>
 
-            <div className="rounded-xl border-3 border-ink bg-mustard p-2.5 text-center text-ink shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
-              <span className="font-comic text-xs font-bold uppercase tracking-wider text-ink/80">
+            <div className="min-w-0 rounded-xl border-3 border-ink bg-mustard p-2.5 text-center text-ink shadow-[2px_2px_0_0_var(--ink)] sm:p-4 sm:shadow-[3px_3px_0_0_var(--ink)]">
+              <span className="block break-words font-comic text-[10px] font-bold uppercase leading-tight tracking-wide text-ink/80 sm:text-xs sm:tracking-wider">
                 JAPAN
               </span>
               <div className="mt-1 font-comic text-3xl sm:text-4xl font-black">
@@ -273,7 +273,7 @@ export function RingSizeCalculator() {
           <p className="mb-2 font-mono text-[10px] font-bold uppercase text-ink/60 sm:hidden">
             Swipe sideways to view every standard →
           </p>
-          <div className="max-h-80 max-w-full overflow-auto overscroll-contain rounded-xl border-3 border-ink bg-paper shadow-[3px_3px_0_0_var(--ink)] [scrollbar-width:thin]">
+          <div className="w-full min-w-0 max-w-full max-h-80 overflow-auto overscroll-contain rounded-xl border-3 border-ink bg-paper shadow-[3px_3px_0_0_var(--ink)] [scrollbar-width:thin]">
             <table className="min-w-[720px] text-left font-mono text-xs text-ink sm:w-full">
               <thead className="sticky top-0 z-10 border-b-3 border-ink bg-mustard font-comic text-xs uppercase tracking-wider text-ink shadow-[0_2px_0_var(--ink)]">
                 <tr>
