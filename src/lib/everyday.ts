@@ -377,7 +377,7 @@ export function formatPatioMaterialsSummary(
     `• Bedding Sand Layer (1" depth): ~${results.sandTons} tons (${results.sandCubicYards} cu yds / ${results.sandCubicFeet} cu ft)`,
     `• Estimated Total Cost: $${results.estimatedGrandTotal.toFixed(2)} (Pavers: $${results.paverCostTotal.toFixed(2)})`,
     `==================================================`,
-    `Generated via Spidy Calculator · https://spidy-calculator.lovable.app`,
+    `Generated via Spidy Calculator · https://spidy-calculator.vercel.app`,
   ].join("\n");
 }
 
@@ -397,6 +397,6 @@ export function formatRingSizeSummary(row: RingSizeRow): string {
     `• Inside Diameter: ${row.diameterMm} mm`,
     `• Inside Circumference: ${row.circumferenceMm} mm`,
     `==================================================`,
-    `Generated via Spidy Calculator · https://spidy-calculator.lovable.app`,
+    `Generated via Spidy Calculator · https://spidy-calculator.vercel.app`,
   ].join("\n");
 }
