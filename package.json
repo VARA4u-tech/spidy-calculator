@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:pwa": "node scripts/test-pwa.mjs",
     "test:watch": "vitest"
   },
   "overrides": {
