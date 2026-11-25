@@ -21,6 +21,8 @@ import {
   Sparkles,
   Send,
   BookOpen,
+  Star,
+  GitFork,
 } from "lucide-react";
 import { Starburst, Web } from "@/components/comic";
 import {
@@ -565,6 +567,43 @@ export function AboutDeveloper() {
 
                 {/* Clickable Destination Channels */}
                 <div className="space-y-1.5">
+                  {/* Star & Fork Repository Highlight */}
+                  <div className="rounded-xl border-2 border-ink bg-mustard/30 p-2.5 shadow-[2px_2px_0_var(--ink)] text-ink">
+                    <div className="flex items-center justify-between">
+                      <span className="font-comic text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                        <span className="text-amber-600">★</span>
+                        <span>SUPPORT SPIDY CALCULATOR</span>
+                      </span>
+                      <span className="text-[9px] font-mono uppercase bg-hero-red text-paper px-1.5 py-0.5 rounded font-bold">
+                        Open Source
+                      </span>
+                    </div>
+                    <p className="mt-1 font-mono text-[10px] text-ink/80 leading-snug">
+                      Loving the app? Star the repository on GitHub or fork it to build your own
+                      suite!
+                    </p>
+                    <div className="mt-2 grid grid-cols-2 gap-1.5">
+                      <a
+                        href="https://github.com/VARA4u-tech/spidy-calculator"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="comic-btn btn-yellow flex items-center justify-center gap-1 py-1 px-2 text-xs font-comic font-bold shadow-[2px_2px_0_var(--ink)] cursor-pointer"
+                      >
+                        <Star className="h-3.5 w-3.5 fill-amber-500 text-ink" />
+                        <span>STAR REPO</span>
+                      </a>
+                      <a
+                        href="https://github.com/VARA4u-tech/spidy-calculator/fork"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="comic-btn btn-blue flex items-center justify-center gap-1 py-1 px-2 text-xs font-comic font-bold shadow-[2px_2px_0_var(--ink)] cursor-pointer"
+                      >
+                        <GitFork className="h-3.5 w-3.5 text-paper" />
+                        <span>FORK</span>
+                      </a>
+                    </div>
+                  </div>
+
                   {/* GitHub Profile */}
                   <a
                     href="https://github.com/VARA4u-tech"
