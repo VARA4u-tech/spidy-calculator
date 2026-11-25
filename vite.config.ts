@@ -5,8 +5,14 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { randomUUID } from "node:crypto";
+import { pwaBuild } from "./scripts/pwa-build";
+
+const release = randomUUID();
 
 export default defineConfig({
+  plugins: [pwaBuild(release)],
+  vite: { define: { __SPIDY_RELEASE__: JSON.stringify(release) } },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
