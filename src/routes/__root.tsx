@@ -14,6 +14,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { pwaRelease, startPwaUpdates } from "../lib/pwa";
 import { Navbar } from "@/components/Navbar";
 import { AboutDeveloper } from "@/components/AboutDeveloper";
 
@@ -117,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-spidy-release={pwaRelease}>
       <head>
         <HeadContent />
       </head>
@@ -134,32 +135,7 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isCalculator = pathname.startsWith("/calculator");
 
-  useEffect(() => {
-    if (!("serviceWorker" in navigator)) return;
-
-    if (import.meta.env.DEV) {
-      void navigator.serviceWorker.getRegistrations().then((registrations) => {
-        registrations.forEach((registration) => {
-          void registration.unregister();
-        });
-      });
-
-      if ("caches" in window) {
-        void caches.keys().then((cacheNames) => {
-          cacheNames
-            .filter((cacheName) => cacheName.startsWith("spidy-calculator-"))
-            .forEach((cacheName) => {
-              void caches.delete(cacheName);
-            });
-        });
-      }
-      return;
-    }
-
-    void navigator.serviceWorker.register("/sw.js").catch((error: unknown) => {
-      console.warn("Service worker registration failed", error);
-    });
-  }, []);
+  useEffect(startPwaUpdates, []);
 
   return (
     <QueryClientProvider client={queryClient}>
