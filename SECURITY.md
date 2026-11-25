@@ -75,7 +75,6 @@ When researching potential vulnerabilities, we kindly ask researchers to:
 
 Thank you for helping keep Spidy Calculator safe, reliable, and secure for everyone! ❤️
 
-
 <div align="center">
   <a href="#top">
     <img src="https://img.shields.io/badge/▲_SCROLL_TO_TOP-E23636?style=for-the-badge&logoColor=white" alt="Scroll to Top" />
