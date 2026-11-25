@@ -189,6 +189,13 @@ export function Footer() {
               HOW IT WORKS
             </a>
             <span className="text-paper/30">·</span>
+            <a
+              href="/#faq"
+              className="text-paper hover:text-mustard transition-colors tracking-wider"
+            >
+              FAQ
+            </a>
+            <span className="text-paper/30">·</span>
             <Link
               to="/calculator"
               className="text-mustard hover:brightness-125 transition-all tracking-wider font-bold"
@@ -251,6 +258,15 @@ export function Footer() {
               className="text-mustard hover:underline font-bold"
             >
               Durga Vara Prasad Pappuri
+            </a>{" "}
+            ·{" "}
+            <a
+              href="https://github.com/VARA4u-tech/spidy-calculator"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-mustard hover:underline font-bold"
+            >
+              GitHub (MIT) ⭐
             </a>{" "}
             · Zero ads · Zero tracking · Vintage comic book homage.
           </p>
