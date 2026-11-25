@@ -7,6 +7,7 @@ import {
   useReducedMotion,
   useScroll,
 } from "framer-motion";
+import { Star, GitFork } from "lucide-react";
 import { Starburst, Web } from "@/components/comic";
 import { sfxToggle, playSpiderManSound } from "@/lib/sounds";
 
@@ -88,6 +89,10 @@ export function Navbar() {
               <span>·</span>
               <span>ZERO ADS, ZERO TRACKING</span>
               <span>·</span>
+              <span>★ STAR ON GITHUB ⭐</span>
+              <span>·</span>
+              <span>FORK &amp; CONTRIBUTE 🍴</span>
+              <span>·</span>
               <span>THWIP! DO THE MATH</span>
               <span>·</span>
             </div>
@@ -155,7 +160,33 @@ export function Navbar() {
               >
                 <span>HOW IT WORKS</span>
               </a>
+
+              <a
+                href="/#faq"
+                onClick={(e) => handleSectionClick(e, "faq")}
+                aria-current={isSectionActive("faq") ? "page" : undefined}
+                className={`group relative inline-flex items-center gap-1 rounded-lg border-2 border-ink px-3 py-1.5 text-xs font-comic tracking-wide lg:px-4 lg:py-1.5 lg:text-sm select-none cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-4 focus-visible:outline-mustard ${
+                  isSectionActive("faq")
+                    ? "bg-mustard text-ink font-bold rotate-1 shadow-[3px_3px_0_var(--navy)]"
+                    : "bg-paper text-ink rotate-1 shadow-[3px_3px_0_var(--navy)] hover:bg-mustard/90"
+                }`}
+              >
+                <span>FAQ</span>
+              </a>
             </div>
+
+            {/* GitHub Star Repo Action */}
+            <a
+              href="https://github.com/VARA4u-tech/spidy-calculator"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => sfxToggle()}
+              title="Star spidy-calculator on GitHub"
+              className="group relative inline-flex items-center gap-1.5 rounded-lg border-2 border-ink bg-mustard px-3 py-1.5 text-xs font-comic font-bold tracking-wide text-ink shadow-[3px_3px_0_var(--navy)] select-none cursor-pointer transition-transform duration-150 hover:-translate-y-0.5 hover:bg-mustard/90 active:translate-y-0 lg:px-3.5 lg:py-1.5 lg:text-sm"
+            >
+              <Star className="h-4 w-4 fill-amber-500 text-ink transition-transform group-hover:scale-110" />
+              <span>STAR REPO</span>
+            </a>
 
             {/* Primary Action Hero Button */}
             <Link
@@ -206,7 +237,7 @@ export function Navbar() {
               className="panel absolute inset-x-3 top-[calc(100%+8px)] z-50 rounded-xl p-3 sm:p-4 md:hidden max-h-[calc(100vh-80px)] overflow-y-auto shadow-[8px_8px_0_0_var(--ink)]"
             >
               {/* Primary Action Hero Card */}
-              <div className="mb-3">
+              <div className="mb-2.5">
                 <Link
                   to="/calculator"
                   onClick={() => {
@@ -222,6 +253,41 @@ export function Navbar() {
                   </span>
                   <Starburst label="ZAP" className="h-8 w-8 text-[10px]" />
                 </Link>
+              </div>
+
+              {/* GitHub Star & Fork Community Card */}
+              <div className="mb-3 rounded-lg border-2 border-ink bg-mustard/25 p-2.5 shadow-[2px_2px_0_var(--ink)]">
+                <div className="flex items-center justify-between text-ink">
+                  <span className="font-comic text-xs font-bold tracking-wider flex items-center gap-1">
+                    <span className="text-amber-600">★</span>
+                    <span>LOVE SPIDY CALCULATOR?</span>
+                  </span>
+                  <span className="font-mono text-[9px] font-bold uppercase bg-hero-red text-paper px-1.5 py-0.5 rounded">
+                    Open Source
+                  </span>
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <a
+                    href="https://github.com/VARA4u-tech/spidy-calculator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => sfxToggle()}
+                    className="flex items-center justify-center gap-1 rounded border-2 border-ink bg-mustard px-2 py-1.5 font-comic text-xs font-bold text-ink shadow-[2px_2px_0_var(--ink)] active:translate-y-0.5 transition-transform"
+                  >
+                    <Star className="h-3.5 w-3.5 fill-amber-500 text-ink" />
+                    <span>STAR REPO</span>
+                  </a>
+                  <a
+                    href="https://github.com/VARA4u-tech/spidy-calculator/fork"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => sfxToggle()}
+                    className="flex items-center justify-center gap-1 rounded border-2 border-ink bg-paper px-2 py-1.5 font-comic text-xs font-bold text-ink shadow-[2px_2px_0_var(--ink)] active:translate-y-0.5 transition-transform hover:bg-paper-dark"
+                  >
+                    <GitFork className="h-3.5 w-3.5 text-hero-blue" />
+                    <span>FORK</span>
+                  </a>
+                </div>
               </div>
 
               {/* Core Exploration Section */}
@@ -269,6 +335,19 @@ export function Navbar() {
                 >
                   <span>HOW IT WORKS</span>
                   <Starburst label="WHAM" className="h-6 w-6 text-[8px]" />
+                </a>
+
+                <a
+                  href="/#faq"
+                  onClick={(e) => handleSectionClick(e, "faq")}
+                  className={`flex items-center justify-between rounded-lg border-2 border-ink px-3.5 py-2 font-comic text-base tracking-wide transition-transform shadow-[2px_2px_0_var(--ink)] ${
+                    isSectionActive("faq")
+                      ? "bg-mustard text-ink font-bold"
+                      : "bg-paper text-ink hover:bg-mustard/40"
+                  }`}
+                >
+                  <span>FAQ</span>
+                  <Starburst label="ZAP" className="h-6 w-6 text-[8px]" />
                 </a>
               </div>
 
