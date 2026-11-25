@@ -710,7 +710,15 @@ export function Calculator({ scientificMode, onOpenShortcuts }: CalculatorProps 
             <kbd className="font-bold bg-paper border border-ink/40 px-1 rounded shadow-[1px_1px_0_var(--ink)] text-ink">
               ?
             </kbd>{" "}
-            for shortcuts cheat sheet
+            for shortcuts cheat sheet ·{" "}
+            <a
+              href="https://github.com/VARA4u-tech/spidy-calculator"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-hero-blue hover:underline font-bold inline-flex items-center gap-0.5"
+            >
+              ⭐ Star on GitHub
+            </a>
           </p>
           <p className="mt-2 text-center font-mono text-[10px] text-ink/70 sm:hidden">
             💡 Tap any key · Switch to SCI for advanced functions
