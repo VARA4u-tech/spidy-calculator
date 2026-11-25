@@ -539,6 +539,5 @@ Developed with ❤️ as a showcase of modern frontend engineering, tactile pop-
   <a href="#top">
     <img src="https://img.shields.io/badge/▲_SCROLL_TO_TOP-E23636?style=for-the-badge&logoColor=white" alt="Scroll to Top" />
   </a>
-  <br /><br />
-  <a href="#top"><b>▲ Back to Top</b></a>
+  <br />
 </div>

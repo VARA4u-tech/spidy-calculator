@@ -132,3 +132,11 @@ When researching potential vulnerabilities, we kindly ask researchers to:
 - Avoid phishing, social engineering, or denial-of-service (DoS) attacks.
 
 Thank you for helping keep Spidy Calculator safe, reliable, and secure for everyone! ❤️
+
+
+<div align="center">
+  <a href="#top">
+    <img src="https://img.shields.io/badge/▲_SCROLL_TO_TOP-E23636?style=for-the-badge&logoColor=white" alt="Scroll to Top" />
+  </a>
+  <br />
+</div>
