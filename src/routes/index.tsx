@@ -7,7 +7,9 @@ import {
   useReducedMotion,
   MotionConfig,
 } from "framer-motion";
+import { Star, GitFork } from "lucide-react";
 import { Web, Starburst } from "@/components/comic";
+import { FAQSection, FAQS } from "@/components/FAQSection";
 import { Footer } from "@/components/Footer";
 import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
 import { playSpiderManSound, sfxToggle } from "@/lib/sounds";
@@ -37,6 +39,20 @@ export const Route = createFileRoute("/")({
           description:
             "A free retro comic-styled online math platform with 7 specialized calculator suites.",
           ...(getAbsoluteSiteUrl("/") ? { url: getAbsoluteSiteUrl("/") } : {}),
+        },
+      },
+      {
+        "script:ld+json": {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQS.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
         },
       },
     ],
@@ -465,6 +481,86 @@ function Home() {
               Built with pure mathematical state machines, zero tracking, zero advertising, and
               instant on-device execution.
             </p>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <FAQSection />
+
+        {/* Back The Spidy Multiverse / Star & Fork Community Card */}
+        <section id="contribute" className="relative mx-auto max-w-5xl px-4 pb-16 sm:pb-24">
+          <div className="relative overflow-hidden rounded-3xl border-4 border-ink bg-paper p-6 sm:p-10 shadow-[8px_8px_0_var(--ink)]">
+            {/* Halftone & spiderweb background accents */}
+            <div
+              aria-hidden
+              className="halftone-pattern absolute -right-16 -top-16 h-56 w-56 opacity-20 pointer-events-none"
+            />
+            <div
+              aria-hidden
+              className="halftone-red absolute -left-12 -bottom-12 h-44 w-44 opacity-25 pointer-events-none"
+            />
+
+            <div className="relative z-10 flex flex-col items-center text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-mustard px-3.5 py-1 text-xs font-mono font-bold tracking-widest text-ink shadow-[2px_2px_0_var(--ink)] mb-4">
+                <span className="text-hero-red">★</span>
+                <span>OPEN SOURCE · 100% FREE &amp; AD-FREE</span>
+                <span className="text-hero-red">★</span>
+              </div>
+
+              <h2 className="font-comic text-4xl text-ink sm:text-5xl lg:text-6xl leading-tight">
+                BACK THE <span className="text-hero-red">SPIDY MULTIVERSE!</span>
+              </h2>
+
+              <p className="mt-3 max-w-2xl font-mono text-sm text-ink/80 sm:text-base leading-relaxed">
+                Spidy Calculator is an open-source comic laboratory crafted with passion. If you
+                love the tactile clicks, retro aesthetic, and pure math engines — drop a{" "}
+                <span className="font-bold text-ink">Star ⭐</span> on GitHub or{" "}
+                <span className="font-bold text-ink">Fork 🧩</span> to build your own custom
+                calculation powers!
+              </p>
+
+              {/* Action Buttons */}
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+                <a
+                  href="https://github.com/VARA4u-tech/spidy-calculator"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="comic-btn btn-yellow inline-flex items-center gap-2 px-6 py-3 font-comic text-lg sm:text-xl font-bold tracking-wider shadow-[4px_4px_0_var(--ink)] hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+                >
+                  <Star className="h-5 w-5 fill-amber-400 text-ink" />
+                  <span>STAR ON GITHUB</span>
+                  <span className="rounded-full bg-ink/10 px-2 py-0.5 text-xs font-mono">
+                    ⭐ Free Love
+                  </span>
+                </a>
+
+                <a
+                  href="https://github.com/VARA4u-tech/spidy-calculator/fork"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="comic-btn btn-blue inline-flex items-center gap-2 px-6 py-3 font-comic text-lg sm:text-xl font-bold tracking-wider shadow-[4px_4px_0_var(--ink)] hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+                >
+                  <GitFork className="h-5 w-5 text-paper" />
+                  <span>FORK &amp; CONTRIBUTE</span>
+                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-mono">
+                    🍴 Build Powers
+                  </span>
+                </a>
+              </div>
+
+              {/* Quick perks footer */}
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-6 font-mono text-xs text-ink/70">
+                <span className="flex items-center gap-1.5">
+                  <span className="text-emerald-600 font-bold">✓</span> No Ads Ever
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="text-emerald-600 font-bold">✓</span> Offline PWA Ready
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="text-emerald-600 font-bold">✓</span> MIT Licensed &amp; Open
+                </span>
+              </div>
+            </div>
           </div>
         </section>
 
