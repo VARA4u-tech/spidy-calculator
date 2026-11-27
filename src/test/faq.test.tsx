@@ -1,7 +1,8 @@
 import type { MouseEventHandler, ReactNode } from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { FAQSection, FAQS } from "@/components/FAQSection";
+import { FAQSection } from "@/components/FAQSection";
+import { FAQS } from "@/lib/faq";
 
 interface MockLinkProps {
   children?: ReactNode;
