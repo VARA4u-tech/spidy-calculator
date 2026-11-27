@@ -29,6 +29,8 @@ import {
   calculateBmiMetric,
   calculateBmiImperial,
   findClosestRingSizeByDiameter,
+  convertRingSizeByDiameter,
+  convertRingSizeByCircumference,
   calculatePatioMaterials,
   formatPatioMaterialsSummary,
   formatRingSizeSummary,
@@ -239,6 +241,42 @@ describe("Spidy Calculator Suite Math Engines", () => {
       const match = findClosestRingSizeByDiameter(18.1);
       expect(match.us).toBe("8");
       expect(match.uk).toBe("P 1/2");
+    });
+
+    it("supports unlimited continuous ring size conversion below US 3 and above US 13", () => {
+      // Exact chart value preserves chart standards
+      const chartMatch = convertRingSizeByDiameter(17.3);
+      expect(chartMatch.us).toBe("7");
+      expect(chartMatch.uk).toBe("N 1/2");
+      expect(chartMatch.isCustom).toBeUndefined();
+
+      // Intermediate custom diameter interpolates smoothly
+      const mid = convertRingSizeByDiameter(17.5);
+      expect(mid.diameterMm).toBe(17.5);
+      expect(mid.circumferenceMm).toBe(55.0);
+      expect(mid.us).toBe("7.25");
+      expect(mid.isCustom).toBe(true);
+
+      // Large unbounded size above previous 22.2mm / 30mm caps
+      const huge = convertRingSizeByDiameter(45.0);
+      expect(huge.diameterMm).toBe(45.0);
+      expect(Number(huge.us)).toBeGreaterThan(35);
+      expect(huge.uk.startsWith("Z+")).toBe(true);
+      expect(huge.eu).toBeGreaterThan(130);
+      expect(huge.isCustom).toBe(true);
+
+      // Tiny size below previous 14.1mm / 10mm floors
+      const tiny = convertRingSizeByDiameter(8.5);
+      expect(tiny.diameterMm).toBe(8.5);
+      expect(tiny.circumferenceMm).toBe(26.7);
+      expect(Number(tiny.us)).toBeLessThan(0);
+      expect(tiny.isCustom).toBe(true);
+
+      // Unbounded circumference conversion
+      const circLarge = convertRingSizeByCircumference(120.0);
+      expect(circLarge.circumferenceMm).toBe(120.0);
+      expect(circLarge.diameterMm).toBeCloseTo(38.2, 1);
+      expect(Number(circLarge.us)).toBeGreaterThan(30);
     });
 
     it("calculates patio and paver requirements, wastage and materials", () => {
