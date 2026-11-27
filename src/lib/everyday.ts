@@ -147,6 +147,7 @@ export interface RingSizeRow {
   jp: number;
   diameterMm: number;
   circumferenceMm: number;
+  isCustom?: boolean;
 }
 
 export const RING_SIZE_CHART: RingSizeRow[] = [
@@ -173,6 +174,43 @@ export const RING_SIZE_CHART: RingSizeRow[] = [
   { us: "13", uk: "Z+1", eu: 70, jp: 27, diameterMm: 22.2, circumferenceMm: 69.7 },
 ];
 
+const US_STEP_DIAMETER_MM = 0.8128;
+const JP_SLOPE_PER_MM = 23 / 8.1; // From chart span: JP 4..27 across 14.1..22.2mm
+const UK_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+function ukLabelToHalfStep(label: string): number {
+  const trimmed = label.trim();
+  if (trimmed === "Z") return 50;
+  if (trimmed.startsWith("Z+")) {
+    const offset = parseInt(trimmed.slice(2), 10) || 1;
+    return 50 + offset * 2;
+  }
+  const hasHalf = trimmed.endsWith("1/2");
+  const letter = trimmed.charAt(0).toUpperCase();
+  const idx = UK_LETTERS.indexOf(letter);
+  if (idx === -1) return 10;
+  return idx * 2 + (hasHalf ? 1 : 0);
+}
+
+function halfStepToUkLabel(halfStep: number): string {
+  if (halfStep < 0) {
+    const subOffset = Math.ceil(Math.abs(halfStep) / 2);
+    return `A-${subOffset}`;
+  }
+  if (halfStep > 50) {
+    const zPlus = Math.max(1, Math.round((halfStep - 50) / 2));
+    return `Z+${zPlus}`;
+  }
+  const letterIdx = Math.floor(halfStep / 2);
+  const letter = UK_LETTERS[letterIdx] ?? "Z";
+  return halfStep % 2 === 1 ? `${letter} 1/2` : letter;
+}
+
+function formatQuarterStep(value: number): string {
+  const rounded = Math.round(value * 4) / 4;
+  return Number(rounded.toFixed(2)).toString();
+}
+
 export function findClosestRingSizeByDiameter(diameterMm: number): RingSizeRow {
   let best: RingSizeRow = RING_SIZE_CHART[0] as RingSizeRow;
   let minDiff = Math.abs(best.diameterMm - diameterMm);
@@ -197,6 +235,115 @@ export function findClosestRingSizeByCircumference(circumferenceMm: number): Rin
     }
   }
   return best;
+}
+
+/**
+ * Unbounded continuous ring size conversion from inside diameter (mm).
+ * Preserves exact standard chart rows when matched closely, interpolates between
+ * chart entries, and seamlessly extrapolates below US 3 or above US 13 with no limit.
+ */
+export function convertRingSizeByDiameter(diameterMm: number): RingSizeRow {
+  const safeDiameter = Math.max(0.1, Number.isFinite(diameterMm) ? diameterMm : 17.3);
+  const roundedDiameter = Number(safeDiameter.toFixed(1));
+
+  // Snap to exact standard table entry if essentially exact
+  const exactChartMatch = RING_SIZE_CHART.find(
+    (row) => Math.abs(row.diameterMm - roundedDiameter) <= 0.05,
+  );
+  if (exactChartMatch) {
+    return exactChartMatch;
+  }
+
+  const circumferenceMm = Number((safeDiameter * Math.PI).toFixed(1));
+  const minRow = RING_SIZE_CHART[0] as RingSizeRow;
+  const maxRow = RING_SIZE_CHART[RING_SIZE_CHART.length - 1] as RingSizeRow;
+
+  // Below US 3 (extrapolate continuously down with no floor limit)
+  if (safeDiameter < minRow.diameterMm) {
+    const deltaD = minRow.diameterMm - safeDiameter;
+    const usVal = 3 - deltaD / US_STEP_DIAMETER_MM;
+    const euVal = Math.max(0, Math.round(minRow.eu - deltaD * Math.PI));
+    const jpVal = Math.round(minRow.jp - deltaD * JP_SLOPE_PER_MM);
+    const halfStepDelta = Math.round((deltaD * Math.PI) / 0.625);
+    const ukHalfStep = ukLabelToHalfStep(minRow.uk) - halfStepDelta;
+    return {
+      us: formatQuarterStep(usVal),
+      uk: halfStepToUkLabel(ukHalfStep),
+      eu: euVal,
+      jp: jpVal,
+      diameterMm: roundedDiameter,
+      circumferenceMm,
+      isCustom: true,
+    };
+  }
+
+  // Above US 13 (extrapolate continuously up with no ceiling limit)
+  if (safeDiameter > maxRow.diameterMm) {
+    const deltaD = safeDiameter - maxRow.diameterMm;
+    const usVal = 13 + deltaD / US_STEP_DIAMETER_MM;
+    const euVal = Math.round(maxRow.eu + deltaD * Math.PI);
+    const jpVal = Math.round(maxRow.jp + deltaD * JP_SLOPE_PER_MM);
+    const halfStepDelta = Math.round((deltaD * Math.PI) / 0.625);
+    const ukHalfStep = ukLabelToHalfStep(maxRow.uk) + halfStepDelta;
+    return {
+      us: formatQuarterStep(usVal),
+      uk: halfStepToUkLabel(ukHalfStep),
+      eu: euVal,
+      jp: jpVal,
+      diameterMm: roundedDiameter,
+      circumferenceMm,
+      isCustom: true,
+    };
+  }
+
+  // Interpolate smoothly between adjacent chart rows
+  for (let i = 0; i < RING_SIZE_CHART.length - 1; i++) {
+    const curr = RING_SIZE_CHART[i] as RingSizeRow;
+    const next = RING_SIZE_CHART[i + 1] as RingSizeRow;
+    if (safeDiameter >= curr.diameterMm && safeDiameter <= next.diameterMm) {
+      const t = (safeDiameter - curr.diameterMm) / (next.diameterMm - curr.diameterMm);
+      const usVal = parseFloat(curr.us) + t * (parseFloat(next.us) - parseFloat(curr.us));
+      const euVal = Math.round(curr.eu + t * (next.eu - curr.eu));
+      const jpVal = Math.round(curr.jp + t * (next.jp - curr.jp));
+      const ukStart = ukLabelToHalfStep(curr.uk);
+      const ukEnd = ukLabelToHalfStep(next.uk);
+      const ukHalfStep = Math.round(ukStart + t * (ukEnd - ukStart));
+      return {
+        us: formatQuarterStep(usVal),
+        uk: halfStepToUkLabel(ukHalfStep),
+        eu: euVal,
+        jp: jpVal,
+        diameterMm: roundedDiameter,
+        circumferenceMm,
+        isCustom: true,
+      };
+    }
+  }
+
+  return findClosestRingSizeByDiameter(safeDiameter);
+}
+
+/**
+ * Unbounded continuous ring size conversion from inside circumference (mm).
+ */
+export function convertRingSizeByCircumference(circumferenceMm: number): RingSizeRow {
+  const safeCirc = Math.max(0.3, Number.isFinite(circumferenceMm) ? circumferenceMm : 54.4);
+  const roundedCirc = Number(safeCirc.toFixed(1));
+
+  const exactChartMatch = RING_SIZE_CHART.find(
+    (row) => Math.abs(row.circumferenceMm - roundedCirc) <= 0.05,
+  );
+  if (exactChartMatch) {
+    return exactChartMatch;
+  }
+
+  const derivedDiameter = safeCirc / Math.PI;
+  const converted = convertRingSizeByDiameter(derivedDiameter);
+  return {
+    ...converted,
+    circumferenceMm: roundedCirc,
+    isCustom: true,
+  };
 }
 
 // =============================================================
