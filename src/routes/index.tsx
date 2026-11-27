@@ -9,8 +9,9 @@ import {
 } from "framer-motion";
 import { Star, GitFork } from "lucide-react";
 import { Web, Starburst } from "@/components/comic";
-import { FAQSection, FAQS } from "@/components/FAQSection";
+import { FAQSection } from "@/components/FAQSection";
 import { Footer } from "@/components/Footer";
+import { FAQS } from "@/lib/faq";
 import { getAbsoluteSiteUrl, getCanonicalUrl } from "@/lib/seo";
 import { playSpiderManSound, sfxToggle } from "@/lib/sounds";
 
